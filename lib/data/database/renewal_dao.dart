@@ -20,14 +20,9 @@ class RenewalDao {
     return "CREATE TABLE ${RenewalDao.TABLE_NAME} "
         "("
         "$columnId ${DataBaseConstants.INTEGER} ${DataBaseConstants.PRIMARY_KEY}, "
-        "$columnSubscriptionId ${DataBaseConstants.TEXT}, "
-        "$columnRenewalAt ${DataBaseConstants.TEXT}, "
-        "$columnPrice ${DataBaseConstants.REAL}, "
-        "$columnFirstBill ${DataBaseConstants.INTEGER}, "
-        "$columnColor ${DataBaseConstants.INTEGER}, "
-        "$columnRenewal ${DataBaseConstants.INTEGER}, "
-        "$columnRenewalPeriod ${DataBaseConstants.TEXT}"
-        ")";
+        "$columnSubscriptionId ${DataBaseConstants.INTEGER}, "
+        "$columnRenewalAt ${DataBaseConstants.INTEGER}"
+        ");";
   }
 
   Future<bool> insertRenewal(Renewal renewal) async {

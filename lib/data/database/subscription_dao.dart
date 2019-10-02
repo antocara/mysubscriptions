@@ -15,10 +15,10 @@ class SubscriptionDao {
   static final columnName = "name";
   static final columnDescription = "description";
   static final columnPrice = "price";
-  static final columnFirstBill = "firstBill";
+  static final columnFirstBill = "first_bill";
   static final columnColor = "color";
   static final columnRenewal = "renewal";
-  static final columnRenewalPeriod = "renewalPeriod";
+  static final columnRenewalPeriod = "renewal_period";
 
   static String createSubscriptionTable() {
     return "CREATE TABLE ${SubscriptionDao.TABLE_NAME} "
@@ -31,10 +31,10 @@ class SubscriptionDao {
         "$columnColor ${DataBaseConstants.INTEGER}, "
         "$columnRenewal ${DataBaseConstants.INTEGER}, "
         "$columnRenewalPeriod ${DataBaseConstants.TEXT}"
-        ")";
+        ");";
   }
 
-  Future<bool> insertSubscription(Subscription subscription) async {
+  Future<int> insertSubscription(Subscription subscription) async {
     final db = await _database;
 
     final result = await db.insert(
@@ -43,7 +43,7 @@ class SubscriptionDao {
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
 
-    return Future.value(result == 1 ? true : false);
+    return Future.value(result);
   }
 
   Future<List<Subscription>> fetchAllSubscriptionsUntil(

@@ -1,7 +1,6 @@
-import 'dart:io';
-
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:subscriptions/data/database/renewal_dao.dart';
 import 'package:subscriptions/data/database/subscription_dao.dart';
 
 class DatabaseProvider {
@@ -32,10 +31,15 @@ class DatabaseProvider {
 
   Future _onCreate(Database db, int version) async {
     await db.execute(_createSubscriptionTable());
+    await db.execute(_createRenewalTable());
   }
 
   String _createSubscriptionTable() {
     return SubscriptionDao.createSubscriptionTable();
+  }
+
+  String _createRenewalTable() {
+    return RenewalDao.createRenewalTable();
   }
 }
 

@@ -1,3 +1,5 @@
+import 'package:subscriptions/helpers/dates_helper.dart';
+
 class Renewal {
   Renewal({this.id, this.subscriptionId, this.renewalAt});
 
@@ -8,8 +10,8 @@ class Renewal {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'subscriptionId': subscriptionId,
-      'renewalAt': renewalAt,
+      'subscription_id': subscriptionId,
+      'renewal_at': nextRenewalAtSince1970,
     };
   }
 
@@ -17,7 +19,14 @@ class Renewal {
     return Renewal(
       id: map['id'],
       subscriptionId: map['subscription_id'],
-      renewalAt: map['renewal_at'],
+      renewalAt: DatesHelper.toDateFromEpoch(map['renewal_at']),
     );
+  }
+
+  // Conversión de valores apra guardarlos corectamente en
+  // sqlite según los tipos que maneja
+
+  int get nextRenewalAtSince1970 {
+    return renewalAt.millisecondsSinceEpoch ?? 0.00;
   }
 }
