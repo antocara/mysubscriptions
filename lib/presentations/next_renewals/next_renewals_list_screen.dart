@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:subscriptions/data/di/renewal_inject.dart';
 import 'package:subscriptions/data/entities/renewal.dart';
-import 'package:subscriptions/presentations/create_subscription/create_subscription_screen.dart';
 import 'package:subscriptions/presentations/navigation_manager.dart';
 
 class NextRenewalsListScreen extends StatefulWidget {
@@ -34,36 +33,100 @@ class _NextRenewalsListScreenState extends State<NextRenewalsListScreen> {
     return FutureBuilder(
       future: _fetchData(),
       builder: (context, snapData) {
-        if (snapData.connectionState == ConnectionState.none &&
-            snapData.hasData == null) {
+        if (snapData.hasError || snapData.hasData == null) {
           return Container();
+        } else {
+          return _buildList(snapData.data);
         }
-        return _buildList(snapData.data);
       },
     );
   }
 
   Widget _buildList(List<Renewal> data) {
+    final itemCount = (data.length + 2);
     return ListView.builder(
-        itemCount: data.length ?? 0,
+        itemCount: itemCount ?? 0,
         itemBuilder: (context, index) {
-          Renewal renewal = data[index];
-          return _buildRow(renewal);
+          print("itemcount $itemCount");
+          print("$index");
+          if (index == 0) {
+            return _buildHeaderRow("This month");
+          } else if (index > 0 && index < countRenewalThisMonth(data) + 1) {
+            index -= 1;
+            Renewal renewal = data[index];
+            return _buildRow(renewal);
+          } else if (index == countRenewalThisMonth(data) + 1) {
+            return _buildHeaderRow("Next month");
+          } else {
+            index -= 2;
+            Renewal renewal = data[index];
+            return _buildRow(renewal);
+          }
         });
   }
 
-  Card _buildRow(Renewal renewal) {
-    return Card(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          ListTile(
-            leading: Icon(Icons.album, size: 50),
-            title: Text(renewal.subscription.name),
-            subtitle: Text(renewal.subscription.description),
+  int countRenewalThisMonth(List<Renewal> data) {
+    return data
+        .where((renewal) {
+          return _isAtThisMonth(renewal);
+        })
+        .toList()
+        .length;
+  }
+
+  bool _isAtThisMonth(Renewal renewal) {
+    final currentMonth = DateTime.now().month;
+    return currentMonth == renewal.renewalAt.month;
+  }
+
+  Column _buildRow(Renewal renewal) {
+    return Column(
+      children: <Widget>[
+        SizedBox(
+          height: 10,
+        ),
+        Card(
+          color: renewal.subscription.color,
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                ListTile(
+                  leading: Icon(
+                    Icons.live_tv,
+                    size: 50,
+                    color: Colors.white,
+                  ),
+                  title: Text(
+                    renewal.subscription.name,
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  subtitle: Text(renewal.subscription.description,
+                      style: TextStyle(color: Colors.white)),
+                ),
+                Text(renewal.renewalAtPretty,
+                    style: TextStyle(color: Colors.white)),
+              ],
+            ),
           ),
-          Text(renewal.renewalAtPretty),
-        ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildHeaderRow(String headerTitle) {
+    return Container(
+      height: 60,
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Text(
+            headerTitle,
+            style: TextStyle(fontSize: 18),
+          ),
+        ),
       ),
     );
   }
