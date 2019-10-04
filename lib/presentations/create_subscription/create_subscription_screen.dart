@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:subscriptions/data/di/renewal_inject.dart';
 import 'package:subscriptions/data/di/subscription_inject.dart';
 import 'package:subscriptions/data/entities/renewal_period.dart';
 import 'package:subscriptions/data/entities/subscription.dart';
-import 'package:subscriptions/data/repositories/subscription_repository.dart';
 import 'package:subscriptions/helpers/dates_helper.dart';
 import 'package:subscriptions/presentations/WidgetsFormHelper/color_field_widget.dart';
 import 'package:subscriptions/presentations/WidgetsFormHelper/date_field_widget.dart';
@@ -164,9 +164,9 @@ class _CreateSubscriptionScreenState extends State<CreateSubscriptionScreen> {
   }
 
   void saveSubscription() async {
-    final result =
-        await SubscriptionRepository(SubscriptionInject.buildSubscriptionDao())
-            .saveSubscription(_subscription);
+    final result = await SubscriptionInject.buildSubscriptionRepository()
+        .saveSubscription(_subscription);
+
     if (result) {
       showSnackBar(message: "Subscripción guardada");
       //todo cerrar esto

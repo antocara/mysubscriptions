@@ -29,10 +29,10 @@ class Subscription {
       'name': name,
       'description': description,
       'price': price,
-      'firstBill': firstBillSince1970,
+      'first_bill': firstBillSince1970,
       'color': colorValue,
       'renewal': renewal,
-      'renewalPeriod': renewalPeriodStringValue
+      'renewal_period': renewalPeriodStringValue
     };
   }
 
@@ -42,10 +42,10 @@ class Subscription {
         name: map['name'],
         description: map['description'],
         price: map['price'],
-        firstBill: DatesHelper.toDateFromEpoch(map['firstBill']),
+        firstBill: DatesHelper.toDateFromEpoch(map['first_bill']),
         color: ColorHelper.toColorFromValue(map['color']),
         renewal: map['renewal'],
-        renewalPeriod: RenewalPeriod.enumOfString(map['renewalPeriod']));
+        renewalPeriod: RenewalPeriod.enumOfString(map['renewal_period']));
   }
 
   // Conversión de valores apra guardarlos corectamente en
