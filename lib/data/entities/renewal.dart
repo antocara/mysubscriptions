@@ -30,4 +30,8 @@ class Renewal {
   int get nextRenewalAtSince1970 {
     return renewalAt.millisecondsSinceEpoch ?? 0.00;
   }
+
+  String get renewalAtPretty {
+    return DatesHelper.toStringFromDate(renewalAt);
+  }
 }

@@ -1,5 +1,5 @@
 import 'package:subscriptions/data/database/database_provider.dart';
-import 'package:subscriptions/data/database/subscription_dao.dart';
+import 'package:subscriptions/data/database/daos/subscription_dao.dart';
 import 'package:subscriptions/data/di/renewal_inject.dart';
 import 'package:subscriptions/data/repositories/subscription_repository.dart';
 

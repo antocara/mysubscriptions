@@ -1,7 +1,7 @@
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:subscriptions/data/database/renewal_dao.dart';
-import 'package:subscriptions/data/database/subscription_dao.dart';
+import 'package:subscriptions/data/database/daos/renewal_dao.dart';
+import 'package:subscriptions/data/database/daos/subscription_dao.dart';
 
 class DatabaseProvider {
   static const DATABASE_NAME = "subscriptions_database.db";
