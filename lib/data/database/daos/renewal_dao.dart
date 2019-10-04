@@ -57,7 +57,8 @@ class RenewalDao {
       {DateTime starDate, DateTime endDate}) async {
     final db = await _database;
 
-    String whereString = '$columnRenewalAt >= ? AND $columnRenewalAt <= ?';
+    String whereString =
+        '$columnRenewalAt >= ? AND $columnRenewalAt <= ? ORDER BY $columnRenewalAt ASC';
 
     final List<Map<String, dynamic>> maps = await db.query(
       TABLE_NAME,
