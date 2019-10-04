@@ -63,6 +63,22 @@ class SubscriptionDao {
     });
   }
 
+  Future<Subscription> fetchSubscription({Subscription subscription}) async {
+    final db = await _database;
+
+    String whereString = '$columnId == ?';
+
+    final List<Map<String, dynamic>> maps = await db.query(
+      TABLE_NAME,
+      where: whereString,
+      whereArgs: [subscription.id],
+    );
+
+    return List.generate(maps.length, (i) {
+      return Subscription.fromMap(maps[i]);
+    }).first;
+  }
+
 //  Future<void> updateDog(Subscription subscription) async {
 //    // Get a reference to the database.
 //    final db = await database;

@@ -45,6 +45,6 @@ class RenewalsService {
   }
 
   Renewal _createRenewal(Subscription subscription, DateTime nextRenewal) {
-    return Renewal(subscriptionId: subscription.id, renewalAt: nextRenewal);
+    return Renewal(subscription: subscription, renewalAt: nextRenewal);
   }
 }
