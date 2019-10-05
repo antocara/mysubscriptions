@@ -17,17 +17,26 @@ class _UpcomingRenewalsListScreenState
   Widget build(BuildContext context) {
     _fetchData();
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Uncoming Renewals"),
-        actions: <Widget>[
-          IconButton(
-            onPressed: () => _addClicked(context),
-            icon: Icon(Icons.add),
+    return Column(
+      children: <Widget>[
+        AppBar(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          title: Text(
+            "Upcoming Renewals",
+            style: TextStyle(color: Colors.black26),
           ),
-        ],
-      ),
-      body: _buildBody(),
+          actions: <Widget>[
+            IconButton(
+              onPressed: () => _addClicked(context),
+              icon: Icon(Icons.add),
+            ),
+          ],
+        ),
+        Expanded(
+          child: _buildBody(),
+        ),
+      ],
     );
   }
 
@@ -45,6 +54,7 @@ class _UpcomingRenewalsListScreenState
   }
 
   Widget _buildList(List<Renewal> data) {
+    if (data == null) return Container();
     final itemCount = (data.length + 2);
     return ListView.builder(
         itemCount: itemCount ?? 0,
