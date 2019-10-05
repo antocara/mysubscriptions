@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:subscriptions/data/di/renewal_inject.dart';
 import 'package:subscriptions/data/entities/renewal.dart';
 import 'package:subscriptions/presentations/navigation_manager.dart';
+import 'package:subscriptions/presentations/styles/dimens.dart' as AppDimens;
+import 'package:subscriptions/presentations/uncoming_renewals/card_row.dart';
+import 'package:subscriptions/presentations/uncoming_renewals/header_row.dart';
+import 'package:subscriptions/presentations/widgets/default_app_bar.dart';
 
 class UpcomingRenewalsListScreen extends StatefulWidget {
   @override
@@ -19,19 +23,12 @@ class _UpcomingRenewalsListScreenState
 
     return Column(
       children: <Widget>[
-        AppBar(
-          backgroundColor: Colors.white,
-          elevation: 0,
-          title: Text(
-            "Upcoming Renewals",
-            style: TextStyle(color: Colors.black26),
-          ),
-          actions: <Widget>[
-            IconButton(
-              onPressed: () => _addClicked(context),
-              icon: Icon(Icons.add),
-            ),
-          ],
+        DefaultAppBar(
+          title: "Upcoming Renewals",
+          icon: Icon(Icons.add),
+          onButtonTap: () {
+            _addClicked(context);
+          },
         ),
         Expanded(
           child: _buildBody(),
@@ -59,24 +56,40 @@ class _UpcomingRenewalsListScreenState
     return ListView.builder(
         itemCount: itemCount ?? 0,
         itemBuilder: (context, index) {
-          print("itemcount $itemCount");
-          print("$index");
           if (index == 0) {
-            return _buildHeaderRow("This month");
-          } else if (index > 0 && index < countRenewalThisMonth(data) + 1) {
+            return HeaderRow(title: "This month");
+          } else if (_isRenewalOfCurrentMonth(index, data)) {
             index -= 1;
-            Renewal renewal = data[index];
-            return _buildRow(context, renewal);
-          } else if (index == countRenewalThisMonth(data) + 1) {
-            return _buildHeaderRow("Next month");
+            return _bindCardRow(data[index]);
+          } else if (_isRenewalOfNextMonth(index, data)) {
+            return HeaderRow(title: "Next month");
           } else {
             index -= 2;
-            Renewal renewal = data[index];
-            return _buildRow(context, renewal);
+            return _bindCardRow(data[index]);
           }
         });
   }
 
+  CardRow _bindCardRow(Renewal renewal) {
+    return CardRow(
+      renewal: renewal,
+      onTap: () => _navigateToDetail(context, renewal),
+    );
+  }
+
+  Future<List<Renewal>> _fetchData() async {
+    return _renewalRepository.fetchNextRenewalsForTwoMonths();
+  }
+
+  void _addClicked(BuildContext context) {
+    NavigationManager.navigateToAddSubscription(context);
+  }
+
+  void _navigateToDetail(BuildContext context, Renewal renewal) {
+    NavigationManager.navigateToRenewalDetail(context, renewal);
+  }
+
+  //Utils
   int countRenewalThisMonth(List<Renewal> data) {
     return data
         .where((renewal) {
@@ -91,70 +104,11 @@ class _UpcomingRenewalsListScreenState
     return currentMonth == renewal.renewalAt.month;
   }
 
-  Widget _buildRow(BuildContext context, Renewal renewal) {
-    return InkWell(
-      onTap: () => _navigateToDetail(context, renewal),
-      child: Column(
-        children: <Widget>[
-          SizedBox(
-            height: 10,
-          ),
-          Card(
-            color: renewal.subscription.color,
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  ListTile(
-                    leading: Icon(
-                      Icons.live_tv,
-                      size: 50,
-                      color: Colors.white,
-                    ),
-                    title: Text(
-                      renewal.subscription.name,
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    subtitle: Text(renewal.subscription.description,
-                        style: TextStyle(color: Colors.white)),
-                  ),
-                  Text(renewal.renewalAtPretty,
-                      style: TextStyle(color: Colors.white)),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
+  bool _isRenewalOfCurrentMonth(int index, List<Renewal> data) {
+    return (index > 0 && index < countRenewalThisMonth(data) + 1);
   }
 
-  Widget _buildHeaderRow(String headerTitle) {
-    return Container(
-      height: 60,
-      child: Align(
-        alignment: Alignment.centerLeft,
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Text(
-            headerTitle,
-            style: TextStyle(fontSize: 18),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Future<List<Renewal>> _fetchData() async {
-    return _renewalRepository.fetchNextRenewalsForTwoMonths();
-  }
-
-  void _addClicked(BuildContext context) {
-    NavigationManager.navigateToAddSubscription(context);
-  }
-
-  void _navigateToDetail(BuildContext context, Renewal renewal) {
-    NavigationManager.navigateToRenewalDetail(context, renewal);
+  bool _isRenewalOfNextMonth(int index, List<Renewal> data) {
+    return index == countRenewalThisMonth(data) + 1;
   }
 }

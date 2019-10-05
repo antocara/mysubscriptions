@@ -6,10 +6,10 @@ import 'package:subscriptions/data/di/subscription_inject.dart';
 import 'package:subscriptions/data/entities/renewal_period.dart';
 import 'package:subscriptions/data/entities/subscription.dart';
 import 'package:subscriptions/helpers/dates_helper.dart';
-import 'package:subscriptions/presentations/WidgetsFormHelper/color_field_widget.dart';
-import 'package:subscriptions/presentations/WidgetsFormHelper/date_field_widget.dart';
-import 'package:subscriptions/presentations/WidgetsFormHelper/dismiss_keyboard_on_scroll.dart';
-import 'package:subscriptions/presentations/WidgetsFormHelper/text_field_widget.dart';
+import 'package:subscriptions/presentations/widgets/WidgetsFormHelper/color_field_widget.dart';
+import 'package:subscriptions/presentations/widgets/WidgetsFormHelper/date_field_widget.dart';
+import 'package:subscriptions/presentations/widgets/WidgetsFormHelper/dismiss_keyboard_on_scroll.dart';
+import 'package:subscriptions/presentations/widgets/WidgetsFormHelper/text_field_widget.dart';
 
 class CreateSubscriptionScreen extends StatefulWidget {
   @override
