@@ -3,29 +3,40 @@ import 'package:subscriptions/data/di/renewal_inject.dart';
 import 'package:subscriptions/data/entities/renewal.dart';
 import 'package:subscriptions/presentations/navigation_manager.dart';
 
-class NextRenewalsListScreen extends StatefulWidget {
+class UpcomingRenewalsListScreen extends StatefulWidget {
   @override
-  _NextRenewalsListScreenState createState() => _NextRenewalsListScreenState();
+  _UpcomingRenewalsListScreenState createState() =>
+      _UpcomingRenewalsListScreenState();
 }
 
-class _NextRenewalsListScreenState extends State<NextRenewalsListScreen> {
+class _UpcomingRenewalsListScreenState
+    extends State<UpcomingRenewalsListScreen> {
   final _renewalRepository = RenewalInject.buildRenewalRepository();
 
   @override
   Widget build(BuildContext context) {
     _fetchData();
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Uncoming Renewals"),
-        actions: <Widget>[
-          IconButton(
-            onPressed: () => _addClicked(context),
-            icon: Icon(Icons.add),
+    return Column(
+      children: <Widget>[
+        AppBar(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          title: Text(
+            "Upcoming Renewals",
+            style: TextStyle(color: Colors.black26),
           ),
-        ],
-      ),
-      body: _buildBody(),
+          actions: <Widget>[
+            IconButton(
+              onPressed: () => _addClicked(context),
+              icon: Icon(Icons.add),
+            ),
+          ],
+        ),
+        Expanded(
+          child: _buildBody(),
+        ),
+      ],
     );
   }
 
@@ -43,6 +54,7 @@ class _NextRenewalsListScreenState extends State<NextRenewalsListScreen> {
   }
 
   Widget _buildList(List<Renewal> data) {
+    if (data == null) return Container();
     final itemCount = (data.length + 2);
     return ListView.builder(
         itemCount: itemCount ?? 0,
@@ -54,13 +66,13 @@ class _NextRenewalsListScreenState extends State<NextRenewalsListScreen> {
           } else if (index > 0 && index < countRenewalThisMonth(data) + 1) {
             index -= 1;
             Renewal renewal = data[index];
-            return _buildRow(renewal);
+            return _buildRow(context, renewal);
           } else if (index == countRenewalThisMonth(data) + 1) {
             return _buildHeaderRow("Next month");
           } else {
             index -= 2;
             Renewal renewal = data[index];
-            return _buildRow(renewal);
+            return _buildRow(context, renewal);
           }
         });
   }
@@ -79,39 +91,42 @@ class _NextRenewalsListScreenState extends State<NextRenewalsListScreen> {
     return currentMonth == renewal.renewalAt.month;
   }
 
-  Column _buildRow(Renewal renewal) {
-    return Column(
-      children: <Widget>[
-        SizedBox(
-          height: 10,
-        ),
-        Card(
-          color: renewal.subscription.color,
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                ListTile(
-                  leading: Icon(
-                    Icons.live_tv,
-                    size: 50,
-                    color: Colors.white,
+  Widget _buildRow(BuildContext context, Renewal renewal) {
+    return InkWell(
+      onTap: () => _navigateToDetail(context, renewal),
+      child: Column(
+        children: <Widget>[
+          SizedBox(
+            height: 10,
+          ),
+          Card(
+            color: renewal.subscription.color,
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  ListTile(
+                    leading: Icon(
+                      Icons.live_tv,
+                      size: 50,
+                      color: Colors.white,
+                    ),
+                    title: Text(
+                      renewal.subscription.name,
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    subtitle: Text(renewal.subscription.description,
+                        style: TextStyle(color: Colors.white)),
                   ),
-                  title: Text(
-                    renewal.subscription.name,
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  subtitle: Text(renewal.subscription.description,
+                  Text(renewal.renewalAtPretty,
                       style: TextStyle(color: Colors.white)),
-                ),
-                Text(renewal.renewalAtPretty,
-                    style: TextStyle(color: Colors.white)),
-              ],
+                ],
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -137,5 +152,9 @@ class _NextRenewalsListScreenState extends State<NextRenewalsListScreen> {
 
   void _addClicked(BuildContext context) {
     NavigationManager.navigateToAddSubscription(context);
+  }
+
+  void _navigateToDetail(BuildContext context, Renewal renewal) {
+    NavigationManager.navigateToRenewalDetail(context, renewal);
   }
 }
