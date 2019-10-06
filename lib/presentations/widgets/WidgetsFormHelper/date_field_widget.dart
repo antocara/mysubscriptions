@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:subscriptions/helpers/dates_helper.dart';
-import 'package:subscriptions/presentations/WidgetsFormHelper/icon_field_widget.dart';
+import 'package:subscriptions/presentations/widgets/WidgetsFormHelper/icon_field_widget.dart';
 
 class DateFieldWidget extends StatefulWidget {
   const DateFieldWidget(
