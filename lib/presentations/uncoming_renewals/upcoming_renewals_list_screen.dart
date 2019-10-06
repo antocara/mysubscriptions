@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:subscriptions/data/di/renewal_inject.dart';
 import 'package:subscriptions/data/entities/renewal.dart';
 import 'package:subscriptions/presentations/navigation_manager.dart';
-import 'package:subscriptions/presentations/styles/dimens.dart' as AppDimens;
 import 'package:subscriptions/presentations/uncoming_renewals/card_row.dart';
 import 'package:subscriptions/presentations/uncoming_renewals/header_row.dart';
 import 'package:subscriptions/presentations/widgets/default_app_bar.dart';
@@ -57,12 +56,18 @@ class _UpcomingRenewalsListScreenState
         itemCount: itemCount ?? 0,
         itemBuilder: (context, index) {
           if (index == 0) {
-            return HeaderRow(title: "This month");
+            final amount = _calculateAmountByMonth(data, DateTime.now().month);
+            return HeaderRow(title: "This month", amount: amount);
           } else if (_isRenewalOfCurrentMonth(index, data)) {
             index -= 1;
             return _bindCardRow(data[index]);
           } else if (_isRenewalOfNextMonth(index, data)) {
-            return HeaderRow(title: "Next month");
+            final amount =
+                _calculateAmountByMonth(data, DateTime.now().month + 1);
+            return HeaderRow(
+              title: "Next month",
+              amount: amount,
+            );
           } else {
             index -= 2;
             return _bindCardRow(data[index]);
@@ -79,6 +84,14 @@ class _UpcomingRenewalsListScreenState
 
   Future<List<Renewal>> _fetchData() async {
     return _renewalRepository.fetchNextRenewalsForTwoMonths();
+  }
+
+  double _calculateAmountByMonth(List<Renewal> data, int month) {
+    return data.where((renewal) {
+      return renewal.renewalAt.month == month;
+    }).fold(0, (initialValue, renewal) {
+      return initialValue + renewal.subscription.price;
+    });
   }
 
   void _addClicked(BuildContext context) {
