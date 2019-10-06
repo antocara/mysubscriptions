@@ -8,6 +8,7 @@ class DatesHelper {
   }
 
   static String toStringFromDate(DateTime date) {
+    if (date == null) return "";
     var formatter = new DateFormat('dd MMM yyyy');
     return formatter.format(date);
   }

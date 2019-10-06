@@ -6,10 +6,8 @@ import 'package:subscriptions/presentations/widgets/WidgetsFormHelper/icon_field
 typedef ColorSelected(Color color);
 
 class ColorFieldWidget extends StatefulWidget {
-  const ColorFieldWidget({Key key, this.iconPath, this.colorSelected})
-      : super(key: key);
+  const ColorFieldWidget({Key key, this.colorSelected}) : super(key: key);
 
-  final String iconPath;
   final ColorSelected colorSelected;
 
   @override
@@ -17,7 +15,13 @@ class ColorFieldWidget extends StatefulWidget {
 }
 
 class _ColorFieldWidgetState extends State<ColorFieldWidget> {
-  Color _currentColor = Colors.amber;
+  Color _currentColor;
+
+  @override
+  void initState() {
+    _currentColor = Colors.black;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,10 +29,6 @@ class _ColorFieldWidgetState extends State<ColorFieldWidget> {
       padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 0),
       child: Row(
         children: <Widget>[
-          IconFormField(iconPath: widget.iconPath),
-          SizedBox(
-            width: 20,
-          ),
           _buildCircleColor(),
         ],
       ),
@@ -69,12 +69,11 @@ class _ColorFieldWidgetState extends State<ColorFieldWidget> {
   Widget _buildCircleColor() {
     return InkWell(
       onTap: _showColorPicker,
-      child: new Container(
-        width: 30,
-        height: 30,
-        decoration: new BoxDecoration(
+      child: Container(
+        width: 100,
+        height: 50,
+        child: Card(
           color: _currentColor,
-          shape: BoxShape.circle,
         ),
       ),
     );

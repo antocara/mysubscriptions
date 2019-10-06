@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 
-const defaultBackground = Colors.white;
-const primaryColor = Colors.blue;
+const kDefaultBackground = Colors.white;
+const kPrimaryColor = Colors.blue;
+const kPrimaryColorDark = Colors.blueAccent;
 
 // upcoming renewals screen
-const titleAppbar = Colors.black54;
-const iconsAppbar = Colors.black54;
+const kTitleAppbar = Colors.black54;
+const kIconsAppbar = Colors.black54;
+
+//create subscription
+
+const kCreateSubscriptionBack = Color(0xFFE4E6F1);

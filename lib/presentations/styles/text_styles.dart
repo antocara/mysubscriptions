@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:subscriptions/presentations/styles/colors.dart' as AppColors;
 
 // upcoming renewals
-const titleAppBar = TextStyle(color: AppColors.titleAppbar);
-const titleHeaderRow = TextStyle(fontSize: 20, color: AppColors.titleAppbar);
+const kTitleAppBar = TextStyle(color: AppColors.kTitleAppbar);
+const titleHeaderRow = TextStyle(fontSize: 20, color: AppColors.kTitleAppbar);
 const rightTitleHeaderRow =
-    TextStyle(fontSize: 30, color: AppColors.titleAppbar);
+    TextStyle(fontSize: 30, color: AppColors.kTitleAppbar);

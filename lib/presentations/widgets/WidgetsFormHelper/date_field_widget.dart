@@ -1,27 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:subscriptions/helpers/dates_helper.dart';
-import 'package:subscriptions/presentations/widgets/WidgetsFormHelper/icon_field_widget.dart';
 
 class DateFieldWidget extends StatefulWidget {
   const DateFieldWidget(
       {Key key,
-      this.iconPath,
       this.hint,
       this.focusNode,
       this.nextFocusNode,
       this.inputAction,
       this.inputType,
-      this.onSave})
+      this.onSave,
+      this.onChange})
       : super(key: key);
 
-  final String iconPath;
   final String hint;
   final FocusNode focusNode;
   final FocusNode nextFocusNode;
   final TextInputAction inputAction;
   final List<TextInputFormatter> inputType;
   final Function onSave;
+  final Function onChange;
 
   @override
   _DateFieldWidgetState createState() => _DateFieldWidgetState();
@@ -39,7 +38,6 @@ class _DateFieldWidgetState extends State<DateFieldWidget> {
           controller: _controller,
           decoration: InputDecoration(
             labelText: widget.hint,
-            icon: IconFormField(iconPath: widget.iconPath),
           ),
           validator: (value) {
             if (value.isEmpty) {
@@ -54,6 +52,7 @@ class _DateFieldWidgetState extends State<DateFieldWidget> {
             _fieldFocusChange(context, widget.focusNode, widget.nextFocusNode);
           },
           onSaved: widget.onSave,
+          onChanged: widget.onChange,
         ),
       ),
     );
@@ -80,8 +79,9 @@ class _DateFieldWidgetState extends State<DateFieldWidget> {
         lastDate: new DateTime(3020));
     if (picked != null)
       setState(() {
-        _controller.value =
-            TextEditingValue(text: DatesHelper.toStringFromDate(picked));
+        final textValue = DatesHelper.toStringFromDate(picked);
+        _controller.value = TextEditingValue(text: textValue);
+        widget.onChange(textValue);
       });
   }
 }

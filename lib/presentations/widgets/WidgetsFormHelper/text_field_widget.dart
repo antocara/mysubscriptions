@@ -3,24 +3,24 @@ import 'package:flutter/services.dart';
 import 'package:subscriptions/presentations/widgets/WidgetsFormHelper/icon_field_widget.dart';
 
 class TextFieldWidget extends StatefulWidget {
-  const TextFieldWidget(
-      {Key key,
-      this.iconPath,
-      this.hint,
-      this.focusNode,
-      this.nextFocusNode,
-      this.inputAction,
-      this.keyboardType,
-      this.onSave})
-      : super(key: key);
+  const TextFieldWidget({
+    Key key,
+    this.hint,
+    this.focusNode,
+    this.nextFocusNode,
+    this.inputAction,
+    this.keyboardType,
+    this.onSave,
+    this.onChange,
+  }) : super(key: key);
 
-  final String iconPath;
   final String hint;
   final FocusNode focusNode;
   final FocusNode nextFocusNode;
   final TextInputAction inputAction;
   final TextInputType keyboardType;
   final Function onSave;
+  final Function onChange;
 
   @override
   _TextFieldWidgetState createState() => _TextFieldWidgetState();
@@ -30,11 +30,10 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
+      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 0),
       child: TextFormField(
         decoration: InputDecoration(
           labelText: widget.hint,
-          icon: IconFormField(iconPath: widget.iconPath),
         ),
         validator: (value) {
           if (value.isEmpty) {
@@ -48,6 +47,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
         onFieldSubmitted: (term) {
           _fieldFocusChange(context, widget.focusNode, widget.nextFocusNode);
         },
+        onChanged: widget.onChange,
         onSaved: widget.onSave,
       ),
     );

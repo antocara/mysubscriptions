@@ -23,7 +23,7 @@ class _RenewalCardState extends State<RenewalCard> {
       margin: EdgeInsets.symmetric(
           vertical: 0, horizontal: AppDimens.defaultHorizontalMargin),
       elevation: 10,
-      color: widget._renewal.subscription.color,
+      color: widget._renewal.subscription.color ?? Colors.black,
       child: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
@@ -34,7 +34,7 @@ class _RenewalCardState extends State<RenewalCard> {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    widget._renewal.subscription.name,
+                    widget._renewal.subscription.name ?? "",
                     style: TextStyle(fontSize: 28, color: Colors.white),
                   ),
                 ),
@@ -42,7 +42,7 @@ class _RenewalCardState extends State<RenewalCard> {
                   child: Container(),
                 ),
                 Text(
-                  "€ ${widget._renewal.subscription.price.toString()}",
+                  _getPrice(),
                   style: TextStyle(fontSize: 35, color: Colors.white),
                 ),
               ],
@@ -53,7 +53,7 @@ class _RenewalCardState extends State<RenewalCard> {
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                widget._renewal.subscription.description,
+                widget._renewal.subscription.description ?? "",
                 style: TextStyle(color: Colors.white, fontSize: 14),
                 maxLines: 2,
               ),
@@ -72,7 +72,7 @@ class _RenewalCardState extends State<RenewalCard> {
                       SizedBox(
                         height: 5,
                       ),
-                      Text(widget._renewal.renewalAtPretty,
+                      Text(widget._renewal.renewalAtPretty ?? "",
                           style: TextStyle(color: Colors.white, fontSize: 20)),
                     ],
                   ),
@@ -80,7 +80,8 @@ class _RenewalCardState extends State<RenewalCard> {
                     child: Container(),
                   ),
                   CircleAvatar(
-                    foregroundColor: widget._renewal.subscription.color,
+                    foregroundColor:
+                        widget._renewal.subscription.color ?? Colors.white,
                     backgroundColor: Colors.white,
                     child: Text(_extractChars()),
                   ),
@@ -93,8 +94,16 @@ class _RenewalCardState extends State<RenewalCard> {
     );
   }
 
+  String _getPrice() {
+    if (widget._renewal.subscription.price != null) {
+      return "€ ${widget._renewal.subscription.price.toString()}";
+    } else {
+      return "€ 0.00";
+    }
+  }
+
   String _extractChars() {
-    final name = widget._renewal.subscription.name;
+    final name = widget._renewal.subscription.name ?? "";
     if (name != null && name.length >= 2) {
       return name.substring(0, 2).toUpperCase();
     }

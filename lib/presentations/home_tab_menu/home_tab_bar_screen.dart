@@ -20,7 +20,7 @@ class _HomeTabMenuScreenState extends State<HomeTabMenuScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.defaultBackground,
+      backgroundColor: AppColors.kCreateSubscriptionBack,
       bottomNavigationBar: BottomNavigationBar(
         onTap: (index) => _onItemTabTaped(index),
         currentIndex: _currentTabIndex,
