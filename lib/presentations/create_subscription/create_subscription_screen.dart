@@ -220,15 +220,24 @@ class _CreateSubscriptionScreenState extends State<CreateSubscriptionScreen> {
   Widget _buildButtonSend(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0),
-      child: RaisedButton(
-        onPressed: () {
-          if (_formKey.currentState.validate()) {
-            _formKey.currentState.save();
-            _setRenewalPeriod();
-            saveSubscription();
-          }
-        },
-        child: Text('Submit'),
+      child: Container(
+        height: 40,
+        child: RaisedButton(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          color: AppColors.kPrimaryColor,
+          onPressed: () {
+            if (_formKey.currentState.validate()) {
+              _formKey.currentState.save();
+              _setRenewalPeriod();
+              saveSubscription();
+            }
+          },
+          child: Text(
+            'Save',
+            style: TextStyle(fontSize: 15, color: AppColors.kTitleButtonSave),
+          ),
+        ),
       ),
     );
   }

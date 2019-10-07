@@ -11,3 +11,4 @@ const kIconsAppbar = Colors.black54;
 //create subscription
 
 const kCreateSubscriptionBack = Color(0xFFE4E6F1);
+const kTitleButtonSave = Colors.white;
