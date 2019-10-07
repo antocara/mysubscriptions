@@ -1,11 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:subscriptions/data/di/renewal_inject.dart';
 import 'package:subscriptions/data/di/subscription_inject.dart';
+import 'package:subscriptions/data/entities/renewal.dart';
 import 'package:subscriptions/data/entities/renewal_period.dart';
 import 'package:subscriptions/data/entities/subscription.dart';
 import 'package:subscriptions/helpers/dates_helper.dart';
+import 'package:subscriptions/presentations/navigation_manager.dart';
+import 'package:subscriptions/presentations/styles/colors.dart' as AppColors;
+import 'package:subscriptions/presentations/uncoming_renewals/card_row.dart';
 import 'package:subscriptions/presentations/widgets/WidgetsFormHelper/color_field_widget.dart';
 import 'package:subscriptions/presentations/widgets/WidgetsFormHelper/date_field_widget.dart';
 import 'package:subscriptions/presentations/widgets/WidgetsFormHelper/dismiss_keyboard_on_scroll.dart';
@@ -20,6 +23,7 @@ class CreateSubscriptionScreen extends StatefulWidget {
 class _CreateSubscriptionScreenState extends State<CreateSubscriptionScreen> {
   var _subscription = new Subscription();
   final _formKey = GlobalKey<FormState>();
+  final _renewal = Renewal();
 
   final GlobalKey<ScaffoldState> mScaffoldState =
       new GlobalKey<ScaffoldState>();
@@ -27,12 +31,42 @@ class _CreateSubscriptionScreenState extends State<CreateSubscriptionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.kCreateSubscriptionBack,
       key: mScaffoldState,
       appBar: AppBar(
-        title: Text("Create Subscription"),
-        backgroundColor: _subscription.color,
+        iconTheme: IconThemeData(color: AppColors.kTitleAppbar),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: Text("Create Susbcription",
+            style: TextStyle(
+              color: AppColors.kTitleAppbar,
+            )),
       ),
-      body: _buildForm(context),
+      body: _buildBody(context),
+    );
+  }
+
+  Widget _buildBody(BuildContext context) {
+    _renewal.subscription = _subscription;
+
+    return Stack(
+      children: <Widget>[
+        Column(
+          children: <Widget>[
+            _buildCard(),
+            Expanded(
+              child: _buildForm(context),
+            )
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildCard() {
+    return CardRow(
+      onTap: () {},
+      renewal: _renewal,
     );
   }
 
@@ -60,48 +94,25 @@ class _CreateSubscriptionScreenState extends State<CreateSubscriptionScreen> {
     return DismissKeyboardOnScroll(
       child: ListView(
         children: <Widget>[
-          TextFieldWidget(
-              onSave: (val) => _subscription.name = val,
-              hint: "Name",
-              focusNode: _name,
-              nextFocusNode: _description,
-              inputAction: TextInputAction.next),
-          TextFieldWidget(
-              onSave: (val) => _subscription.description = val,
-              hint: "Description",
-              focusNode: _description,
-              nextFocusNode: _price,
-              inputAction: TextInputAction.next),
-          TextFieldWidget(
-              onSave: (val) => _subscription.price = double.parse(val),
-              iconPath: 'images/ic_price.png',
-              hint: "Price",
-              focusNode: _price,
-              nextFocusNode: null,
-              keyboardType: TextInputType.numberWithOptions(decimal: true),
-              inputAction: TextInputAction.next),
-          DateFieldWidget(
-              onSave: (val) =>
-                  _subscription.firstBill = DatesHelper.toDateFromString(val),
-              iconPath: 'images/ic_price.png',
-              hint: "First bill",
-              focusNode: _firstBill,
-              nextFocusNode: _renewalCycle,
-              inputAction: TextInputAction.done),
+          _buildTextFieldName(),
+          _buildTextFieldDescription(),
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: _buildTextFieldPrice(),
+              ),
+              SizedBox(width: 10),
+              Expanded(
+                child: _buildDateTextField(),
+              )
+            ],
+          ),
           Row(
             verticalDirection: VerticalDirection.down,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Expanded(
-                child: TextFieldWidget(
-                  onSave: (val) => _subscription.renewal = int.parse(val),
-                  iconPath: 'images/ic_price.png',
-                  hint: "Renewal Cycle",
-                  focusNode: _renewalCycle,
-                  keyboardType: TextInputType.numberWithOptions(decimal: false),
-                  nextFocusNode: _subscriptionColor,
-                  inputAction: TextInputAction.next,
-                ),
+                child: _buildRenewalTextField(),
               ),
               SizedBox(
                 width: 10,
@@ -113,15 +124,79 @@ class _CreateSubscriptionScreenState extends State<CreateSubscriptionScreen> {
           ),
           ColorFieldWidget(
             colorSelected: (Color color) {
-              setState(() {
-                _subscription.color = color;
-              });
+              _subscription.color = color;
+              _renewal.subscription.color = color;
+              _refresh();
             },
-            iconPath: 'images/ic_price.png',
           ),
           _buildButtonSend(context),
         ],
       ),
+    );
+  }
+
+  Widget _buildTextFieldName() {
+    return TextFieldWidget(
+        onSave: (val) => _subscription.name = val,
+        onChange: (val) {
+          _renewal.subscription.name = val;
+          _refresh();
+        },
+        hint: "Name",
+        focusNode: _name,
+        nextFocusNode: _description,
+        inputAction: TextInputAction.next);
+  }
+
+  Widget _buildTextFieldDescription() {
+    return TextFieldWidget(
+        onSave: (val) => _subscription.description = val,
+        onChange: (val) {
+          _renewal.subscription.description = val;
+          _refresh();
+        },
+        hint: "Description",
+        focusNode: _description,
+        nextFocusNode: _price,
+        inputAction: TextInputAction.next);
+  }
+
+  Widget _buildTextFieldPrice() {
+    return TextFieldWidget(
+        onSave: (val) => _subscription.price = double.parse(val),
+        onChange: (val) {
+          _renewal.subscription.price = double.parse(val);
+          _refresh();
+        },
+        hint: "Price",
+        focusNode: _price,
+        nextFocusNode: null,
+        keyboardType: TextInputType.numberWithOptions(decimal: true),
+        inputAction: TextInputAction.next);
+  }
+
+  Widget _buildDateTextField() {
+    return DateFieldWidget(
+        onSave: (val) =>
+            _subscription.firstBill = DatesHelper.toDateFromString(val),
+        onChange: (val) {
+          _renewal.renewalAt = DatesHelper.toDateFromString(val);
+          _refresh();
+        },
+        hint: "First bill",
+        focusNode: _firstBill,
+        nextFocusNode: _renewalCycle,
+        inputAction: TextInputAction.done);
+  }
+
+  Widget _buildRenewalTextField() {
+    return TextFieldWidget(
+      onSave: (val) => _subscription.renewal = int.parse(val),
+      hint: "Renewal Cycle",
+      focusNode: _renewalCycle,
+      keyboardType: TextInputType.numberWithOptions(decimal: false),
+      nextFocusNode: _subscriptionColor,
+      inputAction: TextInputAction.next,
     );
   }
 
@@ -143,6 +218,10 @@ class _CreateSubscriptionScreenState extends State<CreateSubscriptionScreen> {
     );
   }
 
+  void _refresh() {
+    setState(() {});
+  }
+
   _setRenewalPeriod() {
     _subscription.renewalPeriod = RenewalPeriod.enumOfString(_dropdownValue);
   }
@@ -150,26 +229,35 @@ class _CreateSubscriptionScreenState extends State<CreateSubscriptionScreen> {
   Widget _buildButtonSend(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0),
-      child: RaisedButton(
-        onPressed: () {
-          if (_formKey.currentState.validate()) {
-            _formKey.currentState.save();
-            _setRenewalPeriod();
-            saveSubscription();
-          }
-        },
-        child: Text('Submit'),
+      child: Container(
+        height: 40,
+        child: RaisedButton(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          color: AppColors.kPrimaryColor,
+          onPressed: () {
+            if (_formKey.currentState.validate()) {
+              _formKey.currentState.save();
+              _setRenewalPeriod();
+              saveSubscription(context);
+            }
+          },
+          child: Text(
+            'Save',
+            style: TextStyle(fontSize: 15, color: AppColors.kTitleButtonSave),
+          ),
+        ),
       ),
     );
   }
 
-  void saveSubscription() async {
+  void saveSubscription(BuildContext context) async {
     final result = await SubscriptionInject.buildSubscriptionRepository()
         .saveSubscription(_subscription);
 
     if (result) {
       showSnackBar(message: "Subscripción guardada");
-      //todo cerrar esto
+      NavigationManager.popView(context);
     } else {
       showSnackBar(
           message: "Error guardadndo la subscripción, inténtelo de nuevo");

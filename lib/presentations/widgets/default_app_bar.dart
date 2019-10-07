@@ -3,9 +3,10 @@ import 'package:subscriptions/presentations/styles/colors.dart' as AppColors;
 import 'package:subscriptions/presentations/styles/text_styles.dart'
     as AppTextStyles;
 
-class DefaultAppBar extends StatefulWidget {
-  const DefaultAppBar({Key key, this.title = "", this.icon, this.onButtonTap})
-      : super(key: key);
+class DefaultAppBar extends StatefulWidget implements PreferredSizeWidget {
+  DefaultAppBar({Key key, this.title = "", this.icon, this.onButtonTap})
+      : preferredSize = Size.fromHeight(kToolbarHeight),
+        super(key: key);
 
   final String title;
   final Icon icon;
@@ -13,6 +14,9 @@ class DefaultAppBar extends StatefulWidget {
 
   @override
   _DefaultAppBarState createState() => _DefaultAppBarState();
+
+  @override
+  final Size preferredSize;
 }
 
 class _DefaultAppBarState extends State<DefaultAppBar> {
@@ -23,27 +27,30 @@ class _DefaultAppBarState extends State<DefaultAppBar> {
 
   AppBar _buildAppbar() {
     return AppBar(
-      backgroundColor: AppColors.defaultBackground,
+      iconTheme: IconThemeData(color: AppColors.kTitleAppbar),
+      backgroundColor: Colors.transparent,
       elevation: 0,
       title: _buildTitle(),
-      actions: <Widget>[
-        _buildIcon(),
-      ],
+      actions: <Widget>[_buildIcon()],
     );
   }
 
   Text _buildTitle() {
     return Text(
       widget.title,
-      style: AppTextStyles.titleAppBar,
+      style: AppTextStyles.kTitleAppBar,
     );
   }
 
-  IconButton _buildIcon() {
-    return IconButton(
-      onPressed: widget.onButtonTap,
-      icon: widget.icon,
-      color: AppColors.iconsAppbar,
-    );
+  Widget _buildIcon() {
+    if (widget.icon != null) {
+      return IconButton(
+        onPressed: widget.onButtonTap,
+        icon: widget.icon,
+        color: AppColors.kIconsAppbar,
+      );
+    } else {
+      return SizedBox();
+    }
   }
 }
