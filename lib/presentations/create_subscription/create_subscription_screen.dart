@@ -6,6 +6,7 @@ import 'package:subscriptions/data/entities/renewal.dart';
 import 'package:subscriptions/data/entities/renewal_period.dart';
 import 'package:subscriptions/data/entities/subscription.dart';
 import 'package:subscriptions/helpers/dates_helper.dart';
+import 'package:subscriptions/presentations/navigation_manager.dart';
 import 'package:subscriptions/presentations/styles/colors.dart' as AppColors;
 import 'package:subscriptions/presentations/uncoming_renewals/card_row.dart';
 import 'package:subscriptions/presentations/widgets/WidgetsFormHelper/color_field_widget.dart';
@@ -102,18 +103,8 @@ class _CreateSubscriptionScreenState extends State<CreateSubscriptionScreen> {
               ),
               SizedBox(width: 10),
               Expanded(
-                child: DateFieldWidget(
-                    onSave: (val) => _subscription.firstBill =
-                        DatesHelper.toDateFromString(val),
-                    onChange: (val) {
-                      _renewal.renewalAt = DatesHelper.toDateFromString(val);
-                      _refresh();
-                    },
-                    hint: "First bill",
-                    focusNode: _firstBill,
-                    nextFocusNode: _renewalCycle,
-                    inputAction: TextInputAction.done),
-              ),
+                child: _buildDateTextField(),
+              )
             ],
           ),
           Row(
@@ -121,14 +112,7 @@ class _CreateSubscriptionScreenState extends State<CreateSubscriptionScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Expanded(
-                child: TextFieldWidget(
-                  onSave: (val) => _subscription.renewal = int.parse(val),
-                  hint: "Renewal Cycle",
-                  focusNode: _renewalCycle,
-                  keyboardType: TextInputType.numberWithOptions(decimal: false),
-                  nextFocusNode: _subscriptionColor,
-                  inputAction: TextInputAction.next,
-                ),
+                child: _buildRenewalTextField(),
               ),
               SizedBox(
                 width: 10,
@@ -191,6 +175,31 @@ class _CreateSubscriptionScreenState extends State<CreateSubscriptionScreen> {
         inputAction: TextInputAction.next);
   }
 
+  Widget _buildDateTextField() {
+    return DateFieldWidget(
+        onSave: (val) =>
+            _subscription.firstBill = DatesHelper.toDateFromString(val),
+        onChange: (val) {
+          _renewal.renewalAt = DatesHelper.toDateFromString(val);
+          _refresh();
+        },
+        hint: "First bill",
+        focusNode: _firstBill,
+        nextFocusNode: _renewalCycle,
+        inputAction: TextInputAction.done);
+  }
+
+  Widget _buildRenewalTextField() {
+    return TextFieldWidget(
+      onSave: (val) => _subscription.renewal = int.parse(val),
+      hint: "Renewal Cycle",
+      focusNode: _renewalCycle,
+      keyboardType: TextInputType.numberWithOptions(decimal: false),
+      nextFocusNode: _subscriptionColor,
+      inputAction: TextInputAction.next,
+    );
+  }
+
   Widget _buildDropDown() {
     return DropdownButton<String>(
       hint: Text('Day'),
@@ -230,7 +239,7 @@ class _CreateSubscriptionScreenState extends State<CreateSubscriptionScreen> {
             if (_formKey.currentState.validate()) {
               _formKey.currentState.save();
               _setRenewalPeriod();
-              saveSubscription();
+              saveSubscription(context);
             }
           },
           child: Text(
@@ -242,13 +251,13 @@ class _CreateSubscriptionScreenState extends State<CreateSubscriptionScreen> {
     );
   }
 
-  void saveSubscription() async {
+  void saveSubscription(BuildContext context) async {
     final result = await SubscriptionInject.buildSubscriptionRepository()
         .saveSubscription(_subscription);
 
     if (result) {
       showSnackBar(message: "Subscripción guardada");
-      //todo cerrar esto
+      NavigationManager.popView(context);
     } else {
       showSnackBar(
           message: "Error guardadndo la subscripción, inténtelo de nuevo");

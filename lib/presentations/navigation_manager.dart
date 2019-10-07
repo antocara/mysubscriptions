@@ -21,4 +21,8 @@ class NavigationManager {
               )),
     );
   }
+
+  static void popView(BuildContext context) {
+    Navigator.of(context).pop();
+  }
 }
