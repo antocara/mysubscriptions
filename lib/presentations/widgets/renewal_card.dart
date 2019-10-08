@@ -42,7 +42,7 @@ class _RenewalCardState extends State<RenewalCard> {
                   child: Container(),
                 ),
                 Text(
-                  _getPrice(),
+                  widget._renewal.subscription.priceAtStringFormat,
                   style: TextStyle(fontSize: 35, color: Colors.white),
                 ),
               ],
@@ -83,7 +83,7 @@ class _RenewalCardState extends State<RenewalCard> {
                     foregroundColor:
                         widget._renewal.subscription.color ?? Colors.white,
                     backgroundColor: Colors.white,
-                    child: Text(_extractChars()),
+                    child: Text(widget._renewal.subscription.nameChars),
                   ),
                 ],
               ),
@@ -94,19 +94,11 @@ class _RenewalCardState extends State<RenewalCard> {
     );
   }
 
-  String _getPrice() {
-    if (widget._renewal.subscription.price != null) {
-      return "€ ${widget._renewal.subscription.price.toString()}";
-    } else {
-      return "€ 0.00";
-    }
-  }
-
-  String _extractChars() {
-    final name = widget._renewal.subscription.name ?? "";
-    if (name != null && name.length >= 2) {
-      return name.substring(0, 2).toUpperCase();
-    }
-    return "";
-  }
+//  String _extractChars() {
+//    final name = widget._renewal.subscription.name ?? "";
+//    if (name != null && name.length >= 2) {
+//      return name.substring(0, 2).toUpperCase();
+//    }
+//    return "";
+//  }
 }
