@@ -31,7 +31,7 @@ class RenewalPeriod {
     }
   }
 
-  static stringValueFromEnum(RenewalPeriodValues enumValue) {
+  static String stringValueFromEnum(RenewalPeriodValues enumValue) {
     switch (enumValue) {
       case RenewalPeriodValues.day:
         return 'Day';
@@ -41,6 +41,8 @@ class RenewalPeriod {
         return 'Month';
       case RenewalPeriodValues.year:
         return 'Year';
+      default:
+        return "";
     }
   }
 }

@@ -70,4 +70,31 @@ class Subscription {
       return "";
     }
   }
+
+  String get priceAtStringFormat {
+    if (price != null) {
+      return "€ ${price.toString()}";
+    } else {
+      return "€ 0.00";
+    }
+  }
+
+  String get nameChars {
+    if (name != null && name.length >= 2) {
+      return name.substring(0, 2).toUpperCase();
+    }
+    return "";
+  }
+
+  String get upperName {
+    if (name != null) {
+      return name[0].toUpperCase() + name.substring(1);
+    } else {
+      return "";
+    }
+  }
+
+  String get firstPaymentAtPretty {
+    return DatesHelper.toStringFromDate(firstBill);
+  }
 }

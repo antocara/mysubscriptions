@@ -27,6 +27,7 @@ dependencies:
   cupertino_icons: ^0.1.2
   intl: ^0.16.0
   flutter_colorpicker: any
+  flutter_custom_clippers: ^1.0.4
 
 dev_dependencies:
   flutter_test:
