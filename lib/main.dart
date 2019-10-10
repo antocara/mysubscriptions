@@ -8,15 +8,10 @@ import 'package:subscriptions/presentations/uncoming_renewals/upcoming_renewals_
 
 void main() => runApp(MyApp());
 
-//void main() async {
-//  ColorHelper.setStatusBarColor();
-//
-//  runApp(MyApp());
-//}
-
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    _initializeServices();
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -25,5 +20,9 @@ class MyApp extends StatelessWidget {
       ),
       home: HomeTabMenuScreen(),
     );
+  }
+
+  void _initializeServices() {
+    PaymentInject.buildPaymentServices().updatePaymentData();
   }
 }
