@@ -83,7 +83,7 @@ class PaymentDao {
     final payments =
         await fetchPaymentsBySubscriptions(subscription: subscription);
     try {
-      return Future.value(payments.first);
+      return Future.value(payments.last);
     } catch (iterableElementError) {
       return Future.value(Payment());
     }

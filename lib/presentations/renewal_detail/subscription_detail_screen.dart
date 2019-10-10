@@ -127,11 +127,24 @@ class _RenewalDetailState extends State<RenewalDetail> {
   Widget _buildPaymentRow(Payment payment) {
     final date = DatesHelper.toStringFromDate(payment.renewalAt);
     return Padding(
-      padding: const EdgeInsets.only(left: 10, top: 5, bottom: 5, right: 5),
-      child: Text(
-        date,
-        style: TextStyle(
-            fontSize: 20, color: AppColors.kTextCardDetail.withOpacity(0.5)),
+      padding: const EdgeInsets.only(left: 30, top: 5, bottom: 5, right: 25),
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            child: Text(
+              "${payment.subscription.priceAtStringFormat}",
+              style: TextStyle(
+                  fontSize: 23,
+                  color: AppColors.kTextCardDetail.withOpacity(0.5)),
+            ),
+          ),
+          Text(
+            date,
+            style: TextStyle(
+                fontSize: 15,
+                color: AppColors.kTextCardDetail.withOpacity(0.5)),
+          ),
+        ],
       ),
     );
   }

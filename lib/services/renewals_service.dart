@@ -3,7 +3,7 @@ import 'package:subscriptions/data/entities/renewal_period.dart';
 import 'package:subscriptions/data/entities/subscription.dart';
 
 class RenewalsService {
-  static final maxRenewalDate = DateTime(2050, 1, 1);
+  static final maxRenewalDate = DateTime(2040, 1, 1);
 
   Future<List<Renewal>> createRenewalsForSubscription(
       Subscription subscription) async {

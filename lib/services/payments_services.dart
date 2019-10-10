@@ -48,12 +48,14 @@ class PaymentServices {
           subscription: payment.subscription,
           startDate: payment.subscription.firstBill,
           endDate: DateTime.now());
-    } else {
+    } else if (payment.renewalAt.isBefore(DateTime.now())) {
       //existe algún pago guardado
       return await _renewalsService.createRenewalsForSubscriptionBetween(
           subscription: payment.subscription,
           startDate: payment.insertAt,
           endDate: DateTime.now());
+    } else {
+      return Future.value([]);
     }
   }
 }

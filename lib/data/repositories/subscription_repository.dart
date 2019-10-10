@@ -1,5 +1,6 @@
 import 'package:subscriptions/data/database/daos/renewal_dao.dart';
 import 'package:subscriptions/data/database/daos/subscription_dao.dart';
+import 'package:subscriptions/data/di/payment_inject.dart';
 import 'package:subscriptions/data/entities/subscription.dart';
 import 'package:subscriptions/services/renewals_service.dart';
 
@@ -25,6 +26,7 @@ class SubscriptionRepository {
     renewalsList.forEach((renewal) {
       _renewalDao.insertRenewal(renewal);
     });
+    PaymentInject.buildPaymentServices().updatePaymentData();
     return Future.value(true);
   }
 
