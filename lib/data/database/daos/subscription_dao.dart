@@ -46,6 +46,16 @@ class SubscriptionDao {
     return Future.value(result);
   }
 
+  Future<List<Subscription>> fetchAllSubscriptions() async {
+    final db = await _database;
+
+    final List<Map<String, dynamic>> maps = await db.query(TABLE_NAME);
+
+    return List.generate(maps.length, (i) {
+      return Subscription.fromMap(maps[i]);
+    });
+  }
+
   Future<List<Subscription>> fetchAllSubscriptionsUntil(
       {DateTime untilAt}) async {
     final db = await _database;

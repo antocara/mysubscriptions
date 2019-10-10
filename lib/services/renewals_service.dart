@@ -25,6 +25,25 @@ class RenewalsService {
     return Future.value(renewals);
   }
 
+  Future<List<Renewal>> createRenewalsForSubscriptionBetween(
+      {Subscription subscription, DateTime startDate, DateTime endDate}) async {
+    final renewal = subscription.renewal;
+    final renewalPeriod = subscription.renewalPeriod;
+
+    DateTime currentRenewal = startDate;
+
+    List<Renewal> renewals = [_createRenewal(subscription, startDate)];
+
+    while (currentRenewal.isBefore(endDate)) {
+      final nextRenewalDate =
+          _getDurationInDaysFromRenewal(renewalPeriod, renewal, currentRenewal);
+      renewals.add(_createRenewal(subscription, nextRenewalDate));
+      currentRenewal = nextRenewalDate;
+    }
+
+    return Future.value(renewals);
+  }
+
   DateTime _getDurationInDaysFromRenewal(RenewalPeriodValues renewalPeriod,
       int renewalValue, DateTime currentRenewal) {
     switch (renewalPeriod) {

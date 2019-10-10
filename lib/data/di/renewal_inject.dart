@@ -2,6 +2,7 @@ import 'package:subscriptions/data/database/database_provider.dart';
 import 'package:subscriptions/data/database/daos/renewal_dao.dart';
 import 'package:subscriptions/data/di/subscription_inject.dart';
 import 'package:subscriptions/data/repositories/renewal_repository.dart';
+import 'package:subscriptions/services/renewals_service.dart';
 
 class RenewalInject {
   static RenewalRepository buildRenewalRepository() {
@@ -11,5 +12,9 @@ class RenewalInject {
 
   static RenewalDao buildRenewalDao() {
     return RenewalDao(DatabaseProvider.instance.database);
+  }
+
+  static RenewalsService buildRenewalService() {
+    return RenewalsService();
   }
 }
