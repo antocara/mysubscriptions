@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:subscriptions/data/di/payment_inject.dart';
-import 'package:subscriptions/data/di/renewal_inject.dart';
 import 'package:subscriptions/data/entities/payment.dart';
-import 'package:subscriptions/data/entities/renewal.dart';
 import 'package:subscriptions/data/repositories/payment_repository.dart';
-import 'package:subscriptions/data/repositories/renewal_repository.dart';
 import 'package:subscriptions/helpers/dates_helper.dart';
+import 'package:subscriptions/presentations/finance/chart_widgets/pie_chart_this_month.dart';
 import 'package:subscriptions/presentations/styles/colors.dart' as AppColors;
 import 'package:subscriptions/presentations/styles/dimens.dart' as AppDimens;
 
@@ -16,7 +14,6 @@ class FinanceHomeScreen extends StatefulWidget {
 
 class _FinanceHomeScreenState extends State<FinanceHomeScreen> {
   PaymentRepository _paymentRepository;
-  List<Payment> _paymentsThisMonth = List<Payment>();
 
   @override
   void initState() {
@@ -83,29 +80,46 @@ class _FinanceHomeScreenState extends State<FinanceHomeScreen> {
   }
 
   Widget _buildAmountView(String title) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: <Widget>[
-        Text(title,
-            style: TextStyle(color: AppColors.kTextCardDetail, fontSize: 17)),
-        SizedBox(
-          height: 10,
-        ),
-        Text("€ ${_calculateThisMonthAmount()}",
-            style: TextStyle(color: AppColors.kTextCardDetail, fontSize: 25))
-      ],
+    return FutureBuilder(
+      builder: (context, projectSnap) {
+        if (projectSnap.connectionState == ConnectionState.none ||
+            !projectSnap.hasData) {
+          return Container();
+        } else {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Row(children: <Widget>[
+                Text(title,
+                    style: TextStyle(
+                        color: AppColors.kTextCardDetail, fontSize: 20)),
+                SizedBox(
+                  width: 15,
+                ),
+                Text("€ ${_calculateThisMonthAmount(projectSnap.data)}",
+                    style: TextStyle(
+                        color: AppColors.kTextCardDetail, fontSize: 30)),
+              ]),
+              PieChartThisMonth(
+                paymentsThisMonth: projectSnap.data,
+              )
+            ],
+          );
+        }
+      },
+      future: _fetchRenewalsThisMonth(),
     );
   }
 
-  double _calculateThisMonthAmount() {
-    return _paymentsThisMonth.map((payment) {
+  double _calculateThisMonthAmount(List<Payment> payments) {
+    return payments.map((payment) {
       return payment.subscription.price;
     }).fold(0.00, (current, next) {
       return current + next;
     });
   }
 
-  void _fetchRenewalsThisMonth() async {
+  Future<List<Payment>> _fetchRenewalsThisMonth() async {
     final DateTime now = DateTime.now();
     final firstDateThisMonth = DatesHelper.firstDayOfMonth(DateTime.now());
     final DateTime lastDayMonth =
@@ -113,9 +127,6 @@ class _FinanceHomeScreenState extends State<FinanceHomeScreen> {
 
     final result = await _paymentRepository.fetchAllRenewalsByMonth(
         firstDateThisMonth, lastDayMonth);
-
-    setState(() {
-      _paymentsThisMonth = result;
-    });
+    return result;
   }
 }
