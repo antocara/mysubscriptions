@@ -27,4 +27,8 @@ class DatesHelper {
         : new DateTime(month.year + 1, 1, 1);
     return beginningNextMonth.subtract(new Duration(days: 1));
   }
+
+  static DateTime firstDayOfMonth(DateTime month) {
+    return new DateTime(month.year, month.month);
+  }
 }

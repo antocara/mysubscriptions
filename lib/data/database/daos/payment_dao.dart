@@ -43,23 +43,6 @@ class PaymentDao {
     return Future.value(result);
   }
 
-//  Future<List<Payment>> fetchAllPaymentsUntil(
-//      {DateTime untilAt}) async {
-//    final db = await _database;
-//
-//    String whereString = '$columnFirstBill < ?';
-//
-//    final List<Map<String, dynamic>> maps = await db.query(
-//      TABLE_NAME,
-//      where: whereString,
-//      whereArgs: [untilAt.millisecondsSinceEpoch],
-//    );
-//
-//    return List.generate(maps.length, (i) {
-//      return Subscription.fromMap(maps[i]);
-//    });
-//  }
-//
   Future<List<Payment>> fetchPaymentsBySubscriptions(
       {Subscription subscription}) async {
     final db = await _database;
@@ -87,5 +70,26 @@ class PaymentDao {
     } catch (iterableElementError) {
       return Future.value(Payment());
     }
+  }
+
+  Future<List<Payment>> fetchPaymentsBetween(
+      {DateTime starDate, DateTime endDate}) async {
+    final db = await _database;
+
+    String whereString =
+        '$columnRenewalAt >= ? AND $columnRenewalAt <= ? ORDER BY $columnRenewalAt ASC';
+
+    final List<Map<String, dynamic>> maps = await db.query(
+      TABLE_NAME,
+      where: whereString,
+      whereArgs: [
+        starDate.millisecondsSinceEpoch,
+        endDate.millisecondsSinceEpoch
+      ],
+    );
+
+    return List.generate(maps.length, (i) {
+      return Payment.fromMap(maps[i]);
+    });
   }
 }

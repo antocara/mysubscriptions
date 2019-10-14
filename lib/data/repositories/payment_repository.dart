@@ -31,11 +31,19 @@ class PaymentRepository {
     return Future.value(result);
   }
 
-//  Future<List<Renewal>> fetchAllRenewalsBySubscriptionUntil(
-//      Subscription subscription, DateTime until) async {
-//    final result =
-//    await _renewalDao.fetchAllRenewalBy(subscription: subscription);
-//
-//    return result;
-//  }
+  Future<List<Payment>> fetchAllRenewalsByMonth(
+      DateTime startDate, endDate) async {
+    final result = await _paymentDao.fetchPaymentsBetween(
+        starDate: startDate, endDate: endDate);
+
+    final paymentsWithSubscriptions = result.map((payment) async {
+      final subscription = await _subscriptionDao.fetchSubscription(
+          subscription: payment.subscription);
+
+      payment.subscription = subscription;
+      return payment;
+    }).toList();
+
+    return Future.wait(paymentsWithSubscriptions);
+  }
 }
