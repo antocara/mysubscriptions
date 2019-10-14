@@ -79,23 +79,23 @@ class _RenewalDetailState extends State<RenewalDetail> {
   Widget _buildPaymentList() {
     return FutureBuilder(
       builder: (context, projectSnap) {
-        if (projectSnap.connectionState == ConnectionState.none &&
-            projectSnap.hasData == null) {
+        if (projectSnap.connectionState == ConnectionState.none ||
+            !projectSnap.hasData) {
           return CircularProgressIndicator();
+        } else {
+          return ListView.separated(
+            separatorBuilder: (context, index) {
+              return Divider(
+                color: Colors.black.withOpacity(0.3),
+              );
+            },
+            itemCount: projectSnap.data.length,
+            itemBuilder: (context, index) {
+              Payment payment = projectSnap.data[index];
+              return _buildPaymentRow(payment);
+            },
+          );
         }
-
-        return ListView.separated(
-          separatorBuilder: (context, index) {
-            return Divider(
-              color: Colors.black.withOpacity(0.3),
-            );
-          },
-          itemCount: projectSnap.data.length,
-          itemBuilder: (context, index) {
-            Payment payment = projectSnap.data[index];
-            return _buildPaymentRow(payment);
-          },
-        );
       },
       future: _fetchPayments(),
     );
