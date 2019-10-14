@@ -48,36 +48,27 @@ class PieChart2State extends State<PieChartThisMonth> {
   Widget build(BuildContext context) {
     return Row(
       children: <Widget>[
-        const SizedBox(
-          height: 18,
-        ),
         Expanded(
-          child: AspectRatio(
-            aspectRatio: 1,
-            child: FlChart(
-              chart: PieChart(
-                PieChartData(
-                    pieTouchData: PieTouchData(
-                        touchResponseStreamSink:
-                            pieTouchedResultStreamController.sink),
-                    borderData: FlBorderData(
-                      show: false,
-                    ),
-                    sectionsSpace: 0,
-                    centerSpaceRadius: 40,
-                    sections: showingSections()),
-              ),
+          child: FlChart(
+            chart: PieChart(
+              PieChartData(
+                  pieTouchData: PieTouchData(
+                      touchResponseStreamSink:
+                          pieTouchedResultStreamController.sink),
+                  borderData: FlBorderData(
+                    show: false,
+                  ),
+                  sectionsSpace: 5,
+                  centerSpaceRadius: 25,
+                  sections: showingSections()),
             ),
           ),
         ),
         Column(
-          mainAxisSize: MainAxisSize.max,
+          mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: _indicatorsWidgets,
-        ),
-        const SizedBox(
-          width: 28,
         ),
       ],
     );
