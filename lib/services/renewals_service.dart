@@ -3,7 +3,7 @@ import 'package:subscriptions/data/entities/renewal_period.dart';
 import 'package:subscriptions/data/entities/subscription.dart';
 
 class RenewalsService {
-  static final maxRenewalDate = DateTime(2050, 1, 1);
+  static final maxRenewalDate = DateTime(2040, 1, 1);
 
   Future<List<Renewal>> createRenewalsForSubscription(
       Subscription subscription) async {
@@ -16,6 +16,25 @@ class RenewalsService {
     List<Renewal> renewals = [_createRenewal(subscription, firstBill)];
 
     while (currentRenewal.isBefore(maxRenewalDate)) {
+      final nextRenewalDate =
+          _getDurationInDaysFromRenewal(renewalPeriod, renewal, currentRenewal);
+      renewals.add(_createRenewal(subscription, nextRenewalDate));
+      currentRenewal = nextRenewalDate;
+    }
+
+    return Future.value(renewals);
+  }
+
+  Future<List<Renewal>> createRenewalsForSubscriptionBetween(
+      {Subscription subscription, DateTime startDate, DateTime endDate}) async {
+    final renewal = subscription.renewal;
+    final renewalPeriod = subscription.renewalPeriod;
+
+    DateTime currentRenewal = startDate;
+
+    List<Renewal> renewals = [_createRenewal(subscription, startDate)];
+
+    while (currentRenewal.isBefore(endDate)) {
       final nextRenewalDate =
           _getDurationInDaysFromRenewal(renewalPeriod, renewal, currentRenewal);
       renewals.add(_createRenewal(subscription, nextRenewalDate));

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:subscriptions/data/di/renewal_inject.dart';
 import 'package:subscriptions/data/entities/renewal.dart';
+import 'package:subscriptions/data/repositories/renewal_repository.dart';
 import 'package:subscriptions/presentations/navigation_manager.dart';
 import 'package:subscriptions/presentations/uncoming_renewals/card_row.dart';
 import 'package:subscriptions/presentations/uncoming_renewals/header_row.dart';
@@ -14,7 +15,13 @@ class UpcomingRenewalsListScreen extends StatefulWidget {
 
 class _UpcomingRenewalsListScreenState
     extends State<UpcomingRenewalsListScreen> {
-  final _renewalRepository = RenewalInject.buildRenewalRepository();
+  RenewalRepository _renewalRepository;
+
+  @override
+  void initState() {
+    _renewalRepository = RenewalInject.buildRenewalRepository();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

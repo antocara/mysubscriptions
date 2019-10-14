@@ -29,15 +29,7 @@ class _SubscriptionDetailCardState extends State<SubscriptionDetailCard> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: <Widget>[
-        _buildCard(),
-        SizedBox(
-          height: 20,
-        ),
-        _buildCardAmount()
-      ],
-    );
+    return _buildCard();
   }
 
   Widget _buildCard() {
@@ -153,60 +145,6 @@ class _SubscriptionDetailCardState extends State<SubscriptionDetailCard> {
   SizedBox _buildSeparator() {
     return SizedBox(
       height: 15,
-    );
-  }
-
-  Widget _buildCardAmount() {
-    return Card(
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppDimens.borderRadiusCard)),
-      margin: EdgeInsets.symmetric(
-          vertical: 0, horizontal: AppDimens.defaultHorizontalMargin),
-      elevation: 10,
-      child: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Container(
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: _buildCurrentYearAmount(),
-                    flex: 1,
-                  ),
-                  Expanded(
-                    child: _buildTotalAmount(),
-                    flex: 1,
-                  )
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildCurrentYearAmount() {
-    return _buildAmountView("Amount Current Year", "€250.33");
-  }
-
-  Widget _buildTotalAmount() {
-    return _buildAmountView("Total Amount", "€1340");
-  }
-
-  Widget _buildAmountView(String title, String amount) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: <Widget>[
-        Text(title, style: TextStyle(color: _colorTextSubTitles, fontSize: 17)),
-        SizedBox(
-          height: 10,
-        ),
-        Text(amount,
-            style: TextStyle(color: AppColors.kTextCardDetail, fontSize: 25))
-      ],
     );
   }
 }
