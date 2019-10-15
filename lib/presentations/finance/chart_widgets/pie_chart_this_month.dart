@@ -48,7 +48,9 @@ class PieChart2State extends State<PieChartThisMonth> {
   Widget build(BuildContext context) {
     return Row(
       children: <Widget>[
-        Expanded(
+        Container(
+          height: 200,
+          width: 200,
           child: FlChart(
             chart: PieChart(
               PieChartData(
@@ -59,7 +61,7 @@ class PieChart2State extends State<PieChartThisMonth> {
                     show: false,
                   ),
                   sectionsSpace: 5,
-                  centerSpaceRadius: 25,
+                  centerSpaceRadius: 30,
                   sections: showingSections()),
             ),
           ),
@@ -80,14 +82,14 @@ class PieChart2State extends State<PieChartThisMonth> {
         color: payment.subscription.color,
         text: payment.subscription.name,
         isSquare: true,
-      )); // TODO: Whatever layout you need for each widget.
+      ));
     }
   }
 
   List<PieChartSectionData> showingSections() {
     return List.generate(widget._paymentsThisMonth.length, (i) {
       final isTouched = i == touchedIndex;
-      final double fontSize = isTouched ? 25 : 16;
+      final double fontSize = isTouched ? 25 : 14;
       final double radius = isTouched ? 60 : 50;
       final payment = widget._paymentsThisMonth[i];
 
@@ -96,10 +98,7 @@ class PieChart2State extends State<PieChartThisMonth> {
         value: payment.subscription.price,
         title: "€ ${payment.subscription.price}",
         radius: radius,
-        titleStyle: TextStyle(
-            fontSize: fontSize,
-            fontWeight: FontWeight.bold,
-            color: Colors.white),
+        titleStyle: TextStyle(fontSize: fontSize, color: Colors.white),
       );
     });
   }

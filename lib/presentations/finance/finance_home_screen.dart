@@ -3,6 +3,7 @@ import 'package:subscriptions/data/di/payment_inject.dart';
 import 'package:subscriptions/data/entities/payment.dart';
 import 'package:subscriptions/data/repositories/payment_repository.dart';
 import 'package:subscriptions/helpers/dates_helper.dart';
+import 'package:subscriptions/presentations/finance/chart_widgets/bar_chart_yearly.dart';
 import 'package:subscriptions/presentations/finance/chart_widgets/pie_chart_this_month.dart';
 import 'package:subscriptions/presentations/styles/colors.dart' as AppColors;
 import 'package:subscriptions/presentations/styles/dimens.dart' as AppDimens;
@@ -44,9 +45,16 @@ class _FinanceHomeScreenState extends State<FinanceHomeScreen> {
   }
 
   Widget _buildBody(BuildContext context) {
-    return Column(
+    return ListView(
       children: <Widget>[
         _buildCardAmount(),
+        SizedBox(
+          height: 10,
+        ),
+        _buildYearlyCard(),
+        SizedBox(
+          height: 10,
+        ),
       ],
     );
   }
@@ -59,7 +67,7 @@ class _FinanceHomeScreenState extends State<FinanceHomeScreen> {
           vertical: 0, horizontal: AppDimens.defaultHorizontalMargin),
       elevation: 10,
       child: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(0.0),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
@@ -80,34 +88,50 @@ class _FinanceHomeScreenState extends State<FinanceHomeScreen> {
   }
 
   Widget _buildAmountView(String title) {
-    return FutureBuilder(
-      builder: (context, projectSnap) {
-        if (projectSnap.connectionState == ConnectionState.none ||
-            !projectSnap.hasData) {
-          return Container();
-        } else {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Row(children: <Widget>[
-                Text(title,
-                    style: TextStyle(
-                        color: AppColors.kTextCardDetail, fontSize: 20)),
-                SizedBox(
-                  width: 15,
-                ),
-                Text("€ ${_calculateThisMonthAmount(projectSnap.data)}",
-                    style: TextStyle(
-                        color: AppColors.kTextCardDetail, fontSize: 30)),
-              ]),
-              PieChartThisMonth(
-                paymentsThisMonth: projectSnap.data,
-              )
-            ],
-          );
-        }
-      },
-      future: _fetchRenewalsThisMonth(),
+    return Center(
+      child: FutureBuilder(
+        builder: (context, projectSnap) {
+          if (projectSnap.connectionState == ConnectionState.none ||
+              !projectSnap.hasData) {
+            return Container();
+          } else {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Row(children: <Widget>[
+                  Text(title,
+                      style: TextStyle(
+                          color: AppColors.kTextCardDetail, fontSize: 20)),
+                  SizedBox(
+                    width: 15,
+                  ),
+                  Text("€ ${_calculateThisMonthAmount(projectSnap.data)}",
+                      style: TextStyle(
+                          color: AppColors.kTextCardDetail, fontSize: 30)),
+                ]),
+                PieChartThisMonth(
+                  paymentsThisMonth: projectSnap.data,
+                )
+              ],
+            );
+          }
+        },
+        future: _fetchRenewalsThisMonth(),
+      ),
+    );
+  }
+
+  Widget _buildYearlyCard() {
+    return Container(
+      height: 350,
+      child: Card(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppDimens.borderRadiusCard)),
+        margin: EdgeInsets.symmetric(
+            vertical: 0, horizontal: AppDimens.defaultHorizontalMargin),
+        elevation: 10,
+        child: BarChartYearly(),
+      ),
     );
   }
 

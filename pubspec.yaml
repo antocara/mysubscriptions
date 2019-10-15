@@ -29,6 +29,7 @@ dependencies:
   flutter_colorpicker: any
   flutter_custom_clippers: ^1.0.4
   fl_chart: ^0.3.4
+  charts_flutter: ^0.8.1
 
 dev_dependencies:
   flutter_test:
