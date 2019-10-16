@@ -4,7 +4,7 @@ import 'package:subscriptions/data/entities/payment.dart';
 import 'package:subscriptions/data/repositories/payment_repository.dart';
 import 'package:subscriptions/helpers/dates_helper.dart';
 import 'package:subscriptions/presentations/finance/chart_widgets/bar_chart_yearly.dart';
-import 'package:subscriptions/presentations/finance/chart_widgets/pie_chart_this_month.dart';
+import 'package:subscriptions/presentations/finance/chart_widgets/semi_circle_chart.dart';
 import 'package:subscriptions/presentations/styles/colors.dart' as AppColors;
 import 'package:subscriptions/presentations/styles/dimens.dart' as AppDimens;
 
@@ -64,7 +64,7 @@ class _FinanceHomeScreenState extends State<FinanceHomeScreen> {
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppDimens.borderRadiusCard)),
       margin: EdgeInsets.symmetric(
-          vertical: 0, horizontal: AppDimens.defaultHorizontalMargin),
+          vertical: 0, horizontal: AppDimens.kDefaultHorizontalMargin),
       elevation: 10,
       child: Padding(
         padding: const EdgeInsets.all(0.0),
@@ -109,9 +109,7 @@ class _FinanceHomeScreenState extends State<FinanceHomeScreen> {
                       style: TextStyle(
                           color: AppColors.kTextCardDetail, fontSize: 30)),
                 ]),
-                PieChartThisMonth(
-                  paymentsThisMonth: projectSnap.data,
-                )
+                SemiCircleChart(paymentsThisMonth: projectSnap.data)
               ],
             );
           }
@@ -135,7 +133,7 @@ class _FinanceHomeScreenState extends State<FinanceHomeScreen> {
                   borderRadius:
                       BorderRadius.circular(AppDimens.borderRadiusCard)),
               margin: EdgeInsets.symmetric(
-                  vertical: 0, horizontal: AppDimens.defaultHorizontalMargin),
+                  vertical: 0, horizontal: AppDimens.kDefaultHorizontalMargin),
               elevation: 10,
               child: BarChartYearly(
                 paymentList: projectSnap.data,

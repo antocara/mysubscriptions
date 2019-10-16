@@ -116,7 +116,10 @@ class _RenewalDetailState extends State<RenewalDetail> {
   Widget _buildPaymentListTitle() {
     return Padding(
       padding: const EdgeInsets.only(
-          left: AppDimens.defaultHorizontalMargin, top: 5, right: 3, bottom: 3),
+          left: AppDimens.kDefaultHorizontalMargin,
+          top: 5,
+          right: 3,
+          bottom: 3),
       child: Text(
         "Payments",
         style: TextStyle(fontSize: 20, color: AppColors.kTextCardDetail),

@@ -49,7 +49,6 @@ class _BarChartYearlyState extends State<BarChartYearly> {
   }
 
   Series<SubscriptionData, String> _createSerie(Subscription subscription) {
-    print("filtro pasado => ${subscription.name}");
     return Series<SubscriptionData, String>(
       id: subscription.name,
       seriesColor: _createColor(subscription),
@@ -81,7 +80,6 @@ class _BarChartYearlyState extends State<BarChartYearly> {
   }
 }
 
-/// Sample ordinal data type.
 class SubscriptionData {
   final String month;
   final double price;
