@@ -1,18 +1,26 @@
 import 'package:charts_flutter/flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart' as prefix1;
+import 'package:subscriptions/data/entities/payment.dart';
+import 'package:subscriptions/data/entities/subscription.dart';
+import 'package:subscriptions/helpers/dates_helper.dart';
 
 class BarChartYearly extends StatefulWidget {
+  BarChartYearly({Key key, List<Payment> paymentList})
+      : _paymentList = paymentList,
+        super(key: key);
+
+  List<Payment> _paymentList;
+
   @override
   _BarChartYearlyState createState() => _BarChartYearlyState();
 }
 
 class _BarChartYearlyState extends State<BarChartYearly> {
-  List<Series> seriesList;
+  List<Series<SubscriptionData, String>> _data;
 
   @override
   void initState() {
-    seriesList = _createSampleData();
+    _createData();
     super.initState();
   }
 
@@ -20,124 +28,63 @@ class _BarChartYearlyState extends State<BarChartYearly> {
   Widget build(BuildContext context) {
     // For horizontal bar charts, set the [vertical] flag to false.
     return new BarChart(
-      seriesList,
+      _data,
       animate: true,
       barGroupingType: BarGroupingType.stacked,
       vertical: true,
     );
   }
 
-  /// Create series list with multiple series
-  List<Series<OrdinalSales, String>> _createSampleData() {
-    final desktopSalesData = [
-      new OrdinalSales('Ene', 5),
-      new OrdinalSales('Feb', 25),
-      new OrdinalSales('Mar', 40),
-      new OrdinalSales('Abr', 15),
-      new OrdinalSales('May', 5),
-      new OrdinalSales('Jun', 25),
-      new OrdinalSales('Jul', 40),
-      new OrdinalSales('Ago', 15),
-      new OrdinalSales('Sep', 5),
-      new OrdinalSales('Oct', 25),
-      new OrdinalSales('Nov', 40),
-      new OrdinalSales('Dic', 15),
-    ];
+  void _createData() {
+    _data = widget._paymentList
+        .map((payment) {
+          return payment.subscription;
+        })
+        .toSet()
+        .toList()
+        .map((subscription) {
+          return _createSerie(subscription);
+        })
+        .toList();
+  }
 
-    final tableSalesData = [
-      new OrdinalSales('Ene', 5),
-      new OrdinalSales('Feb', 25),
-      new OrdinalSales('Mar', 40),
-      new OrdinalSales('Abr', 15),
-      new OrdinalSales('May', 5),
-      new OrdinalSales('Jun', 25),
-      new OrdinalSales('Jul', 40),
-      new OrdinalSales('Ago', 15),
-      new OrdinalSales('Sep', 5),
-      new OrdinalSales('Oct', 25),
-      new OrdinalSales('Nov', 40),
-      new OrdinalSales('Dic', 15),
-    ];
+  Series<SubscriptionData, String> _createSerie(Subscription subscription) {
+    print("filtro pasado => ${subscription.name}");
+    return Series<SubscriptionData, String>(
+      id: subscription.name,
+      seriesColor: _createColor(subscription),
+      domainFn: (SubscriptionData data, _) {
+        return data.month;
+      },
+      measureFn: (SubscriptionData data, _) {
+        return data.price;
+      },
+      data: _createSerieData(subscription),
+    );
+  }
 
-    final mobileSalesData = [
-      new OrdinalSales('Ene', 5),
-      new OrdinalSales('Feb', 25),
-      new OrdinalSales('Mar', 40),
-      new OrdinalSales('Abr', 15),
-      new OrdinalSales('May', 5),
-      new OrdinalSales('Jun', 25),
-      new OrdinalSales('Jul', 40),
-      new OrdinalSales('Ago', 15),
-      new OrdinalSales('Sep', 5),
-      new OrdinalSales('Oct', 25),
-      new OrdinalSales('Nov', 40),
-      new OrdinalSales('Dic', 15),
-    ];
+  List<SubscriptionData> _createSerieData(Subscription subscription) {
+    return widget._paymentList.where((payment) {
+      return payment.subscription.id == subscription.id;
+    }).map((payment) {
+      return SubscriptionData(
+          DatesHelper.parseNumberMonthToName(payment.renewalAt.month),
+          payment.subscription.price);
+    }).toList();
+  }
 
-    final mobileSalesData2 = [
-      new OrdinalSales('Ene', 5),
-      new OrdinalSales('Feb', 25),
-      new OrdinalSales('Mar', 40),
-      new OrdinalSales('Abr', 15),
-      new OrdinalSales('May', 5),
-      new OrdinalSales('Jun', 25),
-      new OrdinalSales('Jul', 40),
-      new OrdinalSales('Ago', 15),
-      new OrdinalSales('Sep', 5),
-      new OrdinalSales('Oct', 25),
-      new OrdinalSales('Nov', 40),
-      new OrdinalSales('Dic', 15),
-    ];
-
-    return [
-      new Series<OrdinalSales, String>(
-        id: 'Desktop',
-        seriesColor: Color(
-            b: prefix1.Colors.green[100].blue,
-            r: prefix1.Colors.green[100].red,
-            g: prefix1.Colors.green[100].green),
-        domainFn: (OrdinalSales sales, _) => sales.year,
-        measureFn: (OrdinalSales sales, _) => sales.sales,
-        data: desktopSalesData,
-      ),
-      new Series<OrdinalSales, String>(
-        id: 'Tablet',
-        seriesColor: Color(
-            b: prefix1.Colors.green[200].blue,
-            r: prefix1.Colors.green[200].red,
-            g: prefix1.Colors.green[200].green),
-        domainFn: (OrdinalSales sales, _) => sales.year,
-        measureFn: (OrdinalSales sales, _) => sales.sales,
-        data: tableSalesData,
-      ),
-      new Series<OrdinalSales, String>(
-        id: 'Mobile',
-        seriesColor: Color(
-            b: prefix1.Colors.green[300].blue,
-            r: prefix1.Colors.green[300].red,
-            g: prefix1.Colors.green[300].green),
-        domainFn: (OrdinalSales sales, _) => sales.year,
-        measureFn: (OrdinalSales sales, _) => sales.sales,
-        data: mobileSalesData,
-      ),
-      new Series<OrdinalSales, String>(
-        id: 'Mobile2',
-        seriesColor: Color(
-            b: prefix1.Colors.green[400].blue,
-            r: prefix1.Colors.green[400].red,
-            g: prefix1.Colors.green[400].green),
-        domainFn: (OrdinalSales sales, _) => sales.year,
-        measureFn: (OrdinalSales sales, _) => sales.sales,
-        data: mobileSalesData2,
-      ),
-    ];
+  Color _createColor(Subscription subscription) {
+    return Color(
+        b: subscription.color.blue,
+        r: subscription.color.red,
+        g: subscription.color.green);
   }
 }
 
 /// Sample ordinal data type.
-class OrdinalSales {
-  final String year;
-  final int sales;
+class SubscriptionData {
+  final String month;
+  final double price;
 
-  OrdinalSales(this.year, this.sales);
+  SubscriptionData(this.month, this.price);
 }

@@ -122,16 +122,29 @@ class _FinanceHomeScreenState extends State<FinanceHomeScreen> {
   }
 
   Widget _buildYearlyCard() {
-    return Container(
-      height: 350,
-      child: Card(
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(AppDimens.borderRadiusCard)),
-        margin: EdgeInsets.symmetric(
-            vertical: 0, horizontal: AppDimens.defaultHorizontalMargin),
-        elevation: 10,
-        child: BarChartYearly(),
-      ),
+    return FutureBuilder(
+      builder: (context, projectSnap) {
+        if (projectSnap.connectionState == ConnectionState.none ||
+            !projectSnap.hasData) {
+          return Container();
+        } else {
+          return Container(
+            height: 350,
+            child: Card(
+              shape: RoundedRectangleBorder(
+                  borderRadius:
+                      BorderRadius.circular(AppDimens.borderRadiusCard)),
+              margin: EdgeInsets.symmetric(
+                  vertical: 0, horizontal: AppDimens.defaultHorizontalMargin),
+              elevation: 10,
+              child: BarChartYearly(
+                paymentList: projectSnap.data,
+              ),
+            ),
+          );
+        }
+      },
+      future: _fetchRenewalsUntilToday(),
     );
   }
 
@@ -151,6 +164,15 @@ class _FinanceHomeScreenState extends State<FinanceHomeScreen> {
 
     final result = await _paymentRepository.fetchAllRenewalsByMonth(
         firstDateThisMonth, lastDayMonth);
+    return result;
+  }
+
+  Future<List<Payment>> _fetchRenewalsUntilToday() async {
+    final DateTime now = DateTime.now();
+    final firstDateYear = DatesHelper.firstDayOfYear(DateTime.now());
+
+    final result =
+        await _paymentRepository.fetchAllRenewalsByMonth(firstDateYear, now);
     return result;
   }
 }
