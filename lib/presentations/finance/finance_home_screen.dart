@@ -4,6 +4,7 @@ import 'package:subscriptions/presentations/finance/month_chart_screen.dart';
 import 'package:subscriptions/presentations/finance/total_chart_screen.dart';
 import 'package:subscriptions/presentations/finance/year_chart_screen.dart';
 import 'package:subscriptions/presentations/styles/colors.dart' as AppColors;
+import 'package:subscriptions/presentations/widgets/background_circles.dart';
 
 class FinanceHomeScreen extends StatefulWidget {
   @override
@@ -40,18 +41,28 @@ class _FinanceHomeScreenState extends State<FinanceHomeScreen>
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-        backgroundColor: Colors.transparent,
-        appBar: new AppBar(
-            iconTheme: IconThemeData(color: AppColors.kAppBarTitleDetail),
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            title: Text("Finance",
-                style: TextStyle(
-                  color: AppColors.kAppBarTitleDetail,
-                )),
-            bottom: _buildBubbleTabBar()),
-        body: _buildTabBarView());
+    return Stack(
+      children: <Widget>[
+        BackgroundCircles(),
+        _buildScaffold(),
+      ],
+    );
+  }
+
+  Scaffold _buildScaffold() {
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      appBar: new AppBar(
+          iconTheme: IconThemeData(color: AppColors.kAppBarTitleDetail),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          title: Text("Finance",
+              style: TextStyle(
+                color: AppColors.kAppBarTitleDetail,
+              )),
+          bottom: _buildBubbleTabBar()),
+      body: _buildTabBarView(),
+    );
   }
 
   Widget _buildBubbleTabBar() {

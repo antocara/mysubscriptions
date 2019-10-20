@@ -1,10 +1,9 @@
+import 'dart:math';
+
 import 'package:charts_flutter/flutter.dart';
-import 'package:flutter/cupertino.dart' as prefix1;
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart' as prefix0;
 import 'package:subscriptions/data/entities/payment.dart';
 import 'package:subscriptions/data/entities/subscription.dart';
-import 'package:subscriptions/presentations/styles/dimens.dart';
 
 class SemiCircleChart extends StatefulWidget {
   SemiCircleChart({Key key, List<Payment> paymentsThisMonth})
@@ -19,7 +18,6 @@ class SemiCircleChart extends StatefulWidget {
 
 class _SemiCircleChartState extends State<SemiCircleChart> {
   List<Series<SubscriptionData, String>> _data;
-  List<Widget> _legend;
 
   @override
   void initState() {
@@ -29,43 +27,30 @@ class _SemiCircleChartState extends State<SemiCircleChart> {
 
   @override
   Widget build(BuildContext context) {
-    return prefix1.Row(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        _buildPieChart(),
-        Expanded(child: _buidlLegend()),
-      ],
-    );
-  }
-
-  Widget _buidlLegend() {
-    return Padding(
-      padding: const EdgeInsets.all(kDefaultHorizontalMargin),
-      child: Column(
-        mainAxisAlignment: prefix1.MainAxisAlignment.center,
-        children: _legend,
-      ),
-    );
+    return _buildPieChart();
   }
 
   Widget _buildPieChart() {
-    return Container(
-      height: 200,
-      width: 200,
-      child: PieChart(_data,
-          animate: true,
-          defaultRenderer: ArcRendererConfig(
-            arcWidth: 35,
-            arcRendererDecorators: [
-              ArcLabelDecorator(),
-            ],
-          )),
+    final marginsTop = MarginSpec.fixedPixel(0);
+    final marginsBottom = MarginSpec.fixedPixel(10);
+    return PieChart(
+      _data,
+      layoutConfig: LayoutConfig(
+          topMarginSpec: marginsTop,
+          rightMarginSpec: marginsTop,
+          leftMarginSpec: marginsTop,
+          bottomMarginSpec: marginsBottom),
+      animate: true,
+      defaultRenderer: ArcRendererConfig(
+          arcWidth: 50,
+          startAngle: 4 / 5 * pi,
+          arcLength: 7 / 5 * pi,
+          arcRendererDecorators: [new ArcLabelDecorator()]),
     );
   }
 
   void _createData() {
     _data = _createSerie();
-    _buildLegend();
   }
 
   List<Series<SubscriptionData, String>> _createSerie() {
@@ -81,9 +66,7 @@ class _SemiCircleChartState extends State<SemiCircleChart> {
         colorFn: (SubscriptionData data, _) {
           return data.color;
         },
-        labelAccessorFn: (SubscriptionData data, _) {
-          return data.price.toString();
-        },
+        labelAccessorFn: (SubscriptionData row, _) => '€${row.price}',
         data: _createSerieData(),
       )
     ];
@@ -104,26 +87,6 @@ class _SemiCircleChartState extends State<SemiCircleChart> {
         b: subscription.color.blue,
         r: subscription.color.red,
         g: subscription.color.green);
-  }
-
-  void _buildLegend() {
-    _legend = widget._paymentsThisMonth
-        .map((payment) {
-          return payment.subscription;
-        })
-        .toSet()
-        .toList()
-        .map((subscription) {
-          return Chip(
-            elevation: 8,
-            backgroundColor: subscription.color,
-            label: Text(
-              subscription.name,
-              style: TextStyle(color: Colors.white),
-            ),
-          );
-        })
-        .toList();
   }
 }
 

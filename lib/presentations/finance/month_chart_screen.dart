@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:subscriptions/data/di/payment_inject.dart';
 import 'package:subscriptions/data/entities/payment.dart';
+import 'package:subscriptions/data/entities/subscription.dart';
 import 'package:subscriptions/data/repositories/payment_repository.dart';
 import 'package:subscriptions/helpers/dates_helper.dart';
 import 'package:subscriptions/presentations/finance/chart_widgets/semi_circle_chart.dart';
 import 'package:subscriptions/presentations/styles/colors.dart' as AppColors;
-import 'package:subscriptions/presentations/styles/dimens.dart' as AppDimens;
 
 class MonthChartScreen extends StatefulWidget {
   @override
@@ -23,38 +24,10 @@ class _MonthChartScreenState extends State<MonthChartScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return _buildCardAmount();
+    return _buildBody();
   }
 
-  Widget _buildCardAmount() {
-    return Card(
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppDimens.borderRadiusCard)),
-      margin: EdgeInsets.symmetric(
-          vertical: 0, horizontal: AppDimens.kDefaultHorizontalMargin),
-      elevation: 10,
-      child: Padding(
-        padding: const EdgeInsets.all(0.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Container(
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: _buildAmountView("This month"),
-                    flex: 1,
-                  )
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildAmountView(String title) {
+  Widget _buildBody() {
     return Center(
       child: FutureBuilder(
         builder: (context, projectSnap) {
@@ -65,23 +38,98 @@ class _MonthChartScreenState extends State<MonthChartScreen> {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Row(children: <Widget>[
-                  Text(title,
-                      style: TextStyle(
-                          color: AppColors.kTextCardDetail, fontSize: 20)),
-                  SizedBox(
-                    width: 15,
-                  ),
-                  Text("€ ${_calculateThisMonthAmount(projectSnap.data)}",
-                      style: TextStyle(
-                          color: AppColors.kTextCardDetail, fontSize: 30)),
-                ]),
-                SemiCircleChart(paymentsThisMonth: projectSnap.data)
+                _buildChart(projectSnap.data),
+                _buildAmount(projectSnap.data),
+                SizedBox(
+                  height: 10,
+                ),
+                _buildSubscriptionList(projectSnap.data)
               ],
             );
           }
         },
         future: _fetchRenewalsThisMonth(),
+      ),
+    );
+  }
+
+  Widget _buildAmount(List<Payment> payments) {
+    return Container(
+      alignment: Alignment(1.0, 1.0),
+      margin: EdgeInsets.only(left: 30, right: 10),
+      child:
+          Column(crossAxisAlignment: CrossAxisAlignment.end, children: <Widget>[
+        Text(
+          "Expenses",
+          style: TextStyle(color: AppColors.kTextCardDetail, fontSize: 15),
+        ),
+        Text(
+          "€ ${_calculateThisMonthAmount(payments)}",
+          style: TextStyle(color: AppColors.kTextCardDetail, fontSize: 25),
+        ),
+      ]),
+    );
+  }
+
+  Widget _buildChart(List<Payment> data) {
+    return Container(
+      height: 200,
+      child: SemiCircleChart(paymentsThisMonth: data),
+    );
+  }
+
+  Widget _buildSubscriptionList(List<Payment> payments) {
+    return Expanded(
+      child: ListView.builder(
+        itemCount: payments.length,
+        itemBuilder: (context, index) {
+          final subscription = payments[index].subscription;
+          return _buildRow(subscription);
+        },
+      ),
+    );
+  }
+
+  Widget _buildRow(Subscription subscription) {
+    return Stack(
+      children: <Widget>[
+        _buildBackColorRow(subscription),
+        Container(
+          color: subscription.color.withOpacity(0.4),
+          height: 45,
+          margin: EdgeInsets.only(left: 0, right: 0),
+          child: Padding(
+            padding: EdgeInsets.only(left: 30, right: 10),
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                    child: Text(
+                  subscription.name,
+                  style: TextStyle(color: Colors.white, fontSize: 16),
+                )),
+                Text("€${subscription.price}",
+                    style: TextStyle(color: Colors.white, fontSize: 16))
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildBackColorRow(Subscription subscription) {
+    return Align(
+      alignment: Alignment.centerRight,
+      child: Container(
+        decoration: BoxDecoration(
+          color: subscription.color.withOpacity(0.6),
+          borderRadius: BorderRadius.only(
+            bottomLeft: const Radius.circular(20),
+            topLeft: const Radius.circular(20),
+          ),
+        ),
+        width: 10 * subscription.price,
+        height: 45,
       ),
     );
   }
@@ -102,6 +150,10 @@ class _MonthChartScreenState extends State<MonthChartScreen> {
 
     final result = await _paymentRepository.fetchAllRenewalsByMonth(
         firstDateThisMonth, lastDayMonth);
+    result.sort((first, second) {
+      return second.subscription.price.compareTo(first.subscription.price);
+    });
+
     return result;
   }
 }
