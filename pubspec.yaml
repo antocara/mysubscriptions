@@ -30,6 +30,7 @@ dependencies:
   flutter_custom_clippers: ^1.0.4
   charts_flutter: ^0.8.1
   bubble_tab_indicator: "^0.1.4"
+  sticky_headers: "^0.1.8"
 
 dev_dependencies:
   flutter_test:
