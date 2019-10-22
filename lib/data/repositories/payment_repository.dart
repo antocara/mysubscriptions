@@ -46,4 +46,18 @@ class PaymentRepository {
 
     return Future.wait(paymentsWithSubscriptions);
   }
+
+  Future<List<Payment>> fetchAllRenewals() async {
+    final result = await _paymentDao.fetchAllPayments();
+
+    final paymentsWithSubscriptions = result.map((payment) async {
+      final subscription = await _subscriptionDao.fetchSubscription(
+          subscription: payment.subscription);
+
+      payment.subscription = subscription;
+      return payment;
+    }).toList();
+
+    return Future.wait(paymentsWithSubscriptions);
+  }
 }

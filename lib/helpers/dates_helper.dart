@@ -19,6 +19,12 @@ class DatesHelper {
     return formatter.format(date);
   }
 
+  static String toStringWithYear(DateTime date) {
+    if (date == null) return "";
+    var formatter = new DateFormat('yyyy');
+    return formatter.format(date);
+  }
+
   static DateTime toDateFromEpoch(int epochValue) {
     DateTime date = new DateTime.fromMillisecondsSinceEpoch(epochValue);
     var stringDate = toStringFromDate(date);

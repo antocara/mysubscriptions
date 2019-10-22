@@ -92,4 +92,14 @@ class PaymentDao {
       return Payment.fromMap(maps[i]);
     });
   }
+
+  Future<List<Payment>> fetchAllPayments() async {
+    final db = await _database;
+
+    final List<Map<String, dynamic>> maps = await db.query(TABLE_NAME);
+
+    return List.generate(maps.length, (i) {
+      return Payment.fromMap(maps[i]);
+    });
+  }
 }

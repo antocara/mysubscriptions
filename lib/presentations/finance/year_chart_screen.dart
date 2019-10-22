@@ -208,7 +208,7 @@ class _YearChartScreenState extends State<YearChartScreen> {
   }
 
   Future<Map<String, List<Payment>>> _groupData(List<Payment> result) async {
-    return await groupBy(result, (Payment obj) {
+    return groupBy(result, (Payment obj) {
       return DatesHelper.toStringWithMonthAndYear(obj.renewalAt);
     });
   }

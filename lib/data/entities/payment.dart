@@ -2,7 +2,7 @@ import 'package:subscriptions/data/entities/renewal.dart';
 import 'package:subscriptions/data/entities/subscription.dart';
 import 'package:subscriptions/helpers/dates_helper.dart';
 
-class Payment {
+class Payment implements Comparable<Payment> {
   Payment(
       {this.id,
       this.renewal,
@@ -50,5 +50,10 @@ class Payment {
 
   String get renewalAtPretty {
     return DatesHelper.toStringFromDate(renewalAt);
+  }
+
+  @override
+  int compareTo(Payment other) {
+    return subscription.price < other.subscription.price ? 1 : 0;
   }
 }
