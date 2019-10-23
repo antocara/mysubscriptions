@@ -31,6 +31,8 @@ dependencies:
   charts_flutter: ^0.8.1
   bubble_tab_indicator: "^0.1.4"
   sticky_headers: "^0.1.8"
+  package_info: ^0.4.0+9
+  share: ^0.6.3
 
 dev_dependencies:
   flutter_test:

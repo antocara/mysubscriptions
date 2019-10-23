@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:subscriptions/presentations/finance/finance_home_screen.dart';
+import 'package:subscriptions/presentations/settings/settings_screen.dart';
 import 'package:subscriptions/presentations/uncoming_renewals/upcoming_renewals_list_screen.dart';
 
 import '../styles/colors.dart' as AppColors;
@@ -15,7 +16,7 @@ class _HomeTabMenuScreenState extends State<HomeTabMenuScreen> {
   List<Widget> tabsScreen = [
     UpcomingRenewalsListScreen(),
     FinanceHomeScreen(),
-    UpcomingRenewalsListScreen(),
+    SettingsScreen(),
   ];
 
   @override
