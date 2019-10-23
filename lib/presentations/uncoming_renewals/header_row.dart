@@ -18,7 +18,7 @@ class _HeaderRowState extends State<HeaderRow> {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(
-          vertical: 0, horizontal: AppDimens.defaultHorizontalMargin),
+          vertical: 0, horizontal: AppDimens.kDefaultHorizontalMargin),
       height: 60,
       child: Row(
         children: <Widget>[

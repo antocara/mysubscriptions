@@ -37,7 +37,7 @@ class _SubscriptionDetailCardState extends State<SubscriptionDetailCard> {
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppDimens.borderRadiusCard)),
       margin: EdgeInsets.symmetric(
-          vertical: 0, horizontal: AppDimens.defaultHorizontalMargin),
+          vertical: 0, horizontal: AppDimens.kDefaultHorizontalMargin),
       elevation: 10,
       child: Padding(
         padding: const EdgeInsets.all(20.0),

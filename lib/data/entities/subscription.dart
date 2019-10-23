@@ -97,4 +97,8 @@ class Subscription {
   String get firstPaymentAtPretty {
     return DatesHelper.toStringFromDate(firstBill);
   }
+
+  @override
+  bool operator ==(o) => o is Subscription && name == o.name;
+  int get hashCode => name.hashCode + colorValue.hashCode;
 }

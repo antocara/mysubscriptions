@@ -21,7 +21,7 @@ class _RenewalCardState extends State<RenewalCard> {
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppDimens.borderRadiusCard)),
       margin: EdgeInsets.symmetric(
-          vertical: 0, horizontal: AppDimens.defaultHorizontalMargin),
+          vertical: 0, horizontal: AppDimens.kDefaultHorizontalMargin),
       elevation: 10,
       color: widget._renewal.subscription.color ?? Colors.black,
       child: Padding(
