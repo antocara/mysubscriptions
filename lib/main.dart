@@ -15,12 +15,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _initializeMaterialApp();
+    return _initializeMaterialApp(context);
   }
 
-  MaterialApp _initializeMaterialApp() {
+  MaterialApp _initializeMaterialApp(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
       theme: _initializeTheme(),
       // List all of the app's supported locales here
       supportedLocales: _locales,
@@ -31,6 +30,7 @@ class MyApp extends StatelessWidget {
         return _initializeLocations(locale, supportedLocales);
       },
       home: HomeTabMenuScreen(),
+      title: "Subscriptions",
     );
   }
 

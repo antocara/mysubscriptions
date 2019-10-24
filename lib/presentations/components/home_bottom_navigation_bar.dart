@@ -19,18 +19,18 @@ class _HomeBottomNavigationBarState extends State<HomeBottomNavigationBar> {
 
   @override
   Widget build(BuildContext context) {
-    return _buildNavigationBar();
+    return _buildNavigationBar(context);
   }
 
-  BottomNavigationBar _buildNavigationBar() {
+  BottomNavigationBar _buildNavigationBar(BuildContext context) {
     return BottomNavigationBar(
       onTap: (index) => _onItemTabTaped(index),
       currentIndex: _currentTabIndex,
-      items: _buildNavigationItems(),
+      items: _buildNavigationItems(context),
     );
   }
 
-  List<BottomNavigationBarItem> _buildNavigationItems() {
+  List<BottomNavigationBarItem> _buildNavigationItems(BuildContext context) {
     return [
       HomeBottomNavigationBarItem.navigationBarItem(
           title: AppLocalizations.of(context).translate('upcoming'),
