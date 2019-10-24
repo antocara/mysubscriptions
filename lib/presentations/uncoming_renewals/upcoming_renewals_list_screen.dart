@@ -5,7 +5,7 @@ import 'package:subscriptions/data/repositories/renewal_repository.dart';
 import 'package:subscriptions/presentations/navigation_manager.dart';
 import 'package:subscriptions/presentations/uncoming_renewals/card_row.dart';
 import 'package:subscriptions/presentations/uncoming_renewals/header_row.dart';
-import 'package:subscriptions/presentations/widgets/default_app_bar.dart';
+import 'package:subscriptions/presentations/components/default_app_bar.dart';
 
 class UpcomingRenewalsListScreen extends StatefulWidget {
   @override

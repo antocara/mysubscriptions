@@ -13,7 +13,7 @@ class HomeTabMenuScreen extends StatefulWidget {
 class _HomeTabMenuScreenState extends State<HomeTabMenuScreen> {
   int _currentTabIndex = 0;
 
-  List<Widget> tabsScreen = [
+  List<Widget> _tabsScreen = [
     UpcomingRenewalsListScreen(),
     FinanceHomeScreen(),
     SettingsScreen(),
@@ -32,7 +32,7 @@ class _HomeTabMenuScreenState extends State<HomeTabMenuScreen> {
           _buildBottomItem("Settings", Icons.settings_applications),
         ],
       ),
-      body: tabsScreen[_currentTabIndex],
+      body: _tabsScreen[_currentTabIndex],
     );
   }
 

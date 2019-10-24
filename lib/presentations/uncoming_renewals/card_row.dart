@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:subscriptions/data/entities/renewal.dart';
-import 'package:subscriptions/presentations/widgets/renewal_card.dart';
+import 'package:subscriptions/presentations/components/renewal_card.dart';
 
 class CardRow extends StatefulWidget {
   CardRow({Key key, @required Renewal renewal, @required Function onTap})

@@ -9,9 +9,12 @@ import 'package:subscriptions/presentations/uncoming_renewals/upcoming_renewals_
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+  MyApp() {
+    _initializeServices();
+  }
+
   @override
   Widget build(BuildContext context) {
-    _initializeServices();
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
