@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:subscriptions/app_localizations.dart';
 import 'package:subscriptions/presentations/components/home_bottom_navigation_bar_item.dart';
 
 class HomeBottomNavigationBar extends StatefulWidget {
@@ -32,11 +33,14 @@ class _HomeBottomNavigationBarState extends State<HomeBottomNavigationBar> {
   List<BottomNavigationBarItem> _buildNavigationItems() {
     return [
       HomeBottomNavigationBarItem.navigationBarItem(
-          title: "Upcoming", icons: Icons.subscriptions),
+          title: AppLocalizations.of(context).translate('upcoming'),
+          icons: Icons.subscriptions),
       HomeBottomNavigationBarItem.navigationBarItem(
-          title: "Finance", icons: Icons.monetization_on),
+          title: AppLocalizations.of(context).translate('finance'),
+          icons: Icons.monetization_on),
       HomeBottomNavigationBarItem.navigationBarItem(
-          title: "Settings", icons: Icons.settings_applications)
+          title: AppLocalizations.of(context).translate('settings'),
+          icons: Icons.settings_applications)
     ];
   }
 
