@@ -8,7 +8,7 @@ import 'package:subscriptions/data/entities/subscription.dart';
 import 'package:subscriptions/helpers/dates_helper.dart';
 import 'package:subscriptions/presentations/navigation_manager.dart';
 import 'package:subscriptions/presentations/styles/colors.dart' as AppColors;
-import 'package:subscriptions/presentations/uncoming_renewals/card_row.dart';
+import 'package:subscriptions/presentations/components/card_row.dart';
 import 'package:subscriptions/presentations/components/WidgetsFormHelper/color_field_widget.dart';
 import 'package:subscriptions/presentations/components/WidgetsFormHelper/date_field_widget.dart';
 import 'package:subscriptions/presentations/components/WidgetsFormHelper/dismiss_keyboard_on_scroll.dart';

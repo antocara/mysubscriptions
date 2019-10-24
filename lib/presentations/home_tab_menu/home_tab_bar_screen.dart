@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:subscriptions/presentations/components/home_bottom_navigation_bar.dart';
 import 'package:subscriptions/presentations/finance/finance_home_screen.dart';
 import 'package:subscriptions/presentations/settings/settings_screen.dart';
-import 'package:subscriptions/presentations/uncoming_renewals/upcoming_renewals_list_screen.dart';
+import 'package:subscriptions/presentations/upcoming_renewals/upcoming_renewals_list_screen.dart';
 
 import '../styles/colors.dart' as AppColors;
 
