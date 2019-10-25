@@ -3,6 +3,8 @@ import 'package:subscriptions/app_localizations.dart';
 import 'package:subscriptions/data/di/renewal_inject.dart';
 import 'package:subscriptions/data/entities/renewal.dart';
 import 'package:subscriptions/data/repositories/renewal_repository.dart';
+import 'package:subscriptions/domain/di/upcoming_renewals_bloc_inject.dart';
+import 'package:subscriptions/domain/upcoming_renewals_bloc.dart';
 import 'package:subscriptions/helpers/finances_helper.dart';
 import 'package:subscriptions/helpers/renewals_helper.dart';
 import 'package:subscriptions/presentations/components/card_row.dart';
@@ -18,11 +20,11 @@ class UpcomingRenewalsListScreen extends StatefulWidget {
 
 class _UpcomingRenewalsListScreenState
     extends State<UpcomingRenewalsListScreen> {
-  RenewalRepository _renewalRepository;
+  final upcomingRenewalsBloc = BlocInject.buildUpcomingRenewalsBloc();
 
   @override
   void initState() {
-    _renewalRepository = RenewalInject.buildRenewalRepository();
+    upcomingRenewalsBloc.fetchUpcomingRenewals();
     super.initState();
   }
 
@@ -48,8 +50,8 @@ class _UpcomingRenewalsListScreenState
 
   Widget _buildBody() {
     return Expanded(
-      child: FutureBuilder(
-        future: _fetchData(),
+      child: StreamBuilder(
+        stream: upcomingRenewalsBloc.upcomingRenewalsList,
         builder: (context, snapData) {
           if (snapData.hasError || snapData.hasData == null) {
             return Container(); //todo
@@ -108,15 +110,17 @@ class _UpcomingRenewalsListScreenState
         renewal: renewal, onTap: () => _navigateToDetail(context, renewal));
   }
 
-  Future<List<Renewal>> _fetchData() async {
-    return _renewalRepository.fetchNextRenewalsForTwoMonths();
-  }
-
   void _createSubscriptionClicked(BuildContext context) {
     NavigationManager.navigateToAddSubscription(context);
   }
 
   void _navigateToDetail(BuildContext context, Renewal renewal) {
     NavigationManager.navigateToRenewalDetail(context, renewal);
+  }
+
+  @override
+  void deactivate() {
+    upcomingRenewalsBloc.disposed();
+    super.deactivate();
   }
 }
