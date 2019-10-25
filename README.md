@@ -1,3 +1,5 @@
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/dd5d98d22cbf45ca8d946662ec564daf)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=antocara/mysubscriptions&amp;utm_campaign=Badge_Grade)
+
 # subscriptions
 
 A new Flutter application.
