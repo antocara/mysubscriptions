@@ -8,11 +8,11 @@ import 'package:subscriptions/data/entities/subscription.dart';
 import 'package:subscriptions/helpers/dates_helper.dart';
 import 'package:subscriptions/presentations/navigation_manager.dart';
 import 'package:subscriptions/presentations/styles/colors.dart' as AppColors;
-import 'package:subscriptions/presentations/uncoming_renewals/card_row.dart';
-import 'package:subscriptions/presentations/widgets/WidgetsFormHelper/color_field_widget.dart';
-import 'package:subscriptions/presentations/widgets/WidgetsFormHelper/date_field_widget.dart';
-import 'package:subscriptions/presentations/widgets/WidgetsFormHelper/dismiss_keyboard_on_scroll.dart';
-import 'package:subscriptions/presentations/widgets/WidgetsFormHelper/text_field_widget.dart';
+import 'package:subscriptions/presentations/components/card_row.dart';
+import 'package:subscriptions/presentations/components/WidgetsFormHelper/color_field_widget.dart';
+import 'package:subscriptions/presentations/components/WidgetsFormHelper/date_field_widget.dart';
+import 'package:subscriptions/presentations/components/WidgetsFormHelper/dismiss_keyboard_on_scroll.dart';
+import 'package:subscriptions/presentations/components/WidgetsFormHelper/text_field_widget.dart';
 
 class CreateSubscriptionScreen extends StatefulWidget {
   @override
@@ -34,12 +34,12 @@ class _CreateSubscriptionScreenState extends State<CreateSubscriptionScreen> {
       backgroundColor: AppColors.kCreateSubscriptionBack,
       key: mScaffoldState,
       appBar: AppBar(
-        iconTheme: IconThemeData(color: AppColors.kTitleAppbar),
+        iconTheme: IconThemeData(color: AppColors.kAppBarTitle),
         backgroundColor: Colors.transparent,
         elevation: 0,
         title: Text("Create Susbcription",
             style: TextStyle(
-              color: AppColors.kTitleAppbar,
+              color: AppColors.kAppBarTitle,
             )),
       ),
       body: _buildBody(context),

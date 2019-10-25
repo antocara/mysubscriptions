@@ -27,7 +27,7 @@ class _DefaultAppBarState extends State<DefaultAppBar> {
 
   AppBar _buildAppbar() {
     return AppBar(
-      iconTheme: IconThemeData(color: AppColors.kTitleAppbar),
+      iconTheme: IconThemeData(color: AppColors.kAppBarTitle),
       backgroundColor: Colors.transparent,
       elevation: 0,
       title: _buildTitle(),
@@ -47,7 +47,7 @@ class _DefaultAppBarState extends State<DefaultAppBar> {
       return IconButton(
         onPressed: widget.onButtonTap,
         icon: widget.icon,
-        color: AppColors.kIconsAppbar,
+        color: AppColors.kAppBarIcons,
       );
     } else {
       return SizedBox();

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
 import 'package:share/share.dart';
-import 'package:subscriptions/presentations/widgets/default_app_bar.dart';
+import 'package:subscriptions/presentations/components/default_app_bar.dart';
 
 class SettingsScreen extends StatefulWidget {
   @override

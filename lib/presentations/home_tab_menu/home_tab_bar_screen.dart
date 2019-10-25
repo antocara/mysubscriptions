@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:subscriptions/presentations/components/home_bottom_navigation_bar.dart';
 import 'package:subscriptions/presentations/finance/finance_home_screen.dart';
 import 'package:subscriptions/presentations/settings/settings_screen.dart';
-import 'package:subscriptions/presentations/uncoming_renewals/upcoming_renewals_list_screen.dart';
+import 'package:subscriptions/presentations/upcoming_renewals/upcoming_renewals_list_screen.dart';
 
 import '../styles/colors.dart' as AppColors;
 
@@ -11,41 +12,34 @@ class HomeTabMenuScreen extends StatefulWidget {
 }
 
 class _HomeTabMenuScreenState extends State<HomeTabMenuScreen> {
-  int _currentTabIndex = 0;
-
-  List<Widget> tabsScreen = [
+  final List<Widget> _tabsScreen = [
     UpcomingRenewalsListScreen(),
     FinanceHomeScreen(),
     SettingsScreen(),
   ];
 
+  int _currentTabIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.kCreateSubscriptionBack,
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: (index) => _onItemTabTaped(index),
-        currentIndex: _currentTabIndex,
-        items: [
-          _buildBottomItem("Upcoming", Icons.subscriptions),
-          _buildBottomItem("Finance", Icons.monetization_on),
-          _buildBottomItem("Settings", Icons.settings_applications),
-        ],
-      ),
-      body: tabsScreen[_currentTabIndex],
+      backgroundColor: AppColors.kDefaultBackground,
+      bottomNavigationBar: _buildBottomNavigationBar(),
+      body: _activeController(),
     );
   }
 
-  BottomNavigationBarItem _buildBottomItem(String title, IconData iconData) {
-    return BottomNavigationBarItem(
-      title: Text(title),
-      icon: Icon(iconData),
+  HomeBottomNavigationBar _buildBottomNavigationBar() {
+    return HomeBottomNavigationBar(
+      onTabSelected: (indexTabSelected) {
+        setState(() {
+          _currentTabIndex = indexTabSelected;
+        });
+      },
     );
   }
 
-  void _onItemTabTaped(int index) {
-    setState(() {
-      _currentTabIndex = index;
-    });
+  Widget _activeController() {
+    return _tabsScreen[_currentTabIndex];
   }
 }

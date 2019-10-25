@@ -4,7 +4,7 @@ import 'package:subscriptions/presentations/finance/month_chart_screen.dart';
 import 'package:subscriptions/presentations/finance/total_chart_screen.dart';
 import 'package:subscriptions/presentations/finance/year_chart_screen.dart';
 import 'package:subscriptions/presentations/styles/colors.dart' as AppColors;
-import 'package:subscriptions/presentations/widgets/background_circles.dart';
+import 'package:subscriptions/presentations/components/background_circles.dart';
 
 class FinanceHomeScreen extends StatefulWidget {
   @override

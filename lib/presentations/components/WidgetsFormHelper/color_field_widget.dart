@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/material_picker.dart';
-import 'package:subscriptions/presentations/widgets/WidgetsFormHelper/icon_field_widget.dart';
+import 'package:subscriptions/presentations/components/WidgetsFormHelper/icon_field_widget.dart';
 
 typedef ColorSelected(Color color);
 
