@@ -1,33 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
-import 'package:subscriptions/data/di/payment_inject.dart';
+import 'package:subscriptions/app_localizations.dart';
 import 'package:subscriptions/data/entities/payment.dart';
 import 'package:subscriptions/data/entities/renewal.dart';
-import 'package:subscriptions/data/repositories/payment_repository.dart';
+import 'package:subscriptions/domain/di/bloc_inject.dart';
 import 'package:subscriptions/helpers/dates_helper.dart';
-import 'package:subscriptions/presentations/renewal_detail/subscription_card_amount.dart';
-import 'package:subscriptions/presentations/renewal_detail/subscription_detail_card.dart';
+import 'package:subscriptions/presentations/components/detail_app_bar.dart';
+import 'package:subscriptions/presentations/components/subscription_card_amount.dart';
+import 'package:subscriptions/presentations/components/subscription_detail_card.dart';
 import 'package:subscriptions/presentations/styles/colors.dart' as AppColors;
-import 'package:subscriptions/presentations/styles/dimens.dart' as AppDimens;
+import 'package:subscriptions/presentations/styles/text_styles.dart';
 
-class RenewalDetail extends StatefulWidget {
-  RenewalDetail({Key key, @required Renewal renewal})
+class SubscriptionDetail extends StatefulWidget {
+  SubscriptionDetail({Key key, @required Renewal renewal})
       : _renewal = renewal,
         super(key: key);
 
   final Renewal _renewal;
 
   @override
-  _RenewalDetailState createState() => _RenewalDetailState();
+  _SubscriptionDetailState createState() => _SubscriptionDetailState();
 }
 
-class _RenewalDetailState extends State<RenewalDetail> {
-  PaymentRepository _paymentRepository;
+class _SubscriptionDetailState extends State<SubscriptionDetail> {
+  final _bloc = BlocInject.buildSubscriptionDetailBloc();
 
   @override
   void initState() {
-    _paymentRepository = PaymentInject.buildPaymentRepository();
-    _fetchPayments();
+    _bloc.fetchUpcomingRenewals(subscription: widget._renewal.subscription);
     super.initState();
   }
 
@@ -44,18 +44,17 @@ class _RenewalDetailState extends State<RenewalDetail> {
     );
   }
 
+  Widget _buildBackDecorator() {
+    return ClipPath(
+      clipper: DiagonalPathClipperOne(),
+      child: Container(height: 240, color: widget._renewal.subscription.color),
+    );
+  }
+
   Widget _buildScaffold(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.transparent,
-      appBar: AppBar(
-        iconTheme: IconThemeData(color: AppColors.kAppBarTitleDetail),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        title: Text(widget._renewal.subscription.upperName,
-            style: TextStyle(
-              color: AppColors.kAppBarTitleDetail,
-            )),
-      ),
+      backgroundColor: AppColors.kTransparent,
+      appBar: DetailAppBar(subscription: widget._renewal.subscription),
       body: _buildBody(context),
     );
   }
@@ -67,37 +66,12 @@ class _RenewalDetailState extends State<RenewalDetail> {
         _buildSeparator(),
         _buildAmountCard(),
         _buildSeparator(),
-        _buildPaymentListTitle(),
+        _buildPaymentListTitle(context),
         _buildSeparator(),
         Expanded(
           child: _buildPaymentList(),
         )
       ],
-    );
-  }
-
-  Widget _buildPaymentList() {
-    return FutureBuilder(
-      builder: (context, projectSnap) {
-        if (projectSnap.connectionState == ConnectionState.none ||
-            !projectSnap.hasData) {
-          return CircularProgressIndicator();
-        } else {
-          return ListView.separated(
-            separatorBuilder: (context, index) {
-              return Divider(
-                color: Colors.black.withOpacity(0.3),
-              );
-            },
-            itemCount: projectSnap.data.length,
-            itemBuilder: (context, index) {
-              Payment payment = projectSnap.data[index];
-              return _buildPaymentRow(payment);
-            },
-          );
-        }
-      },
-      future: _fetchPayments(),
     );
   }
 
@@ -113,41 +87,55 @@ class _RenewalDetailState extends State<RenewalDetail> {
     );
   }
 
-  Widget _buildPaymentListTitle() {
-    return Padding(
-      padding: const EdgeInsets.only(
-          left: AppDimens.kDefaultHorizontalMargin,
-          top: 5,
-          right: 3,
-          bottom: 3),
-      child: Text(
-        "Payments",
-        style: TextStyle(fontSize: 20, color: AppColors.kTextCardDetail),
+  Widget _buildPaymentListTitle(BuildContext context) {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Padding(
+        padding: const EdgeInsets.only(left: 25, top: 5, right: 3, bottom: 3),
+        child: Text(
+          AppLocalizations.of(context).translate("payments"),
+          style: TextStyle(fontSize: 20, color: AppColors.kWhiteColor),
+        ),
       ),
+    );
+  }
+
+  Widget _buildPaymentList() {
+    return StreamBuilder(
+      builder: (context, projectSnap) {
+        if (projectSnap.connectionState == ConnectionState.none ||
+            !projectSnap.hasData) {
+          return CircularProgressIndicator();
+        } else {
+          return ListView.separated(
+            separatorBuilder: (context, index) {
+              return Divider(color: AppColors.kListDividerColor);
+            },
+            itemCount: projectSnap.data.length,
+            itemBuilder: (context, index) {
+              Payment payment = projectSnap.data[index];
+              return _buildPaymentRow(payment);
+            },
+          );
+        }
+      },
+      stream: _bloc.paymentsBySubscriptions,
     );
   }
 
   Widget _buildPaymentRow(Payment payment) {
     final date = DatesHelper.toStringFromDate(payment.renewalAt);
-    return Padding(
-      padding: const EdgeInsets.only(left: 30, top: 5, bottom: 5, right: 25),
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            child: Text(
-              "${payment.subscription.priceAtStringFormat}",
-              style: TextStyle(
-                  fontSize: 23,
-                  color: AppColors.kTextCardDetail.withOpacity(0.5)),
-            ),
-          ),
-          Text(
-            date,
-            style: TextStyle(
-                fontSize: 15,
-                color: AppColors.kTextCardDetail.withOpacity(0.5)),
-          ),
-        ],
+    return Align(
+      alignment: Alignment.center,
+      child: Padding(
+        padding: const EdgeInsets.only(left: 30, top: 5, bottom: 5, right: 25),
+        child: Column(
+          children: <Widget>[
+            Text("${payment.subscription.priceAtStringFormat}",
+                style: kTitleDetailPaymentRow),
+            Text(date, style: kAmountDetailPaymentRow),
+          ],
+        ),
       ),
     );
   }
@@ -156,18 +144,5 @@ class _RenewalDetailState extends State<RenewalDetail> {
     return SizedBox(
       height: 10,
     );
-  }
-
-  Widget _buildBackDecorator() {
-    return ClipPath(
-      clipper: DiagonalPathClipperOne(),
-      child: Container(height: 240, color: widget._renewal.subscription.color),
-    );
-  }
-
-  Future<List<Payment>> _fetchPayments() async {
-    final paymentList = await _paymentRepository
-        .fetchPaymentsBySubscription(widget._renewal.subscription);
-    return paymentList;
   }
 }

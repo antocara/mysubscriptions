@@ -5,27 +5,17 @@ import 'package:subscriptions/data/entities/renewal_period.dart';
 import 'package:subscriptions/presentations/styles/colors.dart' as AppColors;
 import 'package:subscriptions/presentations/styles/dimens.dart' as AppDimens;
 
-class SubscriptionDetailCard extends StatefulWidget {
+class SubscriptionDetailCard extends StatelessWidget {
   SubscriptionDetailCard({Key key, @required Renewal renewal})
       : _renewal = renewal,
-        super(key: key);
+        super(key: key) {
+    _colorTextTitles = _renewal.subscription.color;
+    _colorTextSubTitles = AppColors.kTextCardDetail.withOpacity(0.50);
+  }
 
   final Renewal _renewal;
-
-  @override
-  _SubscriptionDetailCardState createState() => _SubscriptionDetailCardState();
-}
-
-class _SubscriptionDetailCardState extends State<SubscriptionDetailCard> {
-  var _colorTextTitles = AppColors.kTextCardDetail;
-  var _colorTextSubTitles = AppColors.kTextCardDetail.withOpacity(.50);
-
-  @override
-  void initState() {
-    _colorTextTitles = widget._renewal.subscription.color;
-    _colorTextSubTitles = AppColors.kTextCardDetail.withOpacity(0.50);
-    super.initState();
-  }
+  Color _colorTextTitles;
+  Color _colorTextSubTitles;
 
   @override
   Widget build(BuildContext context) {
@@ -78,19 +68,19 @@ class _SubscriptionDetailCardState extends State<SubscriptionDetailCard> {
   }
 
   Widget _buildTextName() {
-    return Text(widget._renewal.subscription.upperName,
+    return Text(_renewal.subscription.upperName,
         style: TextStyle(fontSize: 28, color: _colorTextTitles));
   }
 
   Widget _buildTextPrice() {
     return Text(
-      widget._renewal.subscription.priceAtStringFormat,
+      _renewal.subscription.priceAtStringFormat,
       style: TextStyle(fontSize: 35, color: _colorTextTitles),
     );
   }
 
   Widget _buildTextPeriod() {
-    final period = widget._renewal.subscription.renewalPeriod;
+    final period = _renewal.subscription.renewalPeriod;
     final periodValue = RenewalPeriod.stringValueFromEnum(period).toLowerCase();
     return Text(
       "/$periodValue",
@@ -99,7 +89,7 @@ class _SubscriptionDetailCardState extends State<SubscriptionDetailCard> {
   }
 
   Widget _buildTextDescription() {
-    final description = widget._renewal.subscription.description ?? "";
+    final description = _renewal.subscription.description ?? "";
     return Row(
       crossAxisAlignment: CrossAxisAlignment.baseline,
       textBaseline: TextBaseline.alphabetic,
@@ -119,13 +109,13 @@ class _SubscriptionDetailCardState extends State<SubscriptionDetailCard> {
   }
 
   Widget _buildTextFirstPayment() {
-    return _buildPaymentView("First Payment day:",
-        widget._renewal.subscription.firstPaymentAtPretty ?? "");
+    return _buildPaymentView(
+        "First Payment day:", _renewal.subscription.firstPaymentAtPretty ?? "");
   }
 
   Widget _buildTextNextPayment() {
     return _buildPaymentView(
-        "Next Payment day:", widget._renewal.renewalAtPretty ?? "");
+        "Next Payment day:", _renewal.renewalAtPretty ?? "");
   }
 
   Widget _buildPaymentView(String title, String amount) {

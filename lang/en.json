@@ -6,5 +6,6 @@
   "upcoming_renewal": "Upcoming Renewals",
   "current_month": "Current Month",
   "next_month": "Next Month",
-  "payment_day": "Payment day: "
+  "payment_day": "Payment day: ",
+  "payments": "Payments"
 }

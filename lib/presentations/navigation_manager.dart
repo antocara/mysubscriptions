@@ -16,7 +16,7 @@ class NavigationManager {
     Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => RenewalDetail(
+          builder: (context) => SubscriptionDetail(
                 renewal: renewal,
               )),
     );

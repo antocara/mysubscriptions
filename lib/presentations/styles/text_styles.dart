@@ -17,3 +17,9 @@ final kCardDescription =
 final kCardPaymentDayTitle =
     TextStyle(color: AppColors.kCardPaymentDayTitleColor, fontSize: 13);
 const kCardPaymentDay = TextStyle(color: AppColors.kWhiteColor, fontSize: 20);
+
+//subscription detail
+const kTitleDetailPaymentRow =
+    TextStyle(fontSize: 23, color: AppColors.kWhiteColor);
+const kAmountDetailPaymentRow =
+    TextStyle(fontSize: 15, color: AppColors.kWhiteColor);
