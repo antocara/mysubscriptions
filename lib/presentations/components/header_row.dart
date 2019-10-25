@@ -18,7 +18,9 @@ class _HeaderRowState extends State<HeaderRow> {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(
-          vertical: 0, horizontal: AppDimens.kDefaultHorizontalMargin),
+        vertical: 0,
+        horizontal: AppDimens.kDefaultHorizontalMargin,
+      ),
       height: 60,
       child: Row(
         children: <Widget>[
@@ -35,14 +37,14 @@ class _HeaderRowState extends State<HeaderRow> {
   Text _buildTitleText() {
     return Text(
       widget.title,
-      style: AppTextStyles.titleHeaderRow,
+      style: AppTextStyles.kTitleHeaderRow,
     );
   }
 
   Text _buildAmountTitleText() {
     return Text(
       "€ ${widget.amount ?? 0.00}",
-      style: AppTextStyles.rightTitleHeaderRow,
+      style: AppTextStyles.kSubTitleHeaderRow,
     );
   }
 }

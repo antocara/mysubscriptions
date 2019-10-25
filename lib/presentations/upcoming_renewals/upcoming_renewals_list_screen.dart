@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:subscriptions/app_localizations.dart';
-import 'package:subscriptions/data/di/renewal_inject.dart';
 import 'package:subscriptions/data/entities/renewal.dart';
-import 'package:subscriptions/data/repositories/renewal_repository.dart';
 import 'package:subscriptions/domain/di/upcoming_renewals_bloc_inject.dart';
-import 'package:subscriptions/domain/upcoming_renewals_bloc.dart';
 import 'package:subscriptions/helpers/finances_helper.dart';
 import 'package:subscriptions/helpers/renewals_helper.dart';
 import 'package:subscriptions/presentations/components/card_row.dart';

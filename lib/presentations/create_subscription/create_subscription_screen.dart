@@ -34,12 +34,12 @@ class _CreateSubscriptionScreenState extends State<CreateSubscriptionScreen> {
       backgroundColor: AppColors.kCreateSubscriptionBack,
       key: mScaffoldState,
       appBar: AppBar(
-        iconTheme: IconThemeData(color: AppColors.kTitleAppbar),
+        iconTheme: IconThemeData(color: AppColors.kAppBarTitle),
         backgroundColor: Colors.transparent,
         elevation: 0,
         title: Text("Create Susbcription",
             style: TextStyle(
-              color: AppColors.kTitleAppbar,
+              color: AppColors.kAppBarTitle,
             )),
       ),
       body: _buildBody(context),

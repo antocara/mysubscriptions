@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:subscriptions/app_localizations.dart';
 import 'package:subscriptions/presentations/components/home_bottom_navigation_bar_item.dart';
+import 'package:subscriptions/presentations/styles/colors.dart' as AppColors;
 
 class HomeBottomNavigationBar extends StatefulWidget {
   HomeBottomNavigationBar({Key key, Function onTabSelected})
@@ -24,9 +25,12 @@ class _HomeBottomNavigationBarState extends State<HomeBottomNavigationBar> {
 
   BottomNavigationBar _buildNavigationBar(BuildContext context) {
     return BottomNavigationBar(
+      backgroundColor: AppColors.kNavigationBar,
       onTap: (index) => _onItemTabTaped(index),
       currentIndex: _currentTabIndex,
       items: _buildNavigationItems(context),
+      unselectedItemColor: AppColors.kLightPrimaryColor,
+      selectedItemColor: AppColors.kPrimaryColorDark,
     );
   }
 

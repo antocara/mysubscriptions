@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:subscriptions/app_localizations.dart';
 import 'package:subscriptions/data/entities/renewal.dart';
+import 'package:subscriptions/presentations/styles/colors.dart' as AppColors;
 import 'package:subscriptions/presentations/styles/dimens.dart' as AppDimens;
+import 'package:subscriptions/presentations/styles/text_styles.dart';
 
-class RenewalCard extends StatefulWidget {
+class RenewalCard extends StatelessWidget {
   RenewalCard({Key key, @required Renewal renewal})
       : _renewal = renewal,
         super(key: key);
@@ -11,94 +14,93 @@ class RenewalCard extends StatefulWidget {
   final Renewal _renewal;
 
   @override
-  _RenewalCardState createState() => _RenewalCardState();
-}
-
-class _RenewalCardState extends State<RenewalCard> {
-  @override
   Widget build(BuildContext context) {
     return Card(
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppDimens.borderRadiusCard)),
+          borderRadius: BorderRadius.circular(AppDimens.kBorderRadiusCard)),
       margin: EdgeInsets.symmetric(
           vertical: 0, horizontal: AppDimens.kDefaultHorizontalMargin),
       elevation: 10,
-      color: widget._renewal.subscription.color ?? Colors.black,
+      color: _renewal.subscription.color ?? Colors.black,
       child: Padding(
         padding: const EdgeInsets.all(20.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Row(
-              children: <Widget>[
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    widget._renewal.subscription.name ?? "",
-                    style: TextStyle(fontSize: 28, color: Colors.white),
-                  ),
-                ),
-                Expanded(
-                  child: Container(),
-                ),
-                Text(
-                  widget._renewal.subscription.priceAtStringFormat,
-                  style: TextStyle(fontSize: 35, color: Colors.white),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                widget._renewal.subscription.description ?? "",
-                style: TextStyle(color: Colors.white, fontSize: 14),
-                maxLines: 2,
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Container(
-              child: Row(
-                children: <Widget>[
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text("Payment day:",
-                          style: TextStyle(color: Colors.white, fontSize: 13)),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Text(widget._renewal.renewalAtPretty ?? "",
-                          style: TextStyle(color: Colors.white, fontSize: 20)),
-                    ],
-                  ),
-                  Expanded(
-                    child: Container(),
-                  ),
-                  CircleAvatar(
-                    foregroundColor:
-                        widget._renewal.subscription.color ?? Colors.white,
-                    backgroundColor: Colors.white,
-                    child: Text(widget._renewal.subscription.nameChars),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+        child: _buildCardContent(context),
       ),
     );
   }
 
-//  String _extractChars() {
-//    final name = widget._renewal.subscription.name ?? "";
-//    if (name != null && name.length >= 2) {
-//      return name.substring(0, 2).toUpperCase();
-//    }
-//    return "";
-//  }
+  Widget _buildCardContent(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        _buildTitleSection(),
+        SizedBox(
+          height: 5,
+        ),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: _buildDescriptionSection(),
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        Container(
+          child: _buildPaymentDaySection(context),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildTitleSection() {
+    return Row(
+      children: <Widget>[
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            _renewal.subscription.name ?? "",
+            style: kCardTitle,
+          ),
+        ),
+        Expanded(
+          child: Container(),
+        ),
+        Text(_renewal.subscription.priceAtStringFormat, style: kCardPrice),
+      ],
+    );
+  }
+
+  Widget _buildDescriptionSection() {
+    return Text(_renewal.subscription.description ?? "",
+        style: kCardDescription, maxLines: 2);
+  }
+
+  Widget _buildPaymentDaySection(BuildContext context) {
+    return Row(
+      children: <Widget>[
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(AppLocalizations.of(context).translate("payment_day"),
+                style: kCardPaymentDayTitle),
+            SizedBox(
+              height: 5,
+            ),
+            Text(_renewal.renewalAtPretty ?? "", style: kCardPaymentDay),
+          ],
+        ),
+        Expanded(
+          child: Container(),
+        ),
+        _buildCircleAvatar(),
+      ],
+    );
+  }
+
+  Widget _buildCircleAvatar() {
+    return CircleAvatar(
+      foregroundColor: _renewal.subscription.color ?? AppColors.kWhiteColor,
+      backgroundColor: AppColors.kWhiteColor,
+      child: Text(_renewal.subscription.nameChars),
+    );
+  }
 }

@@ -23,7 +23,7 @@ class _HomeTabMenuScreenState extends State<HomeTabMenuScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.kCreateSubscriptionBack,
+      backgroundColor: AppColors.kDefaultBackground,
       bottomNavigationBar: _buildBottomNavigationBar(),
       body: _activeController(),
     );

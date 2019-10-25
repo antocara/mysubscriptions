@@ -5,5 +5,6 @@
   "app_title": "Mis Suscripciones",
   "upcoming_renewal": "Próximas renovaciones",
   "current_month": "Mes actual",
-  "next_month": "Próximo mes"
+  "next_month": "Próximo mes",
+  "payment_day": "Día de pago"
 }

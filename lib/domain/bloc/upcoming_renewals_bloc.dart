@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:subscriptions/data/di/renewal_inject.dart';
 import 'package:subscriptions/data/entities/renewal.dart';
 import 'package:subscriptions/data/repositories/renewal_repository.dart';

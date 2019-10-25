@@ -35,7 +35,7 @@ class _SubscriptionDetailCardState extends State<SubscriptionDetailCard> {
   Widget _buildCard() {
     return Card(
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppDimens.borderRadiusCard)),
+          borderRadius: BorderRadius.circular(AppDimens.kBorderRadiusCard)),
       margin: EdgeInsets.symmetric(
           vertical: 0, horizontal: AppDimens.kDefaultHorizontalMargin),
       elevation: 10,
