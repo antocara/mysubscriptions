@@ -6,5 +6,17 @@
   "upcoming_renewal": "Próximas renovaciones",
   "current_month": "Mes actual",
   "next_month": "Próximo mes",
-  "payment_day": "Día de pago"
+  "payment_day": "Día de pago",
+  "payments_made": "Pagos Realizados",
+  "description": "Descripción:",
+  "first_payment_day": "Fecha primer pago:",
+  "next_payment_day" :"Fecha siguiente pago:",
+  "total_amount" : "Importe total",
+  "amount_current_year": "Importe año actual",
+  "app_version" : "Versión de aplicación",
+  "develop_by": "Desarrollado por: ",
+  "antocara": "@antocara",
+  "develop_with" : "Desarrollado con ",
+  "in_coin": " en Coin",
+  "twitter": "https://twitter.com/antocara"
 }
