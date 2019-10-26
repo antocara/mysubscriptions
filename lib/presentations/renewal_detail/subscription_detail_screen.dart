@@ -6,8 +6,8 @@ import 'package:subscriptions/data/entities/renewal.dart';
 import 'package:subscriptions/domain/di/bloc_inject.dart';
 import 'package:subscriptions/helpers/dates_helper.dart';
 import 'package:subscriptions/presentations/components/detail_app_bar.dart';
-import 'package:subscriptions/presentations/components/subscription_card_amount.dart';
 import 'package:subscriptions/presentations/components/subscription_detail_card.dart';
+import 'package:subscriptions/presentations/components/subscription_detail_card_amount.dart';
 import 'package:subscriptions/presentations/styles/colors.dart' as AppColors;
 import 'package:subscriptions/presentations/styles/text_styles.dart';
 
@@ -25,10 +25,18 @@ class SubscriptionDetail extends StatefulWidget {
 class _SubscriptionDetailState extends State<SubscriptionDetail> {
   final _bloc = BlocInject.buildSubscriptionDetailBloc();
 
+  List<Payment> _listPayments = [];
+
   @override
   void initState() {
     _bloc.fetchUpcomingRenewals(subscription: widget._renewal.subscription);
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _bloc.disposed();
+    super.dispose();
   }
 
   @override
@@ -60,17 +68,21 @@ class _SubscriptionDetailState extends State<SubscriptionDetail> {
   }
 
   Widget _buildBody(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        _buildCard(),
-        _buildSeparator(),
-        _buildAmountCard(),
-        _buildSeparator(),
-        _buildPaymentListTitle(context),
-        _buildSeparator(),
-        Expanded(
-          child: _buildPaymentList(),
-        )
+    return CustomScrollView(
+      slivers: <Widget>[
+        SliverList(
+          delegate: SliverChildListDelegate(
+            [
+              _buildCard(),
+              _buildSeparator(),
+              _buildAmountCard(),
+              _buildSeparator(),
+              _buildPaymentListTitle(context),
+              _buildSeparator(),
+              _buildPaymentList(),
+            ],
+          ),
+        ),
       ],
     );
   }
@@ -82,8 +94,21 @@ class _SubscriptionDetailState extends State<SubscriptionDetail> {
   }
 
   Widget _buildAmountCard() {
-    return SubscriptionCardAmount(
-      renewal: widget._renewal,
+    return StreamBuilder(
+      builder: (context, projectSnap) {
+        if (!projectSnap.hasData && _listPayments.length == 0) {
+          return Container();
+        } else {
+          if (projectSnap.hasData) {
+            _listPayments = projectSnap.data;
+          }
+          return SubscriptionDetailCardAmount(
+            currentYearAmount: _calculateCurrentYearAmount(),
+            totalAmount: _calculateTotalAmount(),
+          );
+        }
+      },
+      stream: _bloc.paymentsBySubscriptions,
     );
   }
 
@@ -93,7 +118,7 @@ class _SubscriptionDetailState extends State<SubscriptionDetail> {
       child: Padding(
         padding: const EdgeInsets.only(left: 25, top: 5, right: 3, bottom: 3),
         child: Text(
-          AppLocalizations.of(context).translate("payments"),
+          AppLocalizations.of(context).translate("payments_made"),
           style: TextStyle(fontSize: 20, color: AppColors.kWhiteColor),
         ),
       ),
@@ -108,6 +133,8 @@ class _SubscriptionDetailState extends State<SubscriptionDetail> {
           return CircularProgressIndicator();
         } else {
           return ListView.separated(
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
             separatorBuilder: (context, index) {
               return Divider(color: AppColors.kListDividerColor);
             },
@@ -144,5 +171,28 @@ class _SubscriptionDetailState extends State<SubscriptionDetail> {
     return SizedBox(
       height: 10,
     );
+  }
+
+  String _calculateCurrentYearAmount() {
+    if (_listPayments == null) return "";
+    final double result = _listPayments
+        .where((payment) {
+          return DatesHelper.belongThisYear(payment.renewalAt);
+        })
+        .toList()
+        .fold(0, (initial, next) {
+          return initial + next.subscription.price;
+        });
+
+    return result.toStringAsFixed(2);
+  }
+
+  String _calculateTotalAmount() {
+    if (_listPayments == null) return "";
+    final double result = _listPayments.fold(0, (initial, next) {
+      return initial + next.subscription.price;
+    });
+
+    return result.toStringAsFixed(2);
   }
 }

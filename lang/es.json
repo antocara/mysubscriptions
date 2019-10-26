@@ -7,5 +7,10 @@
   "current_month": "Mes actual",
   "next_month": "Próximo mes",
   "payment_day": "Día de pago",
-  "payments": "Pagos"
+  "payments_made": "Pagos Realizados",
+  "description": "Descripción:",
+  "first_payment_day": "Fecha primer pago:",
+  "next_payment_day" :"Fecha siguiente pago:",
+  "total_amount" : "Importe total",
+  "amount_current_year": "Importe año actual"
 }

@@ -71,7 +71,7 @@ class RenewalCard extends StatelessWidget {
 
   Widget _buildDescriptionSection() {
     return Text(_renewal.subscription.description ?? "",
-        style: kCardDescription, maxLines: 2);
+        style: kCardDescriptionTextStyle, maxLines: 2);
   }
 
   Widget _buildPaymentDaySection(BuildContext context) {

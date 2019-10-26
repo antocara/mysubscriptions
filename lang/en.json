@@ -7,5 +7,10 @@
   "current_month": "Current Month",
   "next_month": "Next Month",
   "payment_day": "Payment day: ",
-  "payments": "Payments"
+  "payments_made": "Payments Made",
+  "description": "Description:",
+  "first_payment_day": "First Payment day:",
+  "next_payment_day" :"Next Payment day:",
+  "total_amount" : "Total Amount",
+  "amount_current_year": "Amount Current Year"
 }

@@ -48,6 +48,11 @@ class DatesHelper {
     return new DateTime(month.year);
   }
 
+  static bool belongThisYear(DateTime questionDate) {
+    final currentMonth = DateTime.now().year;
+    return currentMonth == questionDate.year;
+  }
+
   static String parseNumberMonthToName(int monthNumber) {
     switch (monthNumber) {
       case 1:

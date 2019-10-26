@@ -73,7 +73,7 @@ class Subscription {
 
   String get priceAtStringFormat {
     if (price != null) {
-      return "€ ${price.toString()}";
+      return "€ ${price.toStringAsFixed(2)}";
     } else {
       return "€ 0.00";
     }
