@@ -12,5 +12,11 @@
   "first_payment_day": "Fecha primer pago:",
   "next_payment_day" :"Fecha siguiente pago:",
   "total_amount" : "Importe total",
-  "amount_current_year": "Importe año actual"
+  "amount_current_year": "Importe año actual",
+  "app_version" : "Versión de aplicación",
+  "develop_by": "Desarrollado por: ",
+  "antocara": "@antocara",
+  "develop_with" : "Desarrollado con ",
+  "in_coin": " en Coin",
+  "twitter": "https://twitter.com/antocara"
 }

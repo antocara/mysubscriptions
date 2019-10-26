@@ -9,6 +9,7 @@ import 'package:subscriptions/presentations/components/detail_app_bar.dart';
 import 'package:subscriptions/presentations/components/subscription_detail_card.dart';
 import 'package:subscriptions/presentations/components/subscription_detail_card_amount.dart';
 import 'package:subscriptions/presentations/styles/colors.dart' as AppColors;
+import 'package:subscriptions/presentations/styles/components.dart';
 import 'package:subscriptions/presentations/styles/text_styles.dart';
 
 class SubscriptionDetail extends StatefulWidget {
@@ -136,7 +137,7 @@ class _SubscriptionDetailState extends State<SubscriptionDetail> {
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             separatorBuilder: (context, index) {
-              return Divider(color: AppColors.kListDividerColor);
+              return kListDividerWidget;
             },
             itemCount: projectSnap.data.length,
             itemBuilder: (context, index) {

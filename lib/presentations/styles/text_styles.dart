@@ -27,3 +27,6 @@ final kCardDetailAmountTitle =
     TextStyle(color: AppColors.kTextCardDetail.withOpacity(.50), fontSize: 17);
 final kCardDetailAmount =
     TextStyle(color: AppColors.kTextCardDetail, fontSize: 20);
+
+//settings
+const kTitleSettings = TextStyle(fontSize: 18, color: AppColors.kWhiteColor);

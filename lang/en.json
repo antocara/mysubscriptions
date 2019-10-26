@@ -12,5 +12,11 @@
   "first_payment_day": "First Payment day:",
   "next_payment_day" :"Next Payment day:",
   "total_amount" : "Total Amount",
-  "amount_current_year": "Amount Current Year"
+  "amount_current_year": "Amount Current Year",
+  "app_version" : "Application Version",
+  "develop_by": "Develop by ",
+  "antocara": "@antocara",
+  "develop_with" : "Develop with ",
+  "in_coin": " in Coin",
+  "twitter": "https://twitter.com/antocara"
 }
