@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
 import 'package:share/share.dart';
 import 'package:subscriptions/app_localizations.dart';
-import 'package:subscriptions/presentations/components/default_app_bar.dart';
+import 'package:subscriptions/presentations/components/app_bar_default.dart';
 import 'package:subscriptions/presentations/styles/components.dart';
 import 'package:subscriptions/presentations/styles/text_styles.dart';
 
@@ -24,7 +24,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        DefaultAppBar(
+        AppBarDefault(
           title: AppLocalizations.of(context).translate("settings"),
         ),
         Expanded(

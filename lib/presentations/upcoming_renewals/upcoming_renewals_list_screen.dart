@@ -5,7 +5,7 @@ import 'package:subscriptions/domain/di/bloc_inject.dart';
 import 'package:subscriptions/helpers/finances_helper.dart';
 import 'package:subscriptions/helpers/renewals_helper.dart';
 import 'package:subscriptions/presentations/components/card_row.dart';
-import 'package:subscriptions/presentations/components/default_app_bar.dart';
+import 'package:subscriptions/presentations/components/app_bar_default.dart';
 import 'package:subscriptions/presentations/components/header_row.dart';
 import 'package:subscriptions/presentations/navigation_manager.dart';
 
@@ -35,8 +35,8 @@ class _UpcomingRenewalsListScreenState
     );
   }
 
-  DefaultAppBar _buildAppBar() {
-    return DefaultAppBar(
+  AppBarDefault _buildAppBar() {
+    return AppBarDefault(
       title: AppLocalizations.of(context).translate("upcoming_renewal"),
       icon: Icon(Icons.add),
       onButtonTap: () {

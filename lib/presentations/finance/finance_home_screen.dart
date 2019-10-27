@@ -1,10 +1,12 @@
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:subscriptions/app_localizations.dart';
+import 'package:subscriptions/presentations/components/app_bar_detail.dart';
+import 'package:subscriptions/presentations/components/background_circles.dart';
 import 'package:subscriptions/presentations/finance/month_chart_screen.dart';
 import 'package:subscriptions/presentations/finance/total_chart_screen.dart';
 import 'package:subscriptions/presentations/finance/year_chart_screen.dart';
 import 'package:subscriptions/presentations/styles/colors.dart' as AppColors;
-import 'package:subscriptions/presentations/components/background_circles.dart';
 
 class FinanceHomeScreen extends StatefulWidget {
   @override
@@ -13,12 +15,6 @@ class FinanceHomeScreen extends StatefulWidget {
 
 class _FinanceHomeScreenState extends State<FinanceHomeScreen>
     with SingleTickerProviderStateMixin {
-  final List<Tab> tabs = <Tab>[
-    new Tab(text: "This month"),
-    new Tab(text: "Ths year"),
-    new Tab(text: "Total")
-  ];
-
   final List<Widget> tabsControllers = <Widget>[
     MonthChartScreen(),
     YearChartScreen(),
@@ -30,7 +26,17 @@ class _FinanceHomeScreenState extends State<FinanceHomeScreen>
   @override
   void initState() {
     super.initState();
-    _tabController = new TabController(vsync: this, length: tabs.length);
+    _tabController = new TabController(vsync: this, length: 3);
+  }
+
+  List<Tab> _createTabs(BuildContext context) {
+    return <Tab>[
+      new Tab(
+          text: AppLocalizations.of(context).translate("finance_this_month")),
+      new Tab(
+          text: AppLocalizations.of(context).translate("finance_this_year")),
+      new Tab(text: AppLocalizations.of(context).translate("finance_total"))
+    ];
   }
 
   @override
@@ -44,39 +50,34 @@ class _FinanceHomeScreenState extends State<FinanceHomeScreen>
     return Stack(
       children: <Widget>[
         BackgroundCircles(),
-        _buildScaffold(),
+        _buildScaffold(context),
       ],
     );
   }
 
-  Scaffold _buildScaffold() {
+  Scaffold _buildScaffold(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.transparent,
-      appBar: new AppBar(
-          iconTheme: IconThemeData(color: AppColors.kAppBarTitleDetail),
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          title: Text("Finance",
-              style: TextStyle(
-                color: AppColors.kAppBarTitleDetail,
-              )),
-          bottom: _buildBubbleTabBar()),
+      backgroundColor: AppColors.kDefaultBackground,
+      appBar: AppBarDetail(
+        title: "",
+        bottomWidget: _buildBubbleTabBar(context),
+      ),
       body: _buildTabBarView(),
     );
   }
 
-  Widget _buildBubbleTabBar() {
+  Widget _buildBubbleTabBar(BuildContext context) {
     return new TabBar(
       isScrollable: true,
-      unselectedLabelColor: Colors.grey,
-      labelColor: Colors.white,
+      unselectedLabelColor: AppColors.kLightPrimaryColor,
+      labelColor: AppColors.kWhiteColor,
       indicatorSize: TabBarIndicatorSize.tab,
       indicator: new BubbleTabIndicator(
-        indicatorHeight: 25.0,
-        indicatorColor: Colors.blueAccent,
+        indicatorHeight: 35.0,
+        indicatorColor: AppColors.kPrimaryColorDark,
         tabBarIndicatorSize: TabBarIndicatorSize.tab,
       ),
-      tabs: tabs,
+      tabs: _createTabs(context),
       controller: _tabController,
     );
   }
