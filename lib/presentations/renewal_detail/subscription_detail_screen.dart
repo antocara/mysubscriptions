@@ -63,7 +63,7 @@ class _SubscriptionDetailState extends State<SubscriptionDetail> {
   Widget _buildScaffold(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.kTransparent,
-      appBar: DetailAppBar(subscription: widget._renewal.subscription),
+      appBar: DetailAppBar(title: widget._renewal.subscription.upperName),
       body: _buildBody(context),
     );
   }

@@ -17,11 +17,14 @@ class RenewalCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppDimens.kBorderRadiusCard)),
+        borderRadius: BorderRadius.circular(AppDimens.kBorderRadiusCard),
+      ),
       margin: EdgeInsets.symmetric(
-          vertical: 0, horizontal: AppDimens.kDefaultHorizontalMargin),
+        vertical: 0,
+        horizontal: AppDimens.kDefaultHorizontalMargin,
+      ),
       elevation: 10,
-      color: _renewal.subscription.color ?? Colors.black,
+      color: _renewal.subscription.color ?? AppColors.kPrimaryColor,
       child: Padding(
         padding: const EdgeInsets.all(20.0),
         child: _buildCardContent(context),

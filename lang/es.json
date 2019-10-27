@@ -18,5 +18,15 @@
   "antocara": "@antocara",
   "develop_with" : "Desarrollado con ",
   "in_coin": " en Coin",
-  "twitter": "https://twitter.com/antocara"
+  "twitter": "https://twitter.com/antocara",
+  "create_subscription": "Crear Subscripción",
+  "name": "Nombre",
+  "price": "Precio",
+  "first_bill":"Primer pago",
+  "renewal_cycle": "Ciclo de renovaciones",
+  "create": "Crear Suscripción",
+  "subscription_saved": "Suscripción guardada",
+  "error_saving_subscription": "Error guardando la suscripción, inténtelo de nuevo",
+  "error_mandatory_field": "Por favor inserte algún valor",
+  "color": "Color"
 }
