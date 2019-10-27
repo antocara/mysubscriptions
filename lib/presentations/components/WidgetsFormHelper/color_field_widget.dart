@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/material_picker.dart';
+import 'package:subscriptions/app_localizations.dart';
 import 'package:subscriptions/presentations/components/WidgetsFormHelper/icon_field_widget.dart';
+import 'package:subscriptions/presentations/styles/colors.dart';
+import 'package:subscriptions/presentations/styles/text_styles.dart';
 
 typedef ColorSelected(Color color);
 
@@ -19,7 +22,7 @@ class _ColorFieldWidgetState extends State<ColorFieldWidget> {
 
   @override
   void initState() {
-    _currentColor = Colors.black;
+    _currentColor = kPrimaryColor;
     super.initState();
   }
 
@@ -29,6 +32,13 @@ class _ColorFieldWidgetState extends State<ColorFieldWidget> {
       padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 0),
       child: Row(
         children: <Widget>[
+          Text(
+            AppLocalizations.of(context).translate("color"),
+            style: kInputFormContent,
+          ),
+          SizedBox(
+            width: 5,
+          ),
           _buildCircleColor(),
         ],
       ),
@@ -67,13 +77,14 @@ class _ColorFieldWidgetState extends State<ColorFieldWidget> {
   }
 
   Widget _buildCircleColor() {
-    return InkWell(
-      onTap: _showColorPicker,
-      child: Container(
-        width: 100,
-        height: 50,
-        child: Card(
-          color: _currentColor,
+    return Expanded(
+      child: InkWell(
+        onTap: _showColorPicker,
+        child: Container(
+          height: 50,
+          child: Card(
+            color: _currentColor,
+          ),
         ),
       ),
     );

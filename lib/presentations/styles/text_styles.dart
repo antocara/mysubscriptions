@@ -30,3 +30,9 @@ final kCardDetailAmount =
 
 //settings
 const kTitleSettings = TextStyle(fontSize: 18, color: AppColors.kWhiteColor);
+
+//form
+const kInputFormContent =
+    TextStyle(fontSize: 15, color: AppColors.kPrimaryColorDark);
+const kInputFormHint =
+    TextStyle(fontSize: 15, color: AppColors.kLightPrimaryColor);

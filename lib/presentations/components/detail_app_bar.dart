@@ -4,12 +4,12 @@ import 'package:subscriptions/presentations/styles/colors.dart' as AppColors;
 import 'package:subscriptions/presentations/styles/text_styles.dart';
 
 class DetailAppBar extends StatelessWidget implements PreferredSizeWidget {
-  DetailAppBar({Key key, Subscription subscription})
-      : _subscription = subscription,
+  DetailAppBar({Key key, @required String title})
+      : _title = title,
         preferredSize = Size.fromHeight(kToolbarHeight),
         super(key: key);
 
-  final Subscription _subscription;
+  String _title;
   @override
   final Size preferredSize;
 
@@ -19,7 +19,7 @@ class DetailAppBar extends StatelessWidget implements PreferredSizeWidget {
       iconTheme: IconThemeData(color: AppColors.kAppBarTitleDetail),
       backgroundColor: AppColors.kTransparent,
       elevation: 0,
-      title: Text(_subscription.upperName, style: kTitleAppBar),
+      title: Text(_title, style: kTitleAppBar),
     );
   }
 }
