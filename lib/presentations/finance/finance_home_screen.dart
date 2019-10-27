@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:subscriptions/app_localizations.dart';
 import 'package:subscriptions/presentations/components/app_bar_detail.dart';
 import 'package:subscriptions/presentations/components/background_circles.dart';
-import 'package:subscriptions/presentations/finance/month_chart_screen.dart';
+import 'package:subscriptions/presentations/finance/finance_month_screen.dart';
 import 'package:subscriptions/presentations/finance/total_chart_screen.dart';
 import 'package:subscriptions/presentations/finance/year_chart_screen.dart';
 import 'package:subscriptions/presentations/styles/colors.dart' as AppColors;
@@ -16,7 +16,7 @@ class FinanceHomeScreen extends StatefulWidget {
 class _FinanceHomeScreenState extends State<FinanceHomeScreen>
     with SingleTickerProviderStateMixin {
   final List<Widget> tabsControllers = <Widget>[
-    MonthChartScreen(),
+    FinanceMonthScreen(),
     YearChartScreen(),
     TotalChartScreen()
   ];

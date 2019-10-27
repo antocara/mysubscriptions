@@ -31,5 +31,6 @@
   "color": "Color",
   "finance_this_month":"Este mes",
   "finance_this_year": "Este año",
-  "finance_total": "Total"
+  "finance_total": "Total",
+  "expenses": "Gastos"
 }
