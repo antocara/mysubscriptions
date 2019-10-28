@@ -1,4 +1,5 @@
 import 'package:subscriptions/domain/bloc/detail_renewal_bloc.dart';
+import 'package:subscriptions/domain/bloc/finance_bloc.dart';
 import 'package:subscriptions/domain/bloc/upcoming_renewals_bloc.dart';
 
 class BlocInject {
@@ -8,5 +9,9 @@ class BlocInject {
 
   static DetailRenewalBloc buildSubscriptionDetailBloc() {
     return DetailRenewalBloc();
+  }
+
+  static FinanceBloc buildFinanceBloc() {
+    return FinanceBloc();
   }
 }

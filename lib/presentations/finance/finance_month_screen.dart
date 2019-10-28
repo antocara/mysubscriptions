@@ -3,8 +3,8 @@ import 'package:flutter/rendering.dart';
 import 'package:subscriptions/app_localizations.dart';
 import 'package:subscriptions/data/di/payment_inject.dart';
 import 'package:subscriptions/data/entities/payment.dart';
-import 'package:subscriptions/data/entities/subscription.dart';
 import 'package:subscriptions/data/repositories/payment_repository.dart';
+import 'package:subscriptions/domain/di/bloc_inject.dart';
 import 'package:subscriptions/helpers/dates_helper.dart';
 import 'package:subscriptions/presentations/components/finance_row.dart';
 import 'package:subscriptions/presentations/finance/chart_widgets/semi_circle_chart.dart';
@@ -16,11 +16,11 @@ class FinanceMonthScreen extends StatefulWidget {
 }
 
 class _FinanceMonthScreenState extends State<FinanceMonthScreen> {
-  PaymentRepository _paymentRepository;
+  final _bloc = BlocInject.buildFinanceBloc();
 
   @override
   void initState() {
-    _paymentRepository = PaymentInject.buildPaymentRepository();
+    _bloc.fetchRenewalsThisMonth();
     super.initState();
   }
 
@@ -31,7 +31,7 @@ class _FinanceMonthScreenState extends State<FinanceMonthScreen> {
 
   Widget _buildBody() {
     return Center(
-      child: FutureBuilder(
+      child: StreamBuilder(
         builder: (context, projectSnap) {
           if (projectSnap.connectionState == ConnectionState.none ||
               !projectSnap.hasData) {
@@ -40,7 +40,7 @@ class _FinanceMonthScreenState extends State<FinanceMonthScreen> {
             return _buildScrollWidgets(projectSnap.data);
           }
         },
-        future: _fetchRenewalsThisMonth(),
+        stream: _bloc.paymentsThisMonth,
       ),
     );
   }
@@ -106,18 +106,9 @@ class _FinanceMonthScreenState extends State<FinanceMonthScreen> {
     });
   }
 
-  Future<List<Payment>> _fetchRenewalsThisMonth() async {
-    final DateTime now = DateTime.now();
-    final firstDateThisMonth = DatesHelper.firstDayOfMonth(DateTime.now());
-    final DateTime lastDayMonth =
-        DatesHelper.lastDayOfMonth(DateTime(now.year, now.month));
-
-    final result = await _paymentRepository.fetchAllRenewalsByMonth(
-        firstDateThisMonth, lastDayMonth);
-    result.sort((first, second) {
-      return second.subscription.price.compareTo(first.subscription.price);
-    });
-
-    return result;
+  @override
+  void dispose() {
+    _bloc.disposed();
+    super.dispose();
   }
 }
