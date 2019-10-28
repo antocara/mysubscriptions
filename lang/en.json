@@ -28,5 +28,9 @@
   "subscription_saved": "Subscription saved",
   "error_saving_subscription": "Error saving subscription, try again",
   "error_mandatory_field": "Please enter some value",
-  "color": "Color"
+  "color": "Color",
+  "finance_this_month":"This month",
+  "finance_this_year": "This year",
+  "finance_total": "Total",
+  "expenses": "Expenses"
 }

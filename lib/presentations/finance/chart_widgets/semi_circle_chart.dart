@@ -4,13 +4,15 @@ import 'package:charts_flutter/flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:subscriptions/data/entities/payment.dart';
 import 'package:subscriptions/data/entities/subscription.dart';
+import 'package:subscriptions/presentations/styles/colors.dart';
+import 'package:subscriptions/presentations/styles/text_styles.dart';
 
 class SemiCircleChart extends StatefulWidget {
   SemiCircleChart({Key key, List<Payment> paymentsThisMonth})
       : _paymentsThisMonth = paymentsThisMonth,
         super(key: key);
 
-  List<Payment> _paymentsThisMonth;
+  final List<Payment> _paymentsThisMonth;
 
   @override
   _SemiCircleChartState createState() => _SemiCircleChartState();
@@ -42,7 +44,8 @@ class _SemiCircleChartState extends State<SemiCircleChart> {
           bottomMarginSpec: marginsBottom),
       animate: true,
       defaultRenderer: ArcRendererConfig(
-          arcWidth: 50,
+          strokeWidthPx: 0,
+          arcWidth: 55,
           startAngle: 4 / 5 * pi,
           arcLength: 7 / 5 * pi,
           arcRendererDecorators: [new ArcLabelDecorator()]),
@@ -67,6 +70,8 @@ class _SemiCircleChartState extends State<SemiCircleChart> {
           return data.color;
         },
         labelAccessorFn: (SubscriptionData row, _) => '€${row.price}',
+        outsideLabelStyleAccessorFn: (SubscriptionData row, _) =>
+            TextStyleSpec(color: Color.white),
         data: _createSerieData(),
       )
     ];

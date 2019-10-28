@@ -5,7 +5,7 @@ import 'package:subscriptions/data/entities/payment.dart';
 import 'package:subscriptions/data/entities/renewal.dart';
 import 'package:subscriptions/domain/di/bloc_inject.dart';
 import 'package:subscriptions/helpers/dates_helper.dart';
-import 'package:subscriptions/presentations/components/detail_app_bar.dart';
+import 'package:subscriptions/presentations/components/app_bar_detail.dart';
 import 'package:subscriptions/presentations/components/subscription_detail_card.dart';
 import 'package:subscriptions/presentations/components/subscription_detail_card_amount.dart';
 import 'package:subscriptions/presentations/styles/colors.dart' as AppColors;
@@ -63,7 +63,7 @@ class _SubscriptionDetailState extends State<SubscriptionDetail> {
   Widget _buildScaffold(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.kTransparent,
-      appBar: DetailAppBar(title: widget._renewal.subscription.upperName),
+      appBar: AppBarDetail(title: widget._renewal.subscription.upperName),
       body: _buildBody(context),
     );
   }

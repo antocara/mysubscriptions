@@ -3,8 +3,8 @@ import 'package:subscriptions/presentations/styles/colors.dart' as AppColors;
 import 'package:subscriptions/presentations/styles/text_styles.dart'
     as AppTextStyles;
 
-class DefaultAppBar extends StatefulWidget implements PreferredSizeWidget {
-  DefaultAppBar({Key key, this.title = "", this.icon, this.onButtonTap})
+class AppBarDefault extends StatefulWidget implements PreferredSizeWidget {
+  AppBarDefault({Key key, this.title = "", this.icon, this.onButtonTap})
       : preferredSize = Size.fromHeight(kToolbarHeight),
         super(key: key);
 
@@ -13,13 +13,13 @@ class DefaultAppBar extends StatefulWidget implements PreferredSizeWidget {
   final Function onButtonTap;
 
   @override
-  _DefaultAppBarState createState() => _DefaultAppBarState();
+  _AppBarDefaultState createState() => _AppBarDefaultState();
 
   @override
   final Size preferredSize;
 }
 
-class _DefaultAppBarState extends State<DefaultAppBar> {
+class _AppBarDefaultState extends State<AppBarDefault> {
   @override
   Widget build(BuildContext context) {
     return _buildAppbar();

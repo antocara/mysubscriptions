@@ -28,5 +28,9 @@
   "subscription_saved": "Suscripción guardada",
   "error_saving_subscription": "Error guardando la suscripción, inténtelo de nuevo",
   "error_mandatory_field": "Por favor inserte algún valor",
-  "color": "Color"
+  "color": "Color",
+  "finance_this_month":"Este mes",
+  "finance_this_year": "Este año",
+  "finance_total": "Total",
+  "expenses": "Gastos"
 }

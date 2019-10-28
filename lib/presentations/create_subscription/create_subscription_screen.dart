@@ -12,7 +12,7 @@ import 'package:subscriptions/presentations/components/WidgetsFormHelper/date_fi
 import 'package:subscriptions/presentations/components/WidgetsFormHelper/dismiss_keyboard_on_scroll.dart';
 import 'package:subscriptions/presentations/components/WidgetsFormHelper/text_field_widget.dart';
 import 'package:subscriptions/presentations/components/card_row.dart';
-import 'package:subscriptions/presentations/components/detail_app_bar.dart';
+import 'package:subscriptions/presentations/components/app_bar_detail.dart';
 import 'package:subscriptions/presentations/navigation_manager.dart';
 import 'package:subscriptions/presentations/styles/colors.dart' as AppColors;
 import 'package:subscriptions/presentations/styles/text_styles.dart';
@@ -49,7 +49,7 @@ class _CreateSubscriptionScreenState extends State<CreateSubscriptionScreen> {
   }
 
   Widget _buildAppBar() {
-    return DetailAppBar(
+    return AppBarDetail(
       title: AppLocalizations.of(context).translate("create_subscription"),
     );
   }
