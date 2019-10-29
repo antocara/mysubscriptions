@@ -27,11 +27,31 @@ class _BarChartYearlyState extends State<BarChartYearly> {
   @override
   Widget build(BuildContext context) {
     // For horizontal bar charts, set the [vertical] flag to false.
-    return new BarChart(
+    return BarChart(
       _data,
       animate: true,
       barGroupingType: BarGroupingType.stacked,
       vertical: true,
+      domainAxis: OrdinalAxisSpec(
+          renderSpec: SmallTickRendererSpec(
+              minimumPaddingBetweenLabelsPx: 0,
+              // Tick and Label styling here.
+              labelStyle: TextStyleSpec(
+                  fontSize: 15, // size in Pts.
+                  color: MaterialPalette.white),
+
+              // Change the line colors to match text color.
+              lineStyle: LineStyleSpec(color: MaterialPalette.black))),
+      primaryMeasureAxis: NumericAxisSpec(
+          renderSpec: GridlineRendererSpec(
+
+              // Tick and Label styling here.
+              labelStyle: TextStyleSpec(
+                  fontSize: 18, // size in Pts.
+                  color: MaterialPalette.white),
+
+              // Change the line colors to match text color.
+              lineStyle: LineStyleSpec(color: MaterialPalette.white))),
     );
   }
 
@@ -58,6 +78,8 @@ class _BarChartYearlyState extends State<BarChartYearly> {
       measureFn: (SubscriptionData data, _) {
         return data.price;
       },
+      outsideLabelStyleAccessorFn: (SubscriptionData row, _) =>
+          TextStyleSpec(color: Color.white),
       data: _createSerieData(subscription),
     );
   }

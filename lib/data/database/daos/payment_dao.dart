@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:subscriptions/data/database/database_provider.dart';
 import 'package:subscriptions/data/entities/payment.dart';
@@ -73,11 +74,11 @@ class PaymentDao {
   }
 
   Future<List<Payment>> fetchPaymentsBetween(
-      {DateTime starDate, DateTime endDate}) async {
+      {DateTime starDate, DateTime endDate, @required SortBy sortBy}) async {
     final db = await _database;
 
     String whereString =
-        '$columnRenewalAt >= ? AND $columnRenewalAt <= ? ORDER BY $columnRenewalAt ASC';
+        '$columnRenewalAt >= ? AND $columnRenewalAt <= ? ORDER BY $columnRenewalAt ${_getSort(sortBy)}';
 
     final List<Map<String, dynamic>> maps = await db.query(
       TABLE_NAME,
@@ -102,4 +103,16 @@ class PaymentDao {
       return Payment.fromMap(maps[i]);
     });
   }
+
+  String _getSort(SortBy sortBy) {
+    switch (sortBy) {
+      case SortBy.ASC:
+        return "ASC";
+      case SortBy.DESC:
+        return "DESC";
+    }
+    return "";
+  }
 }
+
+enum SortBy { ASC, DESC }

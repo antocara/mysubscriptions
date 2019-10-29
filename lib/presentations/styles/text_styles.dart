@@ -41,6 +41,6 @@ const kInputFormHint =
 const kMonthAmountTitle =
     TextStyle(fontSize: 15, color: AppColors.kLightPrimaryColor);
 const kMonthAmount = TextStyle(fontSize: 30, color: AppColors.kWhiteColor);
-const kFinanceRowTitle = TextStyle(fontSize: 25, color: AppColors.kWhiteColor);
+const kFinanceRowTitle = TextStyle(fontSize: 20, color: AppColors.kWhiteColor);
 const kFinanceRowAmount =
     TextStyle(fontSize: 20, color: AppColors.kLightPrimaryColor);

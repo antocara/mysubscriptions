@@ -32,9 +32,9 @@ class PaymentRepository {
   }
 
   Future<List<Payment>> fetchAllRenewalsByMonth(
-      DateTime startDate, endDate) async {
+      DateTime startDate, DateTime endDate, SortBy sortBy) async {
     final result = await _paymentDao.fetchPaymentsBetween(
-        starDate: startDate, endDate: endDate);
+        starDate: startDate, endDate: endDate, sortBy: sortBy);
 
     final paymentsWithSubscriptions = result.map((payment) async {
       final subscription = await _subscriptionDao.fetchSubscription(
