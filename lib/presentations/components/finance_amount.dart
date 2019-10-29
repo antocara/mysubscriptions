@@ -25,7 +25,7 @@ class FinanceAmount extends StatelessWidget {
           Text(AppLocalizations.of(context).translate("expenses"),
               style: kMonthAmountTitle),
           Text(
-            "€ ${_calculateThisMonthAmount(_payments)}",
+            "€ ${_calculateThisMonthAmount(_payments).toStringAsFixed(2)}",
             style: kMonthAmount,
           ),
         ],

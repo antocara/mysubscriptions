@@ -93,7 +93,7 @@ class _YearChartScreenState extends State<YearChartScreen> {
               return FinanceStickyHeader(
                 title: keys[index],
                 amount: _calculateAmountByMonth(headerData[keys[index]]),
-                paymentsMonth: headerData[keys[index]],
+                childHeader: _buildMonthPayments(headerData[keys[index]]),
               );
             },
           );
@@ -101,6 +101,17 @@ class _YearChartScreenState extends State<YearChartScreen> {
       },
       future: _groupData(data),
     );
+  }
+
+  List<Widget> _buildMonthPayments(List<Payment> data) {
+    return data.map((payment) {
+      final subscription = payment.subscription;
+      final rowData = FinanceRowData(
+          title: subscription.name,
+          color: subscription.color,
+          amount: subscription.price);
+      return FinanceRow(data: rowData);
+    }).toList();
   }
 
   String _calculateAmountByMonth(List<Payment> data) {

@@ -72,7 +72,11 @@ class _FinanceMonthScreenState extends State<FinanceMonthScreen> {
       itemCount: payments.length,
       itemBuilder: (context, index) {
         final subscription = payments[index].subscription;
-        return FinanceRow(subscription: subscription);
+        final rowData = FinanceRowData(
+            title: subscription.name,
+            color: subscription.color,
+            amount: subscription.price);
+        return FinanceRow(data: rowData);
       },
     );
   }

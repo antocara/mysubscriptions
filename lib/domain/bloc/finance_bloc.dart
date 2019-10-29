@@ -18,11 +18,14 @@ class FinanceBloc {
       StreamController<List<Payment>>.broadcast();
   StreamController _paymentsUntilTodayStream =
       StreamController<List<Payment>>.broadcast();
+  StreamController _paymentsTotalStream =
+      StreamController<List<Payment>>.broadcast();
 
   Stream<List<Payment>> get paymentsThisMonth =>
       _paymentsThisMonthStream.stream;
   Stream<List<Payment>> get paymentsUntilToday =>
       _paymentsUntilTodayStream.stream;
+  Stream<List<Payment>> get paymentsTotal => _paymentsTotalStream.stream;
 
   void fetchRenewalsThisMonth() async {
     final DateTime now = DateTime.now();
@@ -54,8 +57,18 @@ class FinanceBloc {
     _paymentsUntilTodayStream.add(result);
   }
 
+  void fetchTotalRenewals() async {
+    final result = await _paymentRepository.fetchAllRenewals();
+    result.sort((first, second) {
+      return second.renewalAt.compareTo(first.renewalAt);
+    });
+
+    _paymentsTotalStream.add(result);
+  }
+
   void disposed() {
     _paymentsThisMonthStream.close();
     _paymentsUntilTodayStream.close();
+    _paymentsTotalStream.close();
   }
 }

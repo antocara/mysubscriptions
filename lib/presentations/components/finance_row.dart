@@ -4,12 +4,20 @@ import 'package:subscriptions/data/entities/subscription.dart';
 import 'package:subscriptions/presentations/styles/dimens.dart';
 import 'package:subscriptions/presentations/styles/text_styles.dart';
 
+class FinanceRowData {
+  FinanceRowData({this.title, this.amount, this.color});
+
+  String title;
+  double amount;
+  Color color;
+}
+
 class FinanceRow extends StatefulWidget {
-  FinanceRow({Key key, Subscription subscription})
-      : _subscription = subscription,
+  FinanceRow({Key key, FinanceRowData data})
+      : _data = data,
         super(key: key);
 
-  final Subscription _subscription;
+  final FinanceRowData _data;
 
   @override
   _FinanceRowState createState() => _FinanceRowState();
@@ -43,7 +51,7 @@ class _FinanceRowState extends State<FinanceRow> {
       children: <Widget>[
         _buildBackColorRow(),
         Container(
-          color: widget._subscription.color.withOpacity(0.4),
+          color: widget._data.color.withOpacity(0.4),
           height: kFinanceRowHeight,
           margin: EdgeInsets.only(left: 0, right: 0),
           child: Padding(
@@ -52,10 +60,11 @@ class _FinanceRowState extends State<FinanceRow> {
               children: <Widget>[
                 Expanded(
                     child: Text(
-                  widget._subscription.name,
+                  widget._data.title,
                   style: kFinanceRowTitle,
                 )),
-                Text("€${widget._subscription.price}", style: kFinanceRowAmount)
+                Text("€${widget._data.amount.toStringAsFixed(2)}",
+                    style: kFinanceRowAmount)
               ],
             ),
           ),
@@ -69,13 +78,13 @@ class _FinanceRowState extends State<FinanceRow> {
       alignment: Alignment.centerRight,
       child: Container(
         decoration: BoxDecoration(
-          color: widget._subscription.color.withOpacity(0.8),
+          color: widget._data.color.withOpacity(0.8),
           borderRadius: BorderRadius.only(
             bottomLeft: const Radius.circular(25),
             topLeft: const Radius.circular(25),
           ),
         ),
-        width: _widthSubscriptionRow * widget._subscription.price,
+        width: _widthSubscriptionRow * widget._data.amount,
         height: kFinanceRowHeight,
       ),
     );
@@ -86,7 +95,7 @@ class _FinanceRowState extends State<FinanceRow> {
     final RenderBox box = context.findRenderObject();
     final width = box?.size?.width ?? 0;
     setState(() {
-      _widthSubscriptionRow = width / (widget._subscription.price + 8);
+      _widthSubscriptionRow = width / (widget._data.amount + 8);
     });
   }
 }
