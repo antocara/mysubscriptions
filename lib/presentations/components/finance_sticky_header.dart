@@ -3,6 +3,7 @@ import 'package:sticky_headers/sticky_headers.dart';
 import 'package:subscriptions/data/entities/payment.dart';
 import 'package:subscriptions/presentations/components/finance_row.dart';
 import 'package:subscriptions/presentations/styles/colors.dart';
+import 'package:subscriptions/presentations/styles/dimens.dart';
 
 class FinanceStickyHeader extends StatelessWidget {
   FinanceStickyHeader(
@@ -20,7 +21,7 @@ class FinanceStickyHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return StickyHeader(
       header: Container(
-        height: 40.0,
+        height: kFinanceStickyHeaderRowHeight,
         color: Colors.deepPurple,
         padding: EdgeInsets.symmetric(horizontal: 16.0),
         alignment: Alignment.centerLeft,

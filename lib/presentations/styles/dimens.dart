@@ -6,4 +6,5 @@ const kBorderRadiusCard = 10.00;
 const kAppBarTitle = 23.00;
 
 //finances
-const kFinanceRowHeight = 50.00;
+const kFinanceRowHeight = 35.00;
+const kFinanceStickyHeaderRowHeight = 55.0;
