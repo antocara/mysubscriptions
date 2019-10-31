@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:subscriptions/data/database/daos/payment_dao.dart';
 import 'package:subscriptions/data/di/payment_inject.dart';
+import 'package:subscriptions/data/entities/amount_payments_year.dart';
 import 'package:subscriptions/data/entities/payment.dart';
-import 'package:subscriptions/data/entities/subscription.dart';
 import 'package:subscriptions/data/repositories/payment_repository.dart';
 import 'package:subscriptions/helpers/dates_helper.dart';
 
@@ -19,13 +19,16 @@ class FinanceBloc {
   StreamController _paymentsUntilTodayStream =
       StreamController<List<Payment>>.broadcast();
   StreamController _paymentsTotalStream =
-      StreamController<List<Payment>>.broadcast();
+      StreamController<List<AmountPaymentsYear>>.broadcast();
 
   Stream<List<Payment>> get paymentsThisMonth =>
       _paymentsThisMonthStream.stream;
+
   Stream<List<Payment>> get paymentsUntilToday =>
       _paymentsUntilTodayStream.stream;
-  Stream<List<Payment>> get paymentsTotal => _paymentsTotalStream.stream;
+
+  Stream<List<AmountPaymentsYear>> get paymentsTotal =>
+      _paymentsTotalStream.stream;
 
   void fetchRenewalsThisMonth() async {
     final DateTime now = DateTime.now();
@@ -59,11 +62,9 @@ class FinanceBloc {
 
   void fetchTotalRenewals() async {
     final result = await _paymentRepository.fetchAllRenewals();
-    result.sort((first, second) {
-      return second.renewalAt.compareTo(first.renewalAt);
-    });
 
-    _paymentsTotalStream.add(result);
+    var flattened = result.expand((pair) => pair).toList();
+    _paymentsTotalStream.add(flattened);
   }
 
   void disposed() {

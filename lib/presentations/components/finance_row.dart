@@ -95,7 +95,7 @@ class _FinanceRowState extends State<FinanceRow> {
     final RenderBox box = context.findRenderObject();
     final width = box?.size?.width ?? 0;
     setState(() {
-      _widthSubscriptionRow = width / (widget._data.amount + 8);
+      _widthSubscriptionRow = width / (widget._data.amount.round() + 8);
     });
   }
 }

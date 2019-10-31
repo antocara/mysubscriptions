@@ -1,5 +1,6 @@
 import 'package:subscriptions/data/database/daos/payment_dao.dart';
 import 'package:subscriptions/data/database/daos/subscription_dao.dart';
+import 'package:subscriptions/data/entities/amount_payments_year.dart';
 import 'package:subscriptions/data/entities/payment.dart';
 import 'package:subscriptions/data/entities/subscription.dart';
 
@@ -47,16 +48,26 @@ class PaymentRepository {
     return Future.wait(paymentsWithSubscriptions);
   }
 
-  Future<List<Payment>> fetchAllRenewals() async {
-    final result = await _paymentDao.fetchAllPayments();
+  Future<List<List<AmountPaymentsYear>>> fetchAllRenewals() async {
+    final List<List<AmountPaymentsYear>> result =
+        await _paymentDao.fetchAllPaymentsGroupedByYears();
 
-    final paymentsWithSubscriptions = result.map((payment) async {
-      final subscription = await _subscriptionDao.fetchSubscription(
-          subscription: payment.subscription);
+    final a = result.map((listAmountPayments) async {
+      return await _fetchSubscriptionsByPayment(listAmountPayments);
+    });
 
-      payment.subscription = subscription;
-      return payment;
-    }).toList();
+    return Future.wait(a);
+  }
+
+  Future<List<AmountPaymentsYear>> _fetchSubscriptionsByPayment(
+      List<AmountPaymentsYear> data) async {
+    final paymentsWithSubscriptions = data.map((amountPayment) async {
+      final subscriptionWithId = Subscription(id: amountPayment.subscriptionId);
+      final subscriptionData = await _subscriptionDao.fetchSubscription(
+          subscription: subscriptionWithId);
+      amountPayment.subscription = subscriptionData;
+      return amountPayment;
+    });
 
     return Future.wait(paymentsWithSubscriptions);
   }
