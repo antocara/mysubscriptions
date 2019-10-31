@@ -7,15 +7,15 @@ import 'package:subscriptions/presentations/styles/dimens.dart';
 
 class FinanceStickyHeader extends StatelessWidget {
   FinanceStickyHeader(
-      {Key key, String title, String amount, List<Payment> paymentsMonth})
+      {Key key, String title, String amount, List<Widget> childHeader})
       : _title = title,
         _amount = amount,
-        _paymentsMonth = paymentsMonth,
+        _childHeader = childHeader,
         super(key: key);
 
   final String _title;
   final String _amount;
-  final List<Payment> _paymentsMonth;
+  final List<Widget> _childHeader;
 
   @override
   Widget build(BuildContext context) {
@@ -41,14 +41,8 @@ class FinanceStickyHeader extends StatelessWidget {
         ),
       ),
       content: Column(
-        children: _buildMonthPayments(_paymentsMonth),
+        children: _childHeader,
       ),
     );
-  }
-
-  List<Widget> _buildMonthPayments(List<Payment> data) {
-    return data.map((payment) {
-      return FinanceRow(subscription: payment.subscription);
-    }).toList();
   }
 }
