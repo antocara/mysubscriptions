@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mailer/flutter_mailer.dart';
 import 'package:package_info/package_info.dart';
 import 'package:share/share.dart';
 import 'package:subscriptions/app_localizations.dart';
@@ -154,5 +155,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
     Share.share(AppLocalizations.of(context).translate("twitter"));
   }
 
-  void _sendEmail() {}
+  void _sendEmail() async {
+    final MailOptions mailOptions = MailOptions(
+      body: 'Hello',
+      subject: 'MySubscriptions app Feedback ',
+      recipients: ['antocara@gmail.com'],
+      isHTML: true,
+    );
+
+    await FlutterMailer.send(mailOptions);
+  }
 }
