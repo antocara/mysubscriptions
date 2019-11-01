@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:subscriptions/data/di/payment_inject.dart';
+import 'package:subscriptions/data/di/settings_inject.dart';
 import 'package:subscriptions/presentations/home_tab_menu/home_tab_bar_screen.dart';
 import 'package:subscriptions/presentations/styles/colors.dart' as AppColors;
+import 'package:subscriptions/presentations/wizard/initial_wizard_screen.dart';
 
 import 'app_localizations.dart';
 
@@ -13,24 +15,35 @@ class MyApp extends StatelessWidget {
     _initializeServices();
   }
 
+  final _repository = SettingsInject.buildSettingsRepository();
+
   @override
   Widget build(BuildContext context) {
     return _initializeMaterialApp(context);
   }
 
-  MaterialApp _initializeMaterialApp(BuildContext context) {
-    return MaterialApp(
-      theme: _initializeTheme(),
-      // List all of the app's supported locales here
-      supportedLocales: _locales,
-      // These delegates make sure that the localization data for the proper language is loaded
-      localizationsDelegates: _localesDelegates,
-      // Returns a locale which will be used by the app
-      localeResolutionCallback: (locale, supportedLocales) {
-        return _initializeLocations(locale, supportedLocales);
+  Widget _initializeMaterialApp(BuildContext context) {
+    return FutureBuilder(
+      builder: (context, snapData) {
+        if (snapData.hasData && snapData.data != null) {
+          return MaterialApp(
+            theme: _initializeTheme(),
+            // List all of the app's supported locales here
+            supportedLocales: _locales,
+            // These delegates make sure that the localization data for the proper language is loaded
+            localizationsDelegates: _localesDelegates,
+            // Returns a locale which will be used by the app
+            localeResolutionCallback: (locale, supportedLocales) {
+              return _initializeLocations(locale, supportedLocales);
+            },
+            home: snapData.data,
+            title: "Subscriptions",
+          );
+        } else {
+          return Container();
+        }
       },
-      home: HomeTabMenuScreen(),
-      title: "Subscriptions",
+      future: _fetchHomeScreen(),
     );
   }
 
@@ -43,6 +56,18 @@ class MyApp extends StatelessWidget {
 
   void _initializeServices() {
     PaymentInject.buildPaymentServices().updatePaymentData();
+  }
+
+  Future<Widget> _fetchHomeScreen() async {
+    final isWizardDisplayed = await _repository.isInitialWizardDisplayed();
+
+    switch (isWizardDisplayed) {
+      case true:
+        return HomeTabMenuScreen();
+      case false:
+        return InitialWizardScreen();
+    }
+    return InitialWizardScreen();
   }
 
   /// Localize app
