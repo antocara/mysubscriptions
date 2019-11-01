@@ -8,7 +8,7 @@ import 'package:subscriptions/helpers/dates_helper.dart';
 import 'package:subscriptions/presentations/components/finance_amount.dart';
 import 'package:subscriptions/presentations/components/finance_row.dart';
 import 'package:subscriptions/presentations/components/finance_sticky_header.dart';
-import 'package:subscriptions/presentations/finance/chart_widgets/bar_chart_yearly.dart';
+import 'package:subscriptions/presentations/components/chart_widgets/bar_chart_yearly.dart';
 
 class YearChartScreen extends StatefulWidget {
   @override
@@ -124,5 +124,11 @@ class _YearChartScreenState extends State<YearChartScreen> {
     return groupBy(result, (Payment obj) {
       return DatesHelper.toStringWithMonthAndYear(obj.renewalAt);
     });
+  }
+
+  @override
+  void dispose() {
+    _bloc.disposed();
+    super.dispose();
   }
 }

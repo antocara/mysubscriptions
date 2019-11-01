@@ -61,7 +61,7 @@ class FinanceBloc {
   }
 
   void fetchTotalRenewals() async {
-    final result = await _paymentRepository.fetchAllRenewals();
+    final result = await _paymentRepository.fetchAllPaymentsByYears();
 
     var flattened = result.expand((pair) => pair).toList();
     _paymentsTotalStream.add(flattened);

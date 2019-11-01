@@ -9,7 +9,7 @@ import 'package:subscriptions/domain/di/bloc_inject.dart';
 import 'package:subscriptions/presentations/components/finance_amount.dart';
 import 'package:subscriptions/presentations/components/finance_row.dart';
 import 'package:subscriptions/presentations/components/finance_sticky_header.dart';
-import 'package:subscriptions/presentations/finance/chart_widgets/bar_chart_total.dart';
+import 'package:subscriptions/presentations/components/chart_widgets/bar_chart_total.dart';
 
 class TotalChartScreen extends StatefulWidget {
   @override
@@ -128,5 +128,11 @@ class _TotalChartScreenState extends State<TotalChartScreen> {
     return groupBy(result, (AmountPaymentsYear obj) {
       return obj.year;
     });
+  }
+
+  @override
+  void dispose() {
+    _bloc.disposed();
+    super.dispose();
   }
 }
