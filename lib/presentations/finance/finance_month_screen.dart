@@ -3,7 +3,7 @@ import 'package:subscriptions/data/entities/payment.dart';
 import 'package:subscriptions/domain/di/bloc_inject.dart';
 import 'package:subscriptions/presentations/components/finance_amount.dart';
 import 'package:subscriptions/presentations/components/finance_row.dart';
-import 'package:subscriptions/presentations/finance/chart_widgets/semi_circle_chart.dart';
+import 'package:subscriptions/presentations/components/chart_widgets/semi_circle_chart.dart';
 
 class FinanceMonthScreen extends StatefulWidget {
   @override

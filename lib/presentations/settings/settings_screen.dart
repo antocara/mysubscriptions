@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mailer/flutter_mailer.dart';
 import 'package:package_info/package_info.dart';
 import 'package:share/share.dart';
 import 'package:subscriptions/app_localizations.dart';
@@ -48,12 +49,34 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget _factoryRows(BuildContext context, int index) {
     switch (index) {
       case 0:
-        return _buildAuthorRow(context);
+        return _buildContactRow(context);
       case 1:
+        return _buildAuthorRow(context);
+      case 2:
         return _buildVersionRow(context);
       default:
         return _buildDevelopLoveRow(context);
     }
+  }
+
+  Widget _buildContactRow(BuildContext context) {
+    return InkWell(
+      onTap: _sendEmail,
+      child: Padding(
+        padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+        child: Container(
+          height: 40,
+          child: Row(
+            children: <Widget>[
+              Expanded(
+                child: Text(AppLocalizations.of(context).translate("contact"),
+                    style: kTitleSettings),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   Widget _buildVersionRow(BuildContext context) {
@@ -130,5 +153,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   void _openTwitter() {
     Share.share(AppLocalizations.of(context).translate("twitter"));
+  }
+
+  void _sendEmail() async {
+    final MailOptions mailOptions = MailOptions(
+      body: 'Hello',
+      subject: 'MySubscriptions app Feedback ',
+      recipients: ['antocara@gmail.com'],
+      isHTML: true,
+    );
+
+    await FlutterMailer.send(mailOptions);
   }
 }

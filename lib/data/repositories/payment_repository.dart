@@ -48,7 +48,7 @@ class PaymentRepository {
     return Future.wait(paymentsWithSubscriptions);
   }
 
-  Future<List<List<AmountPaymentsYear>>> fetchAllRenewals() async {
+  Future<List<List<AmountPaymentsYear>>> fetchAllPaymentsByYears() async {
     final List<List<AmountPaymentsYear>> result =
         await _paymentDao.fetchAllPaymentsGroupedByYears();
 
@@ -59,6 +59,8 @@ class PaymentRepository {
     return Future.wait(a);
   }
 
+  // recupera de DB los datos de una suscripción y la añade al objeto
+  // AmountPaymentYear
   Future<List<AmountPaymentsYear>> _fetchSubscriptionsByPayment(
       List<AmountPaymentsYear> data) async {
     final paymentsWithSubscriptions = data.map((amountPayment) async {
