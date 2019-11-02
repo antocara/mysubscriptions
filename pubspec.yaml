@@ -38,6 +38,7 @@ dependencies:
   flutter_mailer: ^0.4.1+1
   intro_views_flutter: '^2.8.0'
   shared_preferences: ^0.5.4+3
+  flutter_local_notifications: ^0.8.4
 
 dev_dependencies:
   flutter_test:
