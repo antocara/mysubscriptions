@@ -7,7 +7,7 @@ import 'package:subscriptions/presentations/renewal_detail/subscription_detail_s
 
 class NavigationManager {
   static void navigateToHomeScreen(BuildContext context) {
-    Navigator.push(
+    Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => HomeTabMenuScreen()),
     );

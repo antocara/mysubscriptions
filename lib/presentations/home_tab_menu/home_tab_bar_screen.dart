@@ -3,6 +3,7 @@ import 'package:subscriptions/presentations/components/home_bottom_navigation_ba
 import 'package:subscriptions/presentations/finance/finance_home_screen.dart';
 import 'package:subscriptions/presentations/settings/settings_screen.dart';
 import 'package:subscriptions/presentations/upcoming_renewals/upcoming_renewals_list_screen.dart';
+import 'package:subscriptions/services/local_notifications_services.dart';
 
 import '../styles/colors.dart' as AppColors;
 
@@ -19,6 +20,13 @@ class _HomeTabMenuScreenState extends State<HomeTabMenuScreen> {
   ];
 
   int _currentTabIndex = 0;
+  LocalNotificationsService _localNotifications;
+  @override
+  void initState() {
+    _localNotifications = LocalNotificationsService();
+    _localNotifications.scheduleNotification();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
