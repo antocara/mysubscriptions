@@ -41,7 +41,9 @@ class MyApp extends StatelessWidget {
               return _initializeLocations(locale, supportedLocales);
             },
             home: snapData.data,
-            title: "Subscriptions",
+            onGenerateTitle: (context) {
+              return AppLocalizations.of(context).translate("app_title");
+            },
           );
         } else {
           return Container();
