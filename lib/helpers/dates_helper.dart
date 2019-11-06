@@ -25,6 +25,20 @@ class DatesHelper {
     return formatter.format(date);
   }
 
+  static DateTime tomorrow() {
+    final now = DateTime.now();
+    return DateTime(now.year, now.month, now.day + 1);
+  }
+
+  static DateTime afterTomorrow() {
+    final tomorrow = DatesHelper.tomorrow();
+    return DateTime(tomorrow.year, tomorrow.month, tomorrow.day + 1);
+  }
+
+  static DateTime today() {
+    return DateTime.now();
+  }
+
   static DateTime toDateFromEpoch(int epochValue) {
     DateTime date = new DateTime.fromMillisecondsSinceEpoch(epochValue);
     var stringDate = toStringFromDate(date);
@@ -82,5 +96,11 @@ class DatesHelper {
       default:
         return '';
     }
+  }
+
+  static bool isHourToDisplayNotification() {
+    final thisHour = DateTime.now().hour;
+
+    return (thisHour > 8 && thisHour < 9);
   }
 }

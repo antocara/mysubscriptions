@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:subscriptions/data/di/payment_inject.dart';
+import 'package:subscriptions/data/di/renewal_inject.dart';
 import 'package:subscriptions/data/di/settings_inject.dart';
+import 'package:subscriptions/data/repositories/renewal_repository.dart';
 import 'package:subscriptions/presentations/home_tab_menu/home_tab_bar_screen.dart';
 import 'package:subscriptions/presentations/styles/colors.dart' as AppColors;
 import 'package:subscriptions/presentations/wizard/initial_wizard_screen.dart';
+import 'package:subscriptions/services/background_jobs_service.dart';
+import 'package:workmanager/workmanager.dart';
 
 import 'app_localizations.dart';
 
@@ -56,6 +60,8 @@ class MyApp extends StatelessWidget {
 
   void _initializeServices() {
     PaymentInject.buildPaymentServices().updatePaymentData();
+    final jobs = BackgroundJobsServices();
+    jobs.registerPeriodicJobs();
   }
 
   Future<Widget> _fetchHomeScreen() async {

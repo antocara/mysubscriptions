@@ -36,4 +36,21 @@ class RenewalRepository {
 
     return result;
   }
+
+  Future<List<Renewal>> fetchSubscriptionsRenewTomorrow() async {
+    final DateTime today = DatesHelper.today();
+
+    final DateTime afterTomorrow = DatesHelper.afterTomorrow();
+
+    final result = await _renewalDao.fetchRenewalBetweenNotEquals(
+        starDate: today, endDate: afterTomorrow);
+
+    final renewalWithSubscriptions = result.map((renewal) async {
+      final subscription = await _subscriptionDao.fetchSubscription(
+          subscription: renewal.subscription);
+      renewal.subscription = subscription;
+      return renewal;
+    }).toList();
+    return Future.wait(renewalWithSubscriptions);
+  }
 }

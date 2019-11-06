@@ -35,7 +35,7 @@ class LocalNotificationsService {
   }
 
   /// Schedules a notification that specifies a different icon, sound and vibration pattern
-  Future<void> scheduleNotification() async {
+  Future<void> scheduleNotification(String title, String message) async {
     var scheduledNotificationDateTime =
         DateTime.now().add(Duration(seconds: 30));
 //    var vibrationPattern = Int64List(4);
@@ -66,11 +66,7 @@ class LocalNotificationsService {
     var iOSPlatformChannelSpecifics = IOSNotificationDetails();
     var platformChannelSpecifics = NotificationDetails(
         androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
-    await _flutterLocalNotificationsPlugin.schedule(
-        0,
-        'scheduled title',
-        'scheduled body  ad a da,sdn .adn a',
-        scheduledNotificationDateTime,
-        platformChannelSpecifics);
+    await _flutterLocalNotificationsPlugin.schedule(0, title, message,
+        scheduledNotificationDateTime, platformChannelSpecifics);
   }
 }
