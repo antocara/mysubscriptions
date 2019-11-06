@@ -62,7 +62,8 @@ class LocalNotificationsService {
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
         'your other channel id',
         'your other channel name',
-        'your other channel description');
+        'your other channel description',
+        style: AndroidNotificationStyle.BigText);
     var iOSPlatformChannelSpecifics = IOSNotificationDetails();
     var platformChannelSpecifics = NotificationDetails(
         androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
