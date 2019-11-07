@@ -20,11 +20,9 @@ class _HomeTabMenuScreenState extends State<HomeTabMenuScreen> {
   ];
 
   int _currentTabIndex = 0;
-  LocalNotificationsService _localNotifications;
+
   @override
   void initState() {
-    _localNotifications = LocalNotificationsService();
-    _localNotifications.scheduleNotification();
     super.initState();
   }
 

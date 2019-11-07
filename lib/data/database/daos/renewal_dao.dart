@@ -73,4 +73,25 @@ class RenewalDao {
       return Renewal.fromMap(maps[i]);
     });
   }
+
+  Future<List<Renewal>> fetchRenewalBetweenNotEquals(
+      {DateTime starDate, DateTime endDate}) async {
+    final db = await _database;
+
+    String whereString =
+        '$columnRenewalAt > ? AND $columnRenewalAt < ? ORDER BY $columnRenewalAt ASC';
+
+    final List<Map<String, dynamic>> maps = await db.query(
+      TABLE_NAME,
+      where: whereString,
+      whereArgs: [
+        starDate.millisecondsSinceEpoch,
+        endDate.millisecondsSinceEpoch
+      ],
+    );
+
+    return List.generate(maps.length, (i) {
+      return Renewal.fromMap(maps[i]);
+    });
+  }
 }

@@ -43,7 +43,7 @@ class _HeaderRowState extends State<HeaderRow> {
 
   Text _buildAmountTitleText() {
     return Text(
-      "€ ${widget.amount ?? 0.00}",
+      "€ ${widget.amount.toStringAsFixed(2) ?? 0.00}",
       style: AppTextStyles.kSubTitleHeaderRow,
     );
   }
