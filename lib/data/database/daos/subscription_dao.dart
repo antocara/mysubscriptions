@@ -103,19 +103,18 @@ class SubscriptionDao {
 //      whereArgs: [dog.id],
 //    );
 //  }
-//
-//  Future<void> deleteDog(int id) async {
-//    // Get a reference to the database.
-//    final db = await database;
-//
-//    // Remove the Dog from the database.
-//    await db.delete(
-//      'dogs',
-//      // Use a `where` clause to delete a specific dog.
-//      where: "id = ?",
-//      // Pass the Dog's id as a whereArg to prevent SQL injection.
-//      whereArgs: [id],
-//    );
-//  }
 
+  Future<bool> deleteSubscription({Subscription subscription}) async {
+    final db = await _database;
+
+    String whereString = '$columnId == ?';
+
+    final result = await db.delete(
+      TABLE_NAME,
+      where: whereString,
+      whereArgs: [subscription.id],
+    );
+
+    return result != 0;
+  }
 }

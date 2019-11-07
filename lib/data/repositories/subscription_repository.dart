@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:subscriptions/data/database/daos/renewal_dao.dart';
 import 'package:subscriptions/data/database/daos/subscription_dao.dart';
 import 'package:subscriptions/data/di/payment_inject.dart';
@@ -34,8 +35,8 @@ class SubscriptionRepository {
     return await _subscriptionDao.fetchAllSubscriptions();
   }
 
-//  Future<List<Subscription>> fetchAllSubscriptionsUntil(DateTime until) async {
-//    final result = await _subscriptionDao.fetchAllSubscriptionsUntil(
-//        untilAt: DateTime(2019, 10));
-//  }
+  Future<bool> deleteSubscription({@required Subscription subscription}) async {
+    return await _subscriptionDao.deleteSubscription(
+        subscription: subscription);
+  }
 }
