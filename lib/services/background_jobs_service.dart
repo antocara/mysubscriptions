@@ -28,7 +28,7 @@ class BackgroundJobsServices {
     Workmanager.registerPeriodicTask(
       TASK_TAG,
       TASK_NAME,
-      frequency: Duration(minutes: 1),
+      frequency: Duration(minutes: 59),
     );
   }
 
