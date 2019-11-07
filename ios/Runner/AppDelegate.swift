@@ -1,6 +1,6 @@
 import UIKit
 import Flutter
-import Workmanager
+import workmanager
 
 @UIApplicationMain
 @objc class AppDelegate: FlutterAppDelegate {
@@ -17,7 +17,6 @@ import Workmanager
         // This will make other plugins available during a background fetch
         GeneratedPluginRegistrant.register(with: registry)
     }
-    
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
 }
@@ -25,7 +24,7 @@ import Workmanager
 extension AppDelegate: UNUserNotificationCenterDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 willPresent notification: UNNotification,
-                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+    withCompletionHandler Handler: @escaping (UNNotificationPresentationOptions) -> Void) {
         completionHandler(.alert) // shows banner even if app is in foreground
     }
 }
