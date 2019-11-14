@@ -17,7 +17,11 @@ class UpcomingRenewalsBloc {
 
   void fetchUpcomingRenewals() async {
     final renewals = await _renewalRepository.fetchNextRenewalsForTwoMonths();
-    _streamController.add(renewals);
+
+    final renewalsSubsNotNull = renewals.where((renewal) {
+      return renewal.subscription != null;
+    }).toList();
+    _streamController.add(renewalsSubsNotNull);
   }
 
   void disposed() {

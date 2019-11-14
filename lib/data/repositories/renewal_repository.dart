@@ -21,7 +21,7 @@ class RenewalRepository {
         starDate: now, endDate: lastDayNextMonth);
 
     final renewalWithSubscriptions = result.map((renewal) async {
-      final subscription = await _subscriptionDao.fetchSubscription(
+      final subscription = await _subscriptionDao.fetchActiveSubscription(
           subscription: renewal.subscription);
       renewal.subscription = subscription;
       return renewal;
@@ -46,7 +46,7 @@ class RenewalRepository {
         starDate: today, endDate: afterTomorrow);
 
     final renewalWithSubscriptions = result.map((renewal) async {
-      final subscription = await _subscriptionDao.fetchSubscription(
+      final subscription = await _subscriptionDao.fetchActiveSubscription(
           subscription: renewal.subscription);
       renewal.subscription = subscription;
       return renewal;

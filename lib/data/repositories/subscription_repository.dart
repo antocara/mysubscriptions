@@ -35,8 +35,20 @@ class SubscriptionRepository {
     return await _subscriptionDao.fetchAllSubscriptions();
   }
 
+  /// Delete subscriptions and following renewals of this subscription
+  /// The subscriptions deletion are done at logical level
   Future<bool> deleteSubscription({@required Subscription subscription}) async {
-    return await _subscriptionDao.deleteSubscription(
-        subscription: subscription);
+    final deleteResult =
+        await _subscriptionDao.deleteSubscription(subscription: subscription);
+
+    bool deleteRenewalsResult;
+    if (deleteResult) {
+      deleteRenewalsResult = await _renewalDao.deleteAllRenewalsFromToday(
+          subscription: subscription);
+    } else {
+      return false;
+    }
+
+    return deleteRenewalsResult;
   }
 }

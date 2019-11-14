@@ -223,7 +223,7 @@ class _SubscriptionDetailState extends State<SubscriptionDetail> {
             new FlatButton(
               child: new Text("Aceptar"),
               onPressed: () {
-                _delete();
+                _delete(context);
               },
             ),
             new FlatButton(
@@ -238,7 +238,8 @@ class _SubscriptionDetailState extends State<SubscriptionDetail> {
     );
   }
 
-  void _delete() async {
+  void _delete(BuildContext context) async {
+    widget._renewal.subscription.isActive = false;
     final result = await _bloc.deleteSubscription(
         subscription: widget._renewal.subscription);
     if (result) {

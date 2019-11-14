@@ -12,6 +12,7 @@ class Subscription {
       this.firstBill,
       this.color,
       this.renewal,
+      this.isActive,
       this.renewalPeriod});
 
   int id;
@@ -21,8 +22,12 @@ class Subscription {
   DateTime firstBill;
   Color color;
   int renewal;
+  bool isActive;
   RenewalPeriodValues renewalPeriod;
 
+  //
+  //Mapeo para guardar en base de datos
+  //
   Map<String, dynamic> toMap() {
     return {
       'id': id,
@@ -32,10 +37,14 @@ class Subscription {
       'first_bill': firstBillSince1970,
       'color': colorValue,
       'renewal': renewal,
-      'renewal_period': renewalPeriodStringValue
+      'renewal_period': renewalPeriodStringValue,
+      'active': _activeToInt(isActive)
     };
   }
 
+  //
+  //Mapeo para crear objeto desde base de datos
+  //
   static Subscription fromMap(Map<String, dynamic> map) {
     return Subscription(
         id: map['id'],
@@ -45,6 +54,7 @@ class Subscription {
         firstBill: DatesHelper.toDateFromEpoch(map['first_bill']),
         color: ColorHelper.toColorFromValue(map['color']),
         renewal: map['renewal'],
+        isActive: Subscription.activeToBool(map['active']),
         renewalPeriod: RenewalPeriod.enumOfString(map['renewal_period']));
   }
 
@@ -98,7 +108,16 @@ class Subscription {
     return DatesHelper.toStringFromDate(firstBill);
   }
 
+  static bool activeToBool(int isActive) {
+    return isActive == 1 ? true : false;
+  }
+
+  static int _activeToInt(bool isActive) {
+    return isActive ? 1 : 0;
+  }
+
   @override
   bool operator ==(o) => o is Subscription && name == o.name;
+
   int get hashCode => name.hashCode + colorValue.hashCode;
 }

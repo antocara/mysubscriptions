@@ -34,6 +34,7 @@ class _CreateSubscriptionScreenState extends State<CreateSubscriptionScreen> {
   @override
   void initState() {
     _renewal.subscription = _subscription;
+    _renewal.subscription.isActive = true;
     super.initState();
   }
 
