@@ -59,6 +59,7 @@ class _FinanceHomeScreenState extends State<FinanceHomeScreen>
     return Scaffold(
       backgroundColor: AppColors.kDefaultBackground,
       appBar: AppBarDetail(
+        onDeletePressed: null,
         title: "",
         bottomWidget: _buildBubbleTabBar(context),
       ),

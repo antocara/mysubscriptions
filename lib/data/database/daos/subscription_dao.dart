@@ -1,3 +1,5 @@
+import 'dart:core';
+
 import 'package:sqflite/sqflite.dart';
 import 'package:subscriptions/data/database/database_provider.dart';
 import 'package:subscriptions/data/entities/subscription.dart';
@@ -19,6 +21,7 @@ class SubscriptionDao {
   static final columnColor = "color";
   static final columnRenewal = "renewal";
   static final columnRenewalPeriod = "renewal_period";
+  static final columnActive = "active";
 
   static String createSubscriptionTable() {
     return "CREATE TABLE ${SubscriptionDao.TABLE_NAME} "
@@ -30,6 +33,7 @@ class SubscriptionDao {
         "$columnFirstBill ${DataBaseConstants.INTEGER}, "
         "$columnColor ${DataBaseConstants.INTEGER}, "
         "$columnRenewal ${DataBaseConstants.INTEGER}, "
+        "$columnActive ${DataBaseConstants.INTEGER}, "
         "$columnRenewalPeriod ${DataBaseConstants.TEXT}"
         ");";
   }
@@ -74,9 +78,24 @@ class SubscriptionDao {
   }
 
   Future<Subscription> fetchSubscription({Subscription subscription}) async {
+    return _fetchSubscriptionData(subscription: subscription, isActive: false);
+  }
+
+  Future<Subscription> fetchActiveSubscription(
+      {Subscription subscription}) async {
+    return _fetchSubscriptionData(subscription: subscription, isActive: true);
+  }
+
+  Future<Subscription> _fetchSubscriptionData(
+      {Subscription subscription, bool isActive}) async {
     final db = await _database;
 
-    String whereString = '$columnId == ?';
+    String whereString;
+    if (isActive) {
+      whereString = '$columnId == ? AND $columnActive == 1';
+    } else {
+      whereString = '$columnId == ?';
+    }
 
     final List<Map<String, dynamic>> maps = await db.query(
       TABLE_NAME,
@@ -84,38 +103,28 @@ class SubscriptionDao {
       whereArgs: [subscription.id],
     );
 
-    return List.generate(maps.length, (i) {
+    final result = List.generate(maps.length, (i) {
       return Subscription.fromMap(maps[i]);
-    }).first;
+    });
+    if (result.length > 0) {
+      return result.first;
+    } else {
+      return Future.value(null);
+    }
   }
 
-//  Future<void> updateDog(Subscription subscription) async {
-//    // Get a reference to the database.
-//    final db = await database;
-//
-//    // Update the given Dog.
-//    await db.update(
-//      'dogs',
-//      dog.toMap(),
-//      // Ensure that the Dog has a matching id.
-//      where: "id = ?",
-//      // Pass the Dog's id as a whereArg to prevent SQL injection.
-//      whereArgs: [dog.id],
-//    );
-//  }
-//
-//  Future<void> deleteDog(int id) async {
-//    // Get a reference to the database.
-//    final db = await database;
-//
-//    // Remove the Dog from the database.
-//    await db.delete(
-//      'dogs',
-//      // Use a `where` clause to delete a specific dog.
-//      where: "id = ?",
-//      // Pass the Dog's id as a whereArg to prevent SQL injection.
-//      whereArgs: [id],
-//    );
-//  }
+  Future<bool> deleteSubscription({Subscription subscription}) async {
+    final db = await _database;
 
+    String whereString = '$columnId == ?';
+
+    final result = await db.update(
+      TABLE_NAME,
+      subscription.toMap(),
+      where: whereString,
+      whereArgs: [subscription.id],
+    );
+
+    return result != 0;
+  }
 }

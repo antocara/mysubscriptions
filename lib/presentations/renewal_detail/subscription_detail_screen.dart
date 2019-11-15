@@ -8,6 +8,7 @@ import 'package:subscriptions/helpers/dates_helper.dart';
 import 'package:subscriptions/presentations/components/app_bar_detail.dart';
 import 'package:subscriptions/presentations/components/subscription_detail_card.dart';
 import 'package:subscriptions/presentations/components/subscription_detail_card_amount.dart';
+import 'package:subscriptions/presentations/navigation_manager.dart';
 import 'package:subscriptions/presentations/styles/colors.dart' as AppColors;
 import 'package:subscriptions/presentations/styles/components.dart';
 import 'package:subscriptions/presentations/styles/text_styles.dart';
@@ -63,7 +64,12 @@ class _SubscriptionDetailState extends State<SubscriptionDetail> {
   Widget _buildScaffold(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.kTransparent,
-      appBar: AppBarDetail(title: widget._renewal.subscription.upperName),
+      appBar: AppBarDetail(
+        title: widget._renewal.subscription.upperName,
+        onDeletePressed: () {
+          _deleteSubscription(context);
+        },
+      ),
       body: _buildBody(context),
     );
   }
@@ -195,5 +201,54 @@ class _SubscriptionDetailState extends State<SubscriptionDetail> {
     });
 
     return result.toStringAsFixed(2);
+  }
+
+  void _deleteSubscription(BuildContext context) {
+    _displayAlertConfirmation(
+        title: "Atención",
+        message: "¿Está seguro/a de eliminar esta subscripción de su cuenta?");
+  }
+
+  void _displayAlertConfirmation(
+      {@required String title, @required String message}) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text(title),
+          content: new Text(message),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Aceptar"),
+              onPressed: () {
+                _delete(context);
+              },
+            ),
+            new FlatButton(
+              child: new Text("Cancelar"),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _delete(BuildContext context) async {
+    widget._renewal.subscription.isActive = false;
+    final result = await _bloc.deleteSubscription(
+        subscription: widget._renewal.subscription);
+    if (result) {
+      NavigationManager.popView(context);
+    } else {
+      _displayAlertConfirmation(
+          title: "Atención",
+          message:
+              "Ha ocurrido un error al eliminar la subscripción, inténtelo denuevo por favor.");
+    }
   }
 }

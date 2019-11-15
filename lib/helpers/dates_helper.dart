@@ -101,6 +101,6 @@ class DatesHelper {
   static bool isHourToDisplayNotification() {
     final thisHour = DateTime.now().hour;
 
-    return (thisHour > 8 && thisHour < 9);
+    return (thisHour > 7 && thisHour < 9);
   }
 }
