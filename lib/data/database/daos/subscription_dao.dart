@@ -89,9 +89,13 @@ class SubscriptionDao {
   Future<Subscription> _fetchSubscriptionData(
       {Subscription subscription, bool isActive}) async {
     final db = await _database;
-    final valueActive = isActive ? 1 : 0;
 
-    String whereString = '$columnId == ? AND $columnActive == $valueActive';
+    String whereString;
+    if (isActive) {
+      whereString = '$columnId == ? AND $columnActive == 1';
+    } else {
+      whereString = '$columnId == ?';
+    }
 
     final List<Map<String, dynamic>> maps = await db.query(
       TABLE_NAME,
