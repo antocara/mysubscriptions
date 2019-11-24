@@ -8,7 +8,7 @@ import 'package:subscriptions/helpers/dates_helper.dart';
 class RenewalDao {
   static const TABLE_NAME = "renewals";
 
-  RenewalDao(Future<Database> database) {
+  RenewalDao({@required Future<Database> database}) {
     this._database = database;
   }
 

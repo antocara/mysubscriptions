@@ -10,8 +10,10 @@ class SubscriptionRepository {
   RenewalDao _renewalDao;
   RenewalsService _renewalsService;
 
-  SubscriptionRepository(SubscriptionDao subscriptionDao, RenewalDao renewalDao,
-      RenewalsService renewalsService) {
+  SubscriptionRepository(
+      {@required SubscriptionDao subscriptionDao,
+      @required RenewalDao renewalDao,
+      @required RenewalsService renewalsService}) {
     _subscriptionDao = subscriptionDao;
     _renewalDao = renewalDao;
     _renewalsService = renewalsService;

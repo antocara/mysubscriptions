@@ -11,7 +11,7 @@ class RenewalInject {
   }
 
   static RenewalDao buildRenewalDao() {
-    return RenewalDao(DatabaseProvider.instance.database);
+    return RenewalDao(database: DatabaseProvider.instance.database);
   }
 
   static RenewalsService buildRenewalService() {

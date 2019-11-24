@@ -8,7 +8,7 @@ import 'package:subscriptions/data/entities/subscription.dart';
 class SubscriptionDao {
   static const TABLE_NAME = "subscriptions";
 
-  SubscriptionDao(Future<Database> database) {
+  SubscriptionDao({@required Future<Database> database}) {
     this._database = database;
   }
 
