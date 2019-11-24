@@ -10,27 +10,32 @@ class SubscriptionRepository {
   RenewalDao _renewalDao;
   RenewalsService _renewalsService;
 
-  SubscriptionRepository(SubscriptionDao subscriptionDao, RenewalDao renewalDao,
-      RenewalsService renewalsService) {
+  SubscriptionRepository(
+      {@required SubscriptionDao subscriptionDao,
+      @required RenewalDao renewalDao,
+      @required RenewalsService renewalsService}) {
     _subscriptionDao = subscriptionDao;
     _renewalDao = renewalDao;
     _renewalsService = renewalsService;
   }
 
-  Future<bool> saveSubscription(Subscription subscription) async {
+  ///Guarda una subscripción en base de datos y genera todas las futuras
+  /// renovaciones para esta suscripción
+  Future<bool> saveSubscription({Subscription subscription}) async {
     final subscriptionId =
-        await _subscriptionDao.insertSubscription(subscription);
+        await _subscriptionDao.insertSubscription(subscription: subscription);
 
     subscription.id = subscriptionId;
     final renewalsList =
         await _renewalsService.createRenewalsForSubscription(subscription);
     renewalsList.forEach((renewal) {
-      _renewalDao.insertRenewal(renewal);
+      _renewalDao.insertRenewal(renewal: renewal);
     });
     PaymentInject.buildPaymentServices().updatePaymentData();
     return Future.value(true);
   }
 
+  ///Obtiene todas las suscripciones guardadas en base de datos
   Future<List<Subscription>> fetchAllSubscriptions() async {
     return await _subscriptionDao.fetchAllSubscriptions();
   }

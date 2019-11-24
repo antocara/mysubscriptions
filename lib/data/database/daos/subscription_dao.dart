@@ -1,5 +1,6 @@
 import 'dart:core';
 
+import 'package:flutter/cupertino.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:subscriptions/data/database/database_provider.dart';
 import 'package:subscriptions/data/entities/subscription.dart';
@@ -7,7 +8,7 @@ import 'package:subscriptions/data/entities/subscription.dart';
 class SubscriptionDao {
   static const TABLE_NAME = "subscriptions";
 
-  SubscriptionDao(Future<Database> database) {
+  SubscriptionDao({@required Future<Database> database}) {
     this._database = database;
   }
 
@@ -38,7 +39,10 @@ class SubscriptionDao {
         ");";
   }
 
-  Future<int> insertSubscription(Subscription subscription) async {
+  ///Inserta una suscripción pasada como parámetro [subscription]
+  ///en la base de datos
+  ///devuelve el id de la suscripción guardada
+  Future<int> insertSubscription({@required Subscription subscription}) async {
     final db = await _database;
 
     final result = await db.insert(
@@ -50,6 +54,8 @@ class SubscriptionDao {
     return Future.value(result);
   }
 
+  ///Obtiene de la base de datos todas las suscripciones
+  ///guardadas, tanto activas como no activas
   Future<List<Subscription>> fetchAllSubscriptions() async {
     final db = await _database;
 
@@ -60,8 +66,11 @@ class SubscriptionDao {
     });
   }
 
+  ///Obtiene todas las suscripciones hasta una fecha pasada
+  ///por parámetro [untilAt]
+  ///Retorna un futuro de una lista de suscripciones
   Future<List<Subscription>> fetchAllSubscriptionsUntil(
-      {DateTime untilAt}) async {
+      {@required DateTime untilAt}) async {
     final db = await _database;
 
     String whereString = '$columnFirstBill < ?';
@@ -77,17 +86,19 @@ class SubscriptionDao {
     });
   }
 
-  Future<Subscription> fetchSubscription({Subscription subscription}) async {
+  ///Obtiene los datos referentes a una suscripción no activa [subscription]
+  Future<Subscription> fetchSubscription({@required Subscription subscription}) async {
     return _fetchSubscriptionData(subscription: subscription, isActive: false);
   }
 
+  ///Obtiene los datos referentes a una suscripción activa [subscription]
   Future<Subscription> fetchActiveSubscription(
-      {Subscription subscription}) async {
+      {@required Subscription subscription}) async {
     return _fetchSubscriptionData(subscription: subscription, isActive: true);
   }
 
   Future<Subscription> _fetchSubscriptionData(
-      {Subscription subscription, bool isActive}) async {
+      {@required Subscription subscription, bool isActive}) async {
     final db = await _database;
 
     String whereString;
@@ -113,7 +124,10 @@ class SubscriptionDao {
     }
   }
 
-  Future<bool> deleteSubscription({Subscription subscription}) async {
+  ///Elimina una [subscription] pasada como parámetro de la base de datos
+  ///Este borrado es lógico y no físico. Lo que se cambia es el estado del
+  ///flag de activo de la suscripción de activo a no activo
+  Future<bool> deleteSubscription({@required Subscription subscription}) async {
     final db = await _database;
 
     String whereString = '$columnId == ?';

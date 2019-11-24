@@ -6,11 +6,13 @@ import 'package:subscriptions/services/renewals_service.dart';
 
 class SubscriptionInject {
   static SubscriptionRepository buildSubscriptionRepository() {
-    return SubscriptionRepository(buildSubscriptionDao(),
-        RenewalInject.buildRenewalDao(), RenewalsService());
+    return SubscriptionRepository(
+        subscriptionDao: buildSubscriptionDao(),
+        renewalDao: RenewalInject.buildRenewalDao(),
+        renewalsService: RenewalsService());
   }
 
   static SubscriptionDao buildSubscriptionDao() {
-    return SubscriptionDao(DatabaseProvider.instance.database);
+    return SubscriptionDao(database: DatabaseProvider.instance.database);
   }
 }

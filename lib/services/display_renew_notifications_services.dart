@@ -1,4 +1,3 @@
-import 'package:subscriptions/app_localizations.dart';
 import 'package:subscriptions/data/entities/renewal.dart';
 import 'package:subscriptions/data/repositories/renewal_repository.dart';
 import 'package:subscriptions/services/local_notifications_services.dart';
