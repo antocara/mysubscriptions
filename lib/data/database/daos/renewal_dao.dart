@@ -27,7 +27,8 @@ class RenewalDao {
         ");";
   }
 
-  Future<bool> insertRenewal(Renewal renewal) async {
+  ///Guarda una renovación [renewal] perteneciente a una suscripción
+  Future<bool> insertRenewal({@required Renewal renewal}) async {
     final db = await _database;
 
     final result = await db.insert(
@@ -39,7 +40,10 @@ class RenewalDao {
     return Future.value(result == 1 ? true : false);
   }
 
-  Future<List<Renewal>> fetchAllRenewalBy({Subscription subscription}) async {
+  ///Obtiene todas las renovaciones pertenecientes a una suscripción [subscription]
+  ///retorna un futuro con una lista de renovaciones
+  Future<List<Renewal>> fetchAllRenewalBy(
+      {@required Subscription subscription}) async {
     final db = await _database;
 
     String whereString = '$columnSubscriptionId = ?';
@@ -55,8 +59,11 @@ class RenewalDao {
     });
   }
 
+  ///Obtiene todas las renovaciones dadas dos fechas pasadas como parámetros
+  ///[starDate] es la fecha inicial de búsqueda y [endDate] es la fecha final
+  ///la búsqueda se hace incluyendo las fechas en la franja a buscar
   Future<List<Renewal>> fetchRenewalBetween(
-      {DateTime starDate, DateTime endDate}) async {
+      {@required DateTime starDate, @required DateTime endDate}) async {
     final db = await _database;
 
     String whereString =
@@ -76,8 +83,11 @@ class RenewalDao {
     });
   }
 
+  ///Obtiene todas las renovaciones dadas dos fechas pasadas como parámetros
+  ///[starDate] es la fecha inicial de búsqueda y [endDate] es la fecha final
+  ///la búsqueda se hace SIN incluir las fechas en la franja a buscar
   Future<List<Renewal>> fetchRenewalBetweenNotEquals(
-      {DateTime starDate, DateTime endDate}) async {
+      {@required DateTime starDate, @required DateTime endDate}) async {
     final db = await _database;
 
     String whereString =

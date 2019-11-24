@@ -295,7 +295,7 @@ class _CreateSubscriptionScreenState extends State<CreateSubscriptionScreen> {
 
   void saveSubscription(BuildContext context) async {
     final result = await SubscriptionInject.buildSubscriptionRepository()
-        .saveSubscription(_subscription);
+        .saveSubscription(subscription: _subscription);
 
     if (result) {
       showSnackBar(
