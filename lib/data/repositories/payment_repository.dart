@@ -14,7 +14,7 @@ class PaymentRepository {
   }
 
   Future<bool> savePayment(Payment payment) async {
-    await _paymentDao.insertPayment(payment);
+    await _paymentDao.insertPayment(payment: payment);
     return Future.value(true);
   }
 

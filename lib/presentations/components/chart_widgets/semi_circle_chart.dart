@@ -1,11 +1,8 @@
 import 'dart:math';
-
 import 'package:charts_flutter/flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:subscriptions/data/entities/payment.dart';
 import 'package:subscriptions/data/entities/subscription.dart';
-import 'package:subscriptions/presentations/styles/colors.dart';
-import 'package:subscriptions/presentations/styles/text_styles.dart';
 
 class SemiCircleChart extends StatefulWidget {
   SemiCircleChart({Key key, List<Payment> paymentsThisMonth})

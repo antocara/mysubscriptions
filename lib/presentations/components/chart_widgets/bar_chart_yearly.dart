@@ -9,7 +9,7 @@ class BarChartYearly extends StatefulWidget {
       : _paymentList = paymentList,
         super(key: key);
 
-  List<Payment> _paymentList;
+  final List<Payment> _paymentList;
 
   @override
   _BarChartYearlyState createState() => _BarChartYearlyState();
