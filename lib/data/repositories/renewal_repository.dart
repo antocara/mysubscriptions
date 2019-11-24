@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:subscriptions/data/database/daos/renewal_dao.dart';
 import 'package:subscriptions/data/database/daos/subscription_dao.dart';
 import 'package:subscriptions/data/entities/renewal.dart';
@@ -11,6 +12,10 @@ class RenewalRepository {
   RenewalRepository(RenewalDao renewalDao, SubscriptionDao subscriptionDao) {
     _renewalDao = renewalDao;
     _subscriptionDao = subscriptionDao;
+  }
+
+  void saveRenewal({@required Renewal renewal}) async{
+    _renewalDao.insertRenewal(renewal: renewal);
   }
 
   Future<List<Renewal>> fetchNextRenewalsForTwoMonths() async {

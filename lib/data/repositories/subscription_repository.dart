@@ -3,6 +3,7 @@ import 'package:subscriptions/data/database/daos/renewal_dao.dart';
 import 'package:subscriptions/data/database/daos/subscription_dao.dart';
 import 'package:subscriptions/data/di/payment_inject.dart';
 import 'package:subscriptions/data/entities/subscription.dart';
+import 'package:subscriptions/data/repositories/renewal_repository.dart';
 import 'package:subscriptions/services/renewals_service.dart';
 
 class SubscriptionRepository {
@@ -21,18 +22,12 @@ class SubscriptionRepository {
 
   ///Guarda una subscripción en base de datos y genera todas las futuras
   /// renovaciones para esta suscripción
-  Future<bool> saveSubscription({Subscription subscription}) async {
+  Future<Subscription> saveSubscription({Subscription subscription}) async {
     final subscriptionId =
         await _subscriptionDao.insertSubscription(subscription: subscription);
 
     subscription.id = subscriptionId;
-    final renewalsList =
-        await _renewalsService.createRenewalsForSubscription(subscription);
-    renewalsList.forEach((renewal) {
-      _renewalDao.insertRenewal(renewal: renewal);
-    });
-    PaymentInject.buildPaymentServices().updatePaymentData();
-    return Future.value(true);
+    return Future.value(subscription);
   }
 
   ///Obtiene todas las suscripciones guardadas en base de datos
