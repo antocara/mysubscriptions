@@ -44,7 +44,7 @@ main() {
       final result = await PaymentServices(null, null, renewalsService)
           .calculateRenewalsDatesFrom(_payment);
 
-      expect(result.length, monthOffset);
+      expect(result.length, monthOffset + 1);
     });
   });
 }
