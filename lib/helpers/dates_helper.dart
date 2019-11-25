@@ -39,6 +39,14 @@ class DatesHelper {
     return DateTime.now();
   }
 
+  static DateTime todayOnlyDate(){
+    var now = new DateTime.now();
+    var formatter = new DateFormat('yyyy-MM-dd');
+    String formattedDate = formatter.format(now);
+    return formatter.parse(formattedDate);
+  }
+
+
   static DateTime toDateFromEpoch(int epochValue) {
     DateTime date = new DateTime.fromMillisecondsSinceEpoch(epochValue);
     var stringDate = toStringFromDate(date);
