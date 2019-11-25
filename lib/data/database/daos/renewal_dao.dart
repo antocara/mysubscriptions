@@ -116,7 +116,7 @@ class RenewalDao {
   Future<bool> deleteAllRenewalsFromToday(
       {@required Subscription subscription}) async {
     final db = await _database;
-    final today = DatesHelper.today().millisecondsSinceEpoch;
+    final today = DatesHelper.todayOnlyDate().millisecondsSinceEpoch;
 
     String whereString = '$columnId == ? AND $columnRenewalAt >= $today';
 
@@ -126,6 +126,6 @@ class RenewalDao {
       whereArgs: [subscription.id],
     );
 
-    return result != 0;
+    return result != null;
   }
 }
