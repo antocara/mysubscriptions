@@ -7,7 +7,7 @@ import 'package:subscriptions/data/di/subscription_inject.dart';
 import 'package:subscriptions/data/entities/subscription.dart';
 import 'package:subscriptions/data/repositories/renewal_repository.dart';
 import 'package:subscriptions/data/repositories/subscription_repository.dart';
-import 'package:subscriptions/services/renewals_service.dart';
+import 'package:subscriptions/domain/services/renewals_service.dart';
 
 class AddSubscriptionBloc {
   SubscriptionRepository _subscriptionRepository;

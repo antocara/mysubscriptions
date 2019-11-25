@@ -2,7 +2,8 @@ import 'package:subscriptions/data/entities/payment.dart';
 import 'package:subscriptions/data/entities/renewal.dart';
 import 'package:subscriptions/data/repositories/payment_repository.dart';
 import 'package:subscriptions/data/repositories/subscription_repository.dart';
-import 'package:subscriptions/services/renewals_service.dart';
+import 'package:subscriptions/domain/services/renewals_service.dart';
+import 'package:subscriptions/helpers/dates_helper.dart';
 
 class PaymentServices {
   SubscriptionRepository _subscriptionRepository;
@@ -25,7 +26,7 @@ class PaymentServices {
           await _paymentRepository.fetchLastPaymentBySubscription(subscription);
       lastPayment.subscription = subscription;
       //calcular días de pago desde ese último día hasta la actualidad
-      final futureRenewals = await _calculateRenewalsDatesFrom(lastPayment);
+      final futureRenewals = await calculateRenewalsDatesFrom(lastPayment);
       _savePayments(futureRenewals);
     });
   }
@@ -41,13 +42,13 @@ class PaymentServices {
     });
   }
 
-  Future<List<Renewal>> _calculateRenewalsDatesFrom(Payment payment) async {
+  Future<List<Renewal>> calculateRenewalsDatesFrom(Payment payment) async {
     if (payment.insertAt == null) {
       //no hay pagos guardados, hay que crear pagos desde la primera fecha hasta hoy
       return await _renewalsService.createRenewalsForSubscriptionBetween(
           subscription: payment.subscription,
           startDate: payment.subscription.firstBill,
-          endDate: DateTime.now());
+          endDate: DatesHelper.todayOnlyDate());
     } else if (payment.renewalAt.isBefore(DateTime.now())) {
       //existe algún pago guardado
       return await _renewalsService.createRenewalsForSubscriptionBetween(

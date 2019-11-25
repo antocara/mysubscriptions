@@ -43,6 +43,12 @@ class _CreateSubscriptionScreenState extends State<CreateSubscriptionScreen> {
   }
 
   @override
+  void deactivate() {
+    _addSubscriptionBloc.disposed();
+    super.deactivate();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor:
@@ -301,8 +307,8 @@ class _CreateSubscriptionScreenState extends State<CreateSubscriptionScreen> {
     _addSubscriptionBloc.addSubscription(subscription: _subscription);
   }
 
-  void _addSubscriptionObserver(){
-    _addSubscriptionBloc.addSubscriptionStream.listen((data){
+  void _addSubscriptionObserver() {
+    _addSubscriptionBloc.addSubscriptionStream.listen((data) {
       if (data != null) {
         showSnackBar(
           message: AppLocalizations.of(context).translate("subscription_saved"),
@@ -310,8 +316,8 @@ class _CreateSubscriptionScreenState extends State<CreateSubscriptionScreen> {
         NavigationManager.popView(context);
       } else {
         showSnackBar(
-          message:
-          AppLocalizations.of(context).translate("error_saving_subscription"),
+          message: AppLocalizations.of(context)
+              .translate("error_saving_subscription"),
         );
       }
     });
