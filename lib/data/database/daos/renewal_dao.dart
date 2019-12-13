@@ -108,7 +108,8 @@ class RenewalDao {
     final db = await _database;
     final today = DatesHelper.today().millisecondsSinceEpoch;
 
-    String whereString = '$columnId == ? AND $columnRenewalAt >= $today';
+    String whereString =
+        '$columnSubscriptionId == ? AND $columnRenewalAt >= $today';
 
     final result = await db.delete(
       TABLE_NAME,

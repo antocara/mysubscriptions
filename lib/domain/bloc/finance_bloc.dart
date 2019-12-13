@@ -36,12 +36,14 @@ class FinanceBloc {
     final DateTime lastDayMonth =
         DatesHelper.lastDayOfMonth(DateTime(now.year, now.month));
 
-    final result = await _paymentRepository.fetchAllRenewalsByMonth(
+    List<Payment> result = await _paymentRepository.fetchAllRenewalsByMonth(
         firstDateThisMonth, lastDayMonth, SortBy.ASC);
 
-    result.sort((first, second) {
-      return second.subscription.price.compareTo(first.subscription.price);
-    });
+    if (result.length > 0) {
+      result.sort((first, second) {
+        return second.subscription.price.compareTo(first.subscription.price);
+      });
+    }
 
     _paymentsThisMonthStream.add(result);
   }
@@ -50,12 +52,14 @@ class FinanceBloc {
     final DateTime now = DateTime.now();
     final firstDateYear = DatesHelper.firstDayOfYear(DateTime.now());
 
-    final result = await _paymentRepository.fetchAllRenewalsByMonth(
+    var result = await _paymentRepository.fetchAllRenewalsByMonth(
         firstDateYear, now, SortBy.DESC);
 
-    result.sort((first, second) {
-      return second.subscription.price.compareTo(first.subscription.price);
-    });
+    if (result.length > 0) {
+      result.sort((first, second) {
+        return second.subscription.price.compareTo(first.subscription.price);
+      });
+    }
 
     _paymentsUntilTodayStream.add(result);
   }
