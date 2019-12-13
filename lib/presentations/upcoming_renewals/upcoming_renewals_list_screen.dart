@@ -115,8 +115,12 @@ class _UpcomingRenewalsListScreenState
     }
   }
 
-  void _navigateToDetail(BuildContext context, Renewal renewal) {
-    NavigationManager.navigateToRenewalDetail(context, renewal);
+  void _navigateToDetail(BuildContext context, Renewal renewal) async {
+    final result =
+        await NavigationManager.navigateToRenewalDetail(context, renewal);
+    if (result != null && result) {
+      upcomingRenewalsBloc.fetchUpcomingRenewals();
+    }
   }
 
   @override

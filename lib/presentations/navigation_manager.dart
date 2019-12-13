@@ -20,13 +20,12 @@ class NavigationManager {
     );
   }
 
-  static void navigateToRenewalDetail(BuildContext context, Renewal renewal) {
-    Navigator.push(
+  static Future<bool> navigateToRenewalDetail(
+      BuildContext context, Renewal renewal) {
+    return Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => SubscriptionDetail(
-                renewal: renewal,
-              )),
+          builder: (context) => SubscriptionDetail(renewal: renewal)),
     );
   }
 
