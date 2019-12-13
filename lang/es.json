@@ -34,5 +34,7 @@
   "finance_total": "Total",
   "expenses": "Gastos",
   "contact": "Contacto",
-  "notification_title": "Atención, tienes renovaciones próximamente"
+  "notification_title": "Atención, tienes renovaciones próximamente",
+  "accept": "Aceptar",
+  "select_color": "Seleccione un color"
 }

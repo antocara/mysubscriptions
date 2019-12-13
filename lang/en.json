@@ -34,5 +34,7 @@
   "finance_total": "Total",
   "expenses": "Expenses",
   "contact": "Contact",
-  "notification_title": "Attention, you have renewals soon"
+  "notification_title": "Attention, you have renewals soon",
+  "accept": "Accept",
+  "select_color": "Select a color"
 }

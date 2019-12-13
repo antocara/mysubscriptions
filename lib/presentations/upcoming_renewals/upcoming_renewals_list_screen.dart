@@ -28,7 +28,6 @@ class _UpcomingRenewalsListScreenState
 
   @override
   Widget build(BuildContext context) {
-    print("build");
     return Column(
       children: <Widget>[
         _buildAppBar(),
