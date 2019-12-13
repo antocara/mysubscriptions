@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:subscriptions/app_localizations.dart';
-import 'package:subscriptions/data/di/subscription_inject.dart';
 import 'package:subscriptions/data/entities/renewal.dart';
 import 'package:subscriptions/data/entities/renewal_period.dart';
 import 'package:subscriptions/data/entities/subscription.dart';
@@ -309,11 +308,12 @@ class _CreateSubscriptionScreenState extends State<CreateSubscriptionScreen> {
 
   void _addSubscriptionObserver() {
     _addSubscriptionBloc.addSubscriptionStream.listen((data) {
+      final context = mScaffoldState.currentContext;
       if (data != null) {
         showSnackBar(
           message: AppLocalizations.of(context).translate("subscription_saved"),
         );
-        NavigationManager.popView(context);
+        NavigationManager.popView(context, result: true);
       } else {
         showSnackBar(
           message: AppLocalizations.of(context)

@@ -13,8 +13,8 @@ class NavigationManager {
     );
   }
 
-  static void navigateToAddSubscription(BuildContext context) {
-    Navigator.push(
+  static Future<bool> navigateToAddSubscription(BuildContext context) async {
+    return Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => CreateSubscriptionScreen()),
     );
@@ -30,7 +30,7 @@ class NavigationManager {
     );
   }
 
-  static void popView(BuildContext context) {
-    Navigator.of(context).pop();
+  static void popView(BuildContext context, {bool result = false}) {
+    Navigator.pop(context, result);
   }
 }

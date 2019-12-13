@@ -220,16 +220,17 @@ class _SubscriptionDetailState extends State<SubscriptionDetail> {
           content: new Text(message),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
-            new FlatButton(
-              child: new Text("Aceptar"),
-              onPressed: () {
-                _delete(context);
-              },
-            ),
+
             new FlatButton(
               child: new Text("Cancelar"),
               onPressed: () {
                 Navigator.pop(context);
+              },
+            ),
+            new FlatButton(
+              child: new Text("Aceptar"),
+              onPressed: () {
+                _delete(context);
               },
             ),
           ],
