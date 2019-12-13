@@ -3,7 +3,7 @@ import 'package:subscriptions/data/database/database_provider.dart';
 import 'package:subscriptions/data/di/renewal_inject.dart';
 import 'package:subscriptions/data/di/subscription_inject.dart';
 import 'package:subscriptions/data/repositories/payment_repository.dart';
-import 'package:subscriptions/services/payments_services.dart';
+import 'package:subscriptions/domain/services/payments_services.dart';
 
 class PaymentInject {
   static PaymentServices buildPaymentServices() {

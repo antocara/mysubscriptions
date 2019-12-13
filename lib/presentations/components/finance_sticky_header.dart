@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sticky_headers/sticky_headers.dart';
-import 'package:subscriptions/data/entities/payment.dart';
-import 'package:subscriptions/presentations/components/finance_row.dart';
 import 'package:subscriptions/presentations/styles/colors.dart';
 import 'package:subscriptions/presentations/styles/dimens.dart';
 

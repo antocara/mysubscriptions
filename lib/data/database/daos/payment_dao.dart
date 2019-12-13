@@ -33,7 +33,8 @@ class PaymentDao {
         ");";
   }
 
-  Future<int> insertPayment(Payment payment) async {
+  ///Guarda un pago [payment] en base de datos
+  Future<int> insertPayment({@required Payment payment}) async {
     final db = await _database;
 
     final result = await db.insert(
@@ -45,6 +46,8 @@ class PaymentDao {
     return Future.value(result);
   }
 
+  ///Obtiene todos los pagos pertenecientes a una suscripción [subscription]
+  ///ordenados de forma ascendente
   Future<List<Payment>> fetchPaymentsBySubscriptions(
       {Subscription subscription}) async {
     final db = await _database;
@@ -63,6 +66,7 @@ class PaymentDao {
     });
   }
 
+  ///Obtiene el último pago que exista en base de datos por una [subscription] dada
   Future<Payment> fetchLastPaymentBySubscriptions(
       {Subscription subscription}) async {
     final payments =
@@ -74,6 +78,8 @@ class PaymentDao {
     }
   }
 
+  ///Obtiene un listado de pagos entre dos fechas [starDate] y [endDate] ordenados
+  ///según el parámetro [sortBy]
   Future<List<Payment>> fetchPaymentsBetween(
       {DateTime starDate, DateTime endDate, @required SortBy sortBy}) async {
     final db = await _database;
@@ -95,6 +101,7 @@ class PaymentDao {
     });
   }
 
+  ///Obtiene todos los pagos agrupados por año
   Future<List<List<AmountPaymentsYear>>>
       fetchAllPaymentsGroupedByYears() async {
     final db = await _database;
@@ -113,10 +120,8 @@ class PaymentDao {
     return Future.wait(data);
   }
 
-  //
-  // Recupera los pagos realizados de cada susbcripción por año
-  // y obtiene el total de estos pagos anuales
-  //
+  /// Recupera los pagos realizados de cada susbcripción por año
+  /// y obtiene el total de estos pagos anuales
   Future<List<AmountPaymentsYear>> _selectAmountPaymentsByYear(
       String year) async {
     final db = await _database;

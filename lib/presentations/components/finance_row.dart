@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:subscriptions/data/entities/subscription.dart';
 import 'package:subscriptions/presentations/styles/dimens.dart';
 import 'package:subscriptions/presentations/styles/text_styles.dart';
 

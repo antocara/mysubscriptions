@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/material_picker.dart';
 import 'package:subscriptions/app_localizations.dart';
-import 'package:subscriptions/presentations/components/WidgetsFormHelper/icon_field_widget.dart';
 import 'package:subscriptions/presentations/styles/colors.dart';
 import 'package:subscriptions/presentations/styles/text_styles.dart';
 

@@ -6,6 +6,7 @@ import 'package:subscriptions/data/di/subscription_inject.dart';
 import 'package:subscriptions/data/entities/renewal.dart';
 import 'package:subscriptions/data/entities/renewal_period.dart';
 import 'package:subscriptions/data/entities/subscription.dart';
+import 'package:subscriptions/domain/di/bloc_inject.dart';
 import 'package:subscriptions/helpers/dates_helper.dart';
 import 'package:subscriptions/presentations/components/WidgetsFormHelper/color_field_widget.dart';
 import 'package:subscriptions/presentations/components/WidgetsFormHelper/date_field_widget.dart';
@@ -31,11 +32,20 @@ class _CreateSubscriptionScreenState extends State<CreateSubscriptionScreen> {
   final GlobalKey<ScaffoldState> mScaffoldState =
       new GlobalKey<ScaffoldState>();
 
+  final _addSubscriptionBloc = BlocInject.buildAddSubscriptionBloc();
+
   @override
   void initState() {
     _renewal.subscription = _subscription;
     _renewal.subscription.isActive = true;
+    _addSubscriptionObserver();
     super.initState();
+  }
+
+  @override
+  void deactivate() {
+    _addSubscriptionBloc.disposed();
+    super.deactivate();
   }
 
   @override
@@ -294,20 +304,23 @@ class _CreateSubscriptionScreenState extends State<CreateSubscriptionScreen> {
   }
 
   void saveSubscription(BuildContext context) async {
-    final result = await SubscriptionInject.buildSubscriptionRepository()
-        .saveSubscription(_subscription);
+    _addSubscriptionBloc.addSubscription(subscription: _subscription);
+  }
 
-    if (result) {
-      showSnackBar(
-        message: AppLocalizations.of(context).translate("subscription_saved"),
-      );
-      NavigationManager.popView(context);
-    } else {
-      showSnackBar(
-        message:
-            AppLocalizations.of(context).translate("error_saving_subscription"),
-      );
-    }
+  void _addSubscriptionObserver() {
+    _addSubscriptionBloc.addSubscriptionStream.listen((data) {
+      if (data != null) {
+        showSnackBar(
+          message: AppLocalizations.of(context).translate("subscription_saved"),
+        );
+        NavigationManager.popView(context);
+      } else {
+        showSnackBar(
+          message: AppLocalizations.of(context)
+              .translate("error_saving_subscription"),
+        );
+      }
+    });
   }
 
   void showSnackBar({String message}) {
