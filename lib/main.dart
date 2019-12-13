@@ -5,7 +5,7 @@ import 'package:subscriptions/data/di/settings_inject.dart';
 import 'package:subscriptions/presentations/home_tab_menu/home_tab_bar_screen.dart';
 import 'package:subscriptions/presentations/styles/colors.dart' as AppColors;
 import 'package:subscriptions/presentations/wizard/initial_wizard_screen.dart';
-import 'package:subscriptions/domain/services/background_jobs_service.dart';
+import 'package:subscriptions/services/background_jobs_service.dart';
 
 import 'app_localizations.dart';
 
