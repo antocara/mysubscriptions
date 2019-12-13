@@ -1,5 +1,6 @@
 import 'package:subscriptions/data/entities/payment.dart';
 import 'package:subscriptions/data/entities/renewal.dart';
+import 'package:subscriptions/data/entities/subscription.dart';
 import 'package:subscriptions/data/repositories/payment_repository.dart';
 import 'package:subscriptions/data/repositories/subscription_repository.dart';
 import 'package:subscriptions/domain/services/renewals_service.dart';
@@ -45,18 +46,40 @@ class PaymentServices {
   Future<List<Renewal>> calculateRenewalsDatesFrom(Payment payment) async {
     if (payment.insertAt == null) {
       //no hay pagos guardados, hay que crear pagos desde la primera fecha hasta hoy
-      return await _renewalsService.createRenewalsForSubscriptionBetween(
+      return await _createRenewalsForPaymentsBetween(
           subscription: payment.subscription,
           startDate: payment.subscription.firstBill,
           endDate: DatesHelper.todayOnlyDate());
     } else if (payment.renewalAt.isBefore(DateTime.now())) {
       //existe algún pago guardado
-      return await _renewalsService.createRenewalsForSubscriptionBetween(
+      return await _createRenewalsForPaymentsBetween(
           subscription: payment.subscription,
           startDate: payment.insertAt,
           endDate: DateTime.now());
     } else {
       return Future.value([]);
     }
+  }
+
+  Future<List<Renewal>> _createRenewalsForPaymentsBetween(
+      {Subscription subscription, DateTime startDate, DateTime endDate}) async {
+    final renewal = subscription.renewal;
+    final renewalPeriod = subscription.renewalPeriod;
+
+    List<Renewal> renewals = [
+      RenewalsService.createRenewal(subscription, startDate)
+    ];
+    DateTime currentRenewal = RenewalsService.getDurationInDaysFromRenewal(
+        renewalPeriod, renewal, startDate);
+
+    while (currentRenewal.isBefore(endDate)) {
+      final nextRenewalDate = RenewalsService.getDurationInDaysFromRenewal(
+          renewalPeriod, renewal, currentRenewal);
+      renewals
+          .add(RenewalsService.createRenewal(subscription, nextRenewalDate));
+      currentRenewal = nextRenewalDate;
+    }
+
+    return Future.value(renewals);
   }
 }

@@ -13,12 +13,15 @@ class RenewalsService {
 
     DateTime currentRenewal = firstBill;
 
-    List<Renewal> renewals = [_createRenewal(subscription, firstBill)];
+    List<Renewal> renewals = [
+      RenewalsService.createRenewal(subscription, firstBill)
+    ];
 
     while (currentRenewal.isBefore(maxRenewalDate)) {
-      final nextRenewalDate =
-          _getDurationInDaysFromRenewal(renewalPeriod, renewal, currentRenewal);
-      renewals.add(_createRenewal(subscription, nextRenewalDate));
+      final nextRenewalDate = RenewalsService.getDurationInDaysFromRenewal(
+          renewalPeriod, renewal, currentRenewal);
+      renewals
+          .add(RenewalsService.createRenewal(subscription, nextRenewalDate));
       currentRenewal = nextRenewalDate;
     }
 
@@ -32,20 +35,25 @@ class RenewalsService {
 
     DateTime currentRenewal = startDate;
 
-    List<Renewal> renewals = [_createRenewal(subscription, startDate)];
+    List<Renewal> renewals = [
+      RenewalsService.createRenewal(subscription, startDate)
+    ];
 
     while (currentRenewal.isBefore(endDate)) {
-      final nextRenewalDate =
-          _getDurationInDaysFromRenewal(renewalPeriod, renewal, currentRenewal);
-      renewals.add(_createRenewal(subscription, nextRenewalDate));
+      final nextRenewalDate = RenewalsService.getDurationInDaysFromRenewal(
+          renewalPeriod, renewal, currentRenewal);
+      renewals
+          .add(RenewalsService.createRenewal(subscription, nextRenewalDate));
       currentRenewal = nextRenewalDate;
     }
 
     return Future.value(renewals);
   }
 
-  DateTime _getDurationInDaysFromRenewal(RenewalPeriodValues renewalPeriod,
-      int renewalValue, DateTime currentRenewal) {
+  static DateTime getDurationInDaysFromRenewal(
+      RenewalPeriodValues renewalPeriod,
+      int renewalValue,
+      DateTime currentRenewal) {
     switch (renewalPeriod) {
       case RenewalPeriodValues.day:
         return new DateTime(currentRenewal.year, currentRenewal.month,
@@ -63,7 +71,8 @@ class RenewalsService {
     return currentRenewal;
   }
 
-  Renewal _createRenewal(Subscription subscription, DateTime nextRenewal) {
+  static Renewal createRenewal(
+      Subscription subscription, DateTime nextRenewal) {
     return Renewal(subscription: subscription, renewalAt: nextRenewal);
   }
 }
