@@ -50,16 +50,18 @@ class _ColorFieldWidgetState extends State<ColorFieldWidget> {
           return AlertDialog(
             actions: <Widget>[
               RaisedButton(
+                color: kPrimaryColor,
                 textColor: Colors.white,
                 onPressed: () {
                   Navigator.of(context, rootNavigator: true).pop();
                 },
-                child: new Text('Aceptar'),
+                child:
+                    new Text(AppLocalizations.of(context).translate("accept")),
               ),
             ],
             titlePadding: const EdgeInsets.all(10),
             contentPadding: const EdgeInsets.all(0.0),
-            title: Text("Select Color "),
+            title: Text(AppLocalizations.of(context).translate("select_color")),
             content: SingleChildScrollView(
               child: MaterialPicker(
                 pickerColor: _currentColor,

@@ -34,5 +34,11 @@
   "finance_total": "Total",
   "expenses": "Expenses",
   "contact": "Contact",
-  "notification_title": "Attention, you have renewals soon"
+  "notification_title": "Attention, you have renewals soon",
+  "accept": "Accept",
+  "select_color": "Select a color",
+  "attention": "Attention",
+  "sure_delete": "Are you sure you want to remove this subscription from your account?",
+  "cancel": "Cancel",
+  "error_deleting": "An error occurred while removing the subscription, please try again."
 }

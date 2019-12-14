@@ -204,12 +204,12 @@ class _SubscriptionDetailState extends State<SubscriptionDetail> {
   }
 
   void _deleteSubscription(BuildContext context) {
-    _displayAlertConfirmation(
-        title: "Atención",
-        message: "¿Está seguro/a de eliminar esta subscripción de su cuenta?");
+    _displayAlertConfirmation(context,
+        title: AppLocalizations.of(context).translate("attention"),
+        message: AppLocalizations.of(context).translate("sure_delete"));
   }
 
-  void _displayAlertConfirmation(
+  void _displayAlertConfirmation(BuildContext context,
       {@required String title, @required String message}) {
     showDialog(
       context: context,
@@ -221,15 +221,16 @@ class _SubscriptionDetailState extends State<SubscriptionDetail> {
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             new FlatButton(
-              child: new Text("Aceptar"),
+              child: new Text(AppLocalizations.of(context).translate("cancel")),
               onPressed: () {
-                _delete(context);
+                Navigator.pop(context);
               },
             ),
             new FlatButton(
-              child: new Text("Cancelar"),
+              child: new Text(AppLocalizations.of(context).translate("accept")),
               onPressed: () {
                 Navigator.pop(context);
+                _delete(context);
               },
             ),
           ],
@@ -243,12 +244,11 @@ class _SubscriptionDetailState extends State<SubscriptionDetail> {
     final result = await _bloc.deleteSubscription(
         subscription: widget._renewal.subscription);
     if (result) {
-      NavigationManager.popView(context);
+      NavigationManager.popView(context, result: true);
     } else {
-      _displayAlertConfirmation(
-          title: "Atención",
-          message:
-              "Ha ocurrido un error al eliminar la subscripción, inténtelo denuevo por favor.");
+      _displayAlertConfirmation(context,
+          title: AppLocalizations.of(context).translate("attention"),
+          message: AppLocalizations.of(context).translate("error_deleting"));
     }
   }
 }

@@ -34,5 +34,11 @@
   "finance_total": "Total",
   "expenses": "Gastos",
   "contact": "Contacto",
-  "notification_title": "Atención, tienes renovaciones próximamente"
+  "notification_title": "Atención, tienes renovaciones próximamente",
+  "accept": "Aceptar",
+  "select_color": "Seleccione un color",
+  "attention": "Atención",
+  "sure_delete": "¿Está seguro/a de eliminar esta subscripción de su cuenta?",
+  "cancel": "Cancelar",
+  "error_deleting": "Ha ocurrido un error al eliminar la subscripción, inténtelo denuevo por favor."
 }

@@ -14,7 +14,7 @@ class RenewalRepository {
     _subscriptionDao = subscriptionDao;
   }
 
-  void saveRenewal({@required Renewal renewal}) async{
+  void saveRenewal({@required Renewal renewal}) async {
     _renewalDao.insertRenewal(renewal: renewal);
   }
 
@@ -57,5 +57,27 @@ class RenewalRepository {
       return renewal;
     }).toList();
     return Future.wait(renewalWithSubscriptions);
+  }
+
+  ///
+  /// Fetch a renewals list between two Dates
+  ///
+  Future<List<Renewal>> fetchRenewalsBetween(
+      DateTime startDate, DateTime endDate) async {
+    final result = await _renewalDao.fetchRenewalBetween(
+        starDate: startDate, endDate: endDate);
+
+    final renewalWithSubscriptions = result.map((renewal) async {
+      renewal.subscription = await _fetchSubcriptionData(renewal);
+      return renewal;
+    }).toList();
+    return Future.wait(renewalWithSubscriptions);
+  }
+
+  ///Utils
+
+  Future<Subscription> _fetchSubcriptionData(Renewal renewal) async {
+    return await _subscriptionDao.fetchActiveSubscription(
+        subscription: renewal.subscription);
   }
 }

@@ -11,8 +11,9 @@ import 'package:subscriptions/presentations/navigation_manager.dart';
 
 class UpcomingRenewalsListScreen extends StatefulWidget {
   @override
-  _UpcomingRenewalsListScreenState createState() =>
-      _UpcomingRenewalsListScreenState();
+  _UpcomingRenewalsListScreenState createState() {
+    return _UpcomingRenewalsListScreenState();
+  }
 }
 
 class _UpcomingRenewalsListScreenState
@@ -107,17 +108,24 @@ class _UpcomingRenewalsListScreenState
         renewal: renewal, onTap: () => _navigateToDetail(context, renewal));
   }
 
-  void _createSubscriptionClicked(BuildContext context) {
-    NavigationManager.navigateToAddSubscription(context);
+  void _createSubscriptionClicked(BuildContext context) async {
+    final result = await NavigationManager.navigateToAddSubscription(context);
+    if (result != null && result) {
+      upcomingRenewalsBloc.fetchUpcomingRenewals();
+    }
   }
 
-  void _navigateToDetail(BuildContext context, Renewal renewal) {
-    NavigationManager.navigateToRenewalDetail(context, renewal);
+  void _navigateToDetail(BuildContext context, Renewal renewal) async {
+    final result =
+        await NavigationManager.navigateToRenewalDetail(context, renewal);
+    if (result != null && result) {
+      upcomingRenewalsBloc.fetchUpcomingRenewals();
+    }
   }
 
   @override
-  void deactivate() {
+  void dispose() {
     upcomingRenewalsBloc.disposed();
-    super.deactivate();
+    super.dispose();
   }
 }

@@ -13,24 +13,23 @@ class NavigationManager {
     );
   }
 
-  static void navigateToAddSubscription(BuildContext context) {
-    Navigator.push(
+  static Future<bool> navigateToAddSubscription(BuildContext context) async {
+    return Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => CreateSubscriptionScreen()),
     );
   }
 
-  static void navigateToRenewalDetail(BuildContext context, Renewal renewal) {
-    Navigator.push(
+  static Future<bool> navigateToRenewalDetail(
+      BuildContext context, Renewal renewal) {
+    return Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => SubscriptionDetail(
-                renewal: renewal,
-              )),
+          builder: (context) => SubscriptionDetail(renewal: renewal)),
     );
   }
 
-  static void popView(BuildContext context) {
-    Navigator.of(context).pop();
+  static void popView(BuildContext context, {bool result = false}) {
+    Navigator.pop(context, result);
   }
 }
