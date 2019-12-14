@@ -8,7 +8,7 @@ import 'package:subscriptions/domain/services/payments_services.dart';
 class PaymentInject {
   static PaymentServices buildPaymentServices() {
     return PaymentServices(SubscriptionInject.buildSubscriptionRepository(),
-        buildPaymentRepository(), RenewalInject.buildRenewalService());
+        buildPaymentRepository(), RenewalInject.buildRenewalRepository());
   }
 
   static PaymentRepository buildPaymentRepository() {

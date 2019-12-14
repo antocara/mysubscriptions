@@ -29,13 +29,18 @@ class PaymentDao {
         "$columnSubscriptionId ${DataBaseConstants.INTEGER}, "
         "$columnPrice ${DataBaseConstants.REAL}, "
         "$columnRenewalAt ${DataBaseConstants.INTEGER}, "
-        "$columnInsertAt ${DataBaseConstants.INTEGER}"
+        "$columnInsertAt ${DataBaseConstants.INTEGER}, "
+        "UNIQUE($columnSubscriptionId,$columnRenewalAt)"
         ");";
   }
 
   ///Guarda un pago [payment] en base de datos
   Future<int> insertPayment({@required Payment payment}) async {
     final db = await _database;
+
+    if (await _isPaymentSaved(payment: payment)) {
+      return 0;
+    }
 
     final result = await db.insert(
       TABLE_NAME,
@@ -46,14 +51,29 @@ class PaymentDao {
     return Future.value(result);
   }
 
-  ///Obtiene todos los pagos pertenecientes a una suscripción [subscription]
-  ///ordenados de forma ascendente
-  Future<List<Payment>> fetchPaymentsBySubscriptions(
-      {Subscription subscription}) async {
+  Future<bool> _isPaymentSaved({@required Payment payment}) async {
     final db = await _database;
 
-    String whereString =
-        '$columnSubscriptionId == ? ORDER BY $columnInsertAt ASC';
+    String whereString = '$columnSubscriptionId == ? AND $columnRenewalAt == ?';
+
+    final List<Map<String, dynamic>> maps = await db.query(
+      TABLE_NAME,
+      where: whereString,
+      whereArgs: [payment.subscription.id, payment.renewalAt.millisecondsSinceEpoch],
+    );
+
+    return List.generate(maps.length, (i) {
+          return Payment.fromMap(maps[i]);
+        }).toList().length >
+        0;
+  }
+
+  ///Obtiene todos los pagos pertenecientes a una suscripción [subscription]
+  ///ordenados de forma ascendente
+  Future<List<Payment>> fetchPaymentsBySubscriptions({Subscription subscription}) async {
+    final db = await _database;
+
+    String whereString = '$columnSubscriptionId == ? ORDER BY $columnInsertAt ASC';
 
     final List<Map<String, dynamic>> maps = await db.query(
       TABLE_NAME,
@@ -67,10 +87,8 @@ class PaymentDao {
   }
 
   ///Obtiene el último pago que exista en base de datos por una [subscription] dada
-  Future<Payment> fetchLastPaymentBySubscriptions(
-      {Subscription subscription}) async {
-    final payments =
-        await fetchPaymentsBySubscriptions(subscription: subscription);
+  Future<Payment> fetchLastPaymentBySubscriptions({Subscription subscription}) async {
+    final payments = await fetchPaymentsBySubscriptions(subscription: subscription);
     try {
       return Future.value(payments.last);
     } catch (iterableElementError) {
@@ -90,10 +108,7 @@ class PaymentDao {
     final List<Map<String, dynamic>> maps = await db.query(
       TABLE_NAME,
       where: whereString,
-      whereArgs: [
-        starDate.millisecondsSinceEpoch,
-        endDate.millisecondsSinceEpoch
-      ],
+      whereArgs: [starDate.millisecondsSinceEpoch, endDate.millisecondsSinceEpoch],
     );
 
     return List.generate(maps.length, (i) {
@@ -102,8 +117,7 @@ class PaymentDao {
   }
 
   ///Obtiene todos los pagos agrupados por año
-  Future<List<List<AmountPaymentsYear>>>
-      fetchAllPaymentsGroupedByYears() async {
+  Future<List<List<AmountPaymentsYear>>> fetchAllPaymentsGroupedByYears() async {
     final db = await _database;
 
     String date = "DATETIME(ROUND($columnRenewalAt / 1000), 'unixepoch')";
@@ -122,8 +136,7 @@ class PaymentDao {
 
   /// Recupera los pagos realizados de cada susbcripción por año
   /// y obtiene el total de estos pagos anuales
-  Future<List<AmountPaymentsYear>> _selectAmountPaymentsByYear(
-      String year) async {
+  Future<List<AmountPaymentsYear>> _selectAmountPaymentsByYear(String year) async {
     final db = await _database;
 
     String date = "DATETIME(ROUND($columnRenewalAt / 1000), 'unixepoch')";
