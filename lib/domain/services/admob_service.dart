@@ -41,14 +41,14 @@ class AdmobService {
   }
 
   static MobileAdTargetingInfo _targetingInfo = MobileAdTargetingInfo(
-    keywords: <String>['flutterio', 'beautiful apps'],
+    keywords: <String>['flutterio', 'mysubscription'],
     contentUrl: 'https://flutter.io',
     childDirected: false,
     testDevices: <String>[], // Android emulators are considered test devices
   );
 
   InterstitialAd _interstitialFinance = InterstitialAd(
-    adUnitId: InterstitialAd.testAdUnitId,
+    adUnitId: INTERSTITIAL_FINANCE_ID,
     targetingInfo: _targetingInfo,
     listener: (MobileAdEvent event) {
       print("InterstitialAd event is $event");
@@ -56,7 +56,7 @@ class AdmobService {
   );
 
   InterstitialAd _interstitialLaunchApp = InterstitialAd(
-    adUnitId: InterstitialAd.testAdUnitId,
+    adUnitId: INTERSTITIAL_LAUNCH_APP_ID,
     targetingInfo: _targetingInfo,
     listener: (MobileAdEvent event) {
       print("InterstitialAd event is $event");

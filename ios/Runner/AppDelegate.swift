@@ -19,8 +19,8 @@ import workmanager
   }
 }
 
-extension AppDelegate: UNUserNotificationCenterDelegate {
-    func userNotificationCenter(_ center: UNUserNotificationCenter,
+extension AppDelegate {
+    override func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 willPresent notification: UNNotification,
                                 withCompletionHandler handler:
                                 @escaping (UNNotificationPresentationOptions) -> Void) {

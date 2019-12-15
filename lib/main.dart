@@ -3,6 +3,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:subscriptions/data/di/payment_inject.dart';
 import 'package:subscriptions/data/di/settings_inject.dart';
 import 'package:subscriptions/domain/services/admob_service.dart';
+import 'package:subscriptions/domain/services/analytics_service.dart';
 import 'package:subscriptions/domain/services/background_jobs_service.dart';
 import 'package:subscriptions/presentations/home_tab_menu/home_tab_bar_screen.dart';
 import 'package:subscriptions/presentations/styles/colors.dart' as AppColors;
@@ -42,6 +43,7 @@ class MyApp extends StatelessWidget {
             localeResolutionCallback: (locale, supportedLocales) {
               return _initializeLocations(locale, supportedLocales);
             },
+            navigatorObservers: [AnalyticsService.fetchObserver()],
             home: snapData.data,
             onGenerateTitle: (context) {
               return AppLocalizations.of(context).translate("app_title");
