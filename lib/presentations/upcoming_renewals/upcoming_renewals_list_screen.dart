@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:subscriptions/app_localizations.dart';
 import 'package:subscriptions/data/entities/renewal.dart';
 import 'package:subscriptions/domain/di/bloc_inject.dart';
+import 'package:subscriptions/domain/services/admob_service.dart';
 import 'package:subscriptions/helpers/finances_helper.dart';
 import 'package:subscriptions/helpers/renewals_helper.dart';
 import 'package:subscriptions/presentations/components/app_bar_default.dart';
@@ -18,10 +19,13 @@ class UpcomingRenewalsListScreen extends StatefulWidget {
 
 class _UpcomingRenewalsListScreenState extends State<UpcomingRenewalsListScreen> {
   final upcomingRenewalsBloc = BlocInject.buildUpcomingRenewalsBloc();
+  AdmobService _admobService;
 
   @override
   void initState() {
     upcomingRenewalsBloc.fetchUpcomingRenewals();
+    _admobService = AdmobService();
+    _admobService.displayInterstitialLaunch();
     super.initState();
   }
 
@@ -119,6 +123,7 @@ class _UpcomingRenewalsListScreenState extends State<UpcomingRenewalsListScreen>
   @override
   void dispose() {
     upcomingRenewalsBloc.disposed();
+    _admobService.disposedInterstitialLaunch();
     super.dispose();
   }
 }

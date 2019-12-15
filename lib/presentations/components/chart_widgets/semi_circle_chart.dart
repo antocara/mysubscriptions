@@ -26,6 +26,9 @@ class _SemiCircleChartState extends State<SemiCircleChart> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget._paymentsThisMonth.length == 0) {
+      return Container();
+    }
     return _buildPieChart();
   }
 
@@ -67,8 +70,7 @@ class _SemiCircleChartState extends State<SemiCircleChart> {
           return data.color;
         },
         labelAccessorFn: (SubscriptionData row, _) => '€${row.price}',
-        outsideLabelStyleAccessorFn: (SubscriptionData row, _) =>
-            TextStyleSpec(color: Color.white),
+        outsideLabelStyleAccessorFn: (SubscriptionData row, _) => TextStyleSpec(color: Color.white),
         data: _createSerieData(),
       )
     ];
@@ -86,9 +88,7 @@ class _SemiCircleChartState extends State<SemiCircleChart> {
 
   Color _createColor(Subscription subscription) {
     return Color(
-        b: subscription.color.blue,
-        r: subscription.color.red,
-        g: subscription.color.green);
+        b: subscription.color.blue, r: subscription.color.red, g: subscription.color.green);
   }
 }
 

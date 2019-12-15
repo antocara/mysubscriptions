@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:subscriptions/data/di/payment_inject.dart';
 import 'package:subscriptions/data/di/settings_inject.dart';
+import 'package:subscriptions/domain/services/admob_service.dart';
 import 'package:subscriptions/domain/services/background_jobs_service.dart';
 import 'package:subscriptions/presentations/home_tab_menu/home_tab_bar_screen.dart';
 import 'package:subscriptions/presentations/styles/colors.dart' as AppColors;
@@ -17,6 +18,7 @@ void main() {
 class MyApp extends StatelessWidget {
   MyApp() {
     _initializeServices();
+    AdmobService.initializeAdmob();
   }
 
   final _repository = SettingsInject.buildSettingsRepository();
@@ -90,8 +92,7 @@ class MyApp extends StatelessWidget {
     GlobalWidgetsLocalizations.delegate,
   ];
 
-  Locale _initializeLocations(
-      Locale locale, Iterable<Locale> supportedLocales) {
+  Locale _initializeLocations(Locale locale, Iterable<Locale> supportedLocales) {
     // Check if the current device locale is supported
     for (var supportedLocale in supportedLocales) {
       if (supportedLocale.languageCode == locale.languageCode &&
