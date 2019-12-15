@@ -1,10 +1,10 @@
 import 'package:subscriptions/data/entities/payment.dart';
 import 'package:subscriptions/data/entities/renewal.dart';
-import 'package:subscriptions/data/entities/subscription.dart';
+
 import 'package:subscriptions/data/repositories/payment_repository.dart';
 import 'package:subscriptions/data/repositories/renewal_repository.dart';
 import 'package:subscriptions/data/repositories/subscription_repository.dart';
-import 'package:subscriptions/domain/services/renewals_service.dart';
+
 import 'package:subscriptions/helpers/dates_helper.dart';
 
 class PaymentServices {
@@ -12,10 +12,8 @@ class PaymentServices {
   PaymentRepository _paymentRepository;
   RenewalRepository _renewalRepository;
 
-  PaymentServices(
-      SubscriptionRepository subscriptionRepository,
-      PaymentRepository paymentRepository,
-      RenewalRepository renewalRepository) {
+  PaymentServices(SubscriptionRepository subscriptionRepository,
+      PaymentRepository paymentRepository, RenewalRepository renewalRepository) {
     _subscriptionRepository = subscriptionRepository;
     _paymentRepository = paymentRepository;
     _renewalRepository = renewalRepository;
@@ -26,8 +24,7 @@ class PaymentServices {
     final subscriptions = await _subscriptionRepository.fetchAllSubscriptions();
     //para cada subscripcion buscar en tabla último pago anotado.
     subscriptions.forEach((subscription) async {
-      final lastPayment =
-          await _paymentRepository.fetchLastPaymentBySubscription(subscription);
+      final lastPayment = await _paymentRepository.fetchLastPaymentBySubscription(subscription);
       lastPayment.subscription = subscription;
 
       //recupero las renovaciones desde la última pagada hasta hoy
@@ -37,8 +34,8 @@ class PaymentServices {
             lastPayment.subscription.firstBill, today);
         _savePayments(nextRenewals);
       } else {
-        final nextRenewals = await _renewalRepository.fetchRenewalsBetween(
-            lastPayment.renewalAt, today);
+        final nextRenewals =
+            await _renewalRepository.fetchRenewalsBetween(lastPayment.renewalAt, today);
         _savePayments(nextRenewals);
       }
     });

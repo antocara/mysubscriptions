@@ -6,7 +6,6 @@ class BackgroundCircles extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraint) {
-        final height = constraint.maxHeight;
         final width = constraint.maxWidth;
 
         return Stack(

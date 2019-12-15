@@ -57,6 +57,7 @@ class _CreateSubscriptionScreenState extends State<CreateSubscriptionScreen> {
 
   Widget _buildAppBar() {
     return AppBarDetail(
+      onDeletePressed: () => "",
       title: AppLocalizations.of(context).translate("create_subscription"),
     );
   }
