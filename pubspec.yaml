@@ -19,18 +19,37 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
   sqflite:
   path:
+  firebase_core: ^0.4.3+1
+  firebase_analytics: ^5.0.9
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
-  intl: ^0.16.0
+
   flutter_colorpicker: any
+  flutter_custom_clippers: ^1.0.4
+  charts_flutter: ^0.8.1
+  bubble_tab_indicator: "^0.1.4"
+  sticky_headers: "^0.1.8"
+  package_info: ^0.4.0+9
+  share: ^0.6.3
+  flutter_mailer: ^0.4.1+1
+  intro_views_flutter: '^2.8.0'
+  shared_preferences: ^0.5.6
+  flutter_local_notifications: ^0.8.4
+  workmanager: ^0.1.4
+  firebase_admob: ^0.9.0+10
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+
+
 
 
 # For information on the generic Dart part of this file, see the
@@ -47,6 +66,9 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - images/
+
+    - lang/en.json
+    - lang/es.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

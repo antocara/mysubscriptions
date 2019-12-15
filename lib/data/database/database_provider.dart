@@ -1,12 +1,12 @@
-import 'dart:io';
-
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:subscriptions/data/database/subscription_dao.dart';
+import 'package:subscriptions/data/database/daos/payment_dao.dart';
+import 'package:subscriptions/data/database/daos/renewal_dao.dart';
+import 'package:subscriptions/data/database/daos/subscription_dao.dart';
 
 class DatabaseProvider {
   static const DATABASE_NAME = "subscriptions_database.db";
-  static const DATABASE_VERSION = 1;
+  static const DATABASE_VERSION = 2;
 
   DatabaseProvider._();
 
@@ -27,15 +27,29 @@ class DatabaseProvider {
 
     String path = join(documentsDirectory, DATABASE_NAME);
     return await openDatabase(path,
-        version: DATABASE_VERSION, onCreate: _onCreate);
+        version: DATABASE_VERSION, onCreate: _onCreate, onUpgrade: _onUpgrade);
   }
 
   Future _onCreate(Database db, int version) async {
     await db.execute(_createSubscriptionTable());
+    await db.execute(_createRenewalTable());
+    await db.execute(_createPaymentTable());
+  }
+
+  Future _onUpgrade(Database db, int oldVersion, int newVersion) async {
+    await db.execute(_createPaymentTable());
   }
 
   String _createSubscriptionTable() {
     return SubscriptionDao.createSubscriptionTable();
+  }
+
+  String _createRenewalTable() {
+    return RenewalDao.createRenewalTable();
+  }
+
+  String _createPaymentTable() {
+    return PaymentDao.createPaymentTable();
   }
 }
 

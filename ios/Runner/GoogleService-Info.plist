@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>328375964368-pb294iia81o2p4nk9lj5l5auj269vahe.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.328375964368-pb294iia81o2p4nk9lj5l5auj269vahe</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDUl_MVhtTHdFSuVmxhvoqIWjfPsbG5Weg</string>
+	<key>GCM_SENDER_ID</key>
+	<string>328375964368</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.antocara.subscriptions</string>
+	<key>PROJECT_ID</key>
+	<string>my-subscriptions-ee19b</string>
+	<key>STORAGE_BUCKET</key>
+	<string>my-subscriptions-ee19b.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:328375964368:ios:d385a3a5a60cd6ff7184d5</string>
+	<key>DATABASE_URL</key>
+	<string>https://my-subscriptions-ee19b.firebaseio.com</string>
+</dict>
+</plist>

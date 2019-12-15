@@ -12,6 +12,7 @@ class Subscription {
       this.firstBill,
       this.color,
       this.renewal,
+      this.isActive,
       this.renewalPeriod});
 
   int id;
@@ -21,31 +22,40 @@ class Subscription {
   DateTime firstBill;
   Color color;
   int renewal;
+  bool isActive;
   RenewalPeriodValues renewalPeriod;
 
+  //
+  //Mapeo para guardar en base de datos
+  //
   Map<String, dynamic> toMap() {
     return {
       'id': id,
       'name': name,
       'description': description,
       'price': price,
-      'firstBill': firstBillSince1970,
+      'first_bill': firstBillSince1970,
       'color': colorValue,
       'renewal': renewal,
-      'renewalPeriod': renewalPeriodStringValue
+      'renewal_period': renewalPeriodStringValue,
+      'active': _activeToInt(isActive)
     };
   }
 
+  //
+  //Mapeo para crear objeto desde base de datos
+  //
   static Subscription fromMap(Map<String, dynamic> map) {
     return Subscription(
         id: map['id'],
         name: map['name'],
         description: map['description'],
         price: map['price'],
-        firstBill: DatesHelper.toDateFromEpoch(map['firstBill']),
+        firstBill: DatesHelper.toDateFromEpoch(map['first_bill']),
         color: ColorHelper.toColorFromValue(map['color']),
         renewal: map['renewal'],
-        renewalPeriod: RenewalPeriod.enumOfString(map['renewalPeriod']));
+        isActive: Subscription.activeToBool(map['active']),
+        renewalPeriod: RenewalPeriod.enumOfString(map['renewal_period']));
   }
 
   // Conversión de valores apra guardarlos corectamente en
@@ -70,4 +80,44 @@ class Subscription {
       return "";
     }
   }
+
+  String get priceAtStringFormat {
+    if (price != null) {
+      return "€ ${price.toStringAsFixed(2)}";
+    } else {
+      return "€ 0.00";
+    }
+  }
+
+  String get nameChars {
+    if (name != null && name.length >= 2) {
+      return name.substring(0, 2).toUpperCase();
+    }
+    return "";
+  }
+
+  String get upperName {
+    if (name != null) {
+      return name[0].toUpperCase() + name.substring(1);
+    } else {
+      return "";
+    }
+  }
+
+  String get firstPaymentAtPretty {
+    return DatesHelper.toStringFromDate(firstBill);
+  }
+
+  static bool activeToBool(int isActive) {
+    return isActive == 1 ? true : false;
+  }
+
+  static int _activeToInt(bool isActive) {
+    return isActive ? 1 : 0;
+  }
+
+  @override
+  bool operator ==(o) => o is Subscription && name == o.name;
+
+  int get hashCode => name.hashCode + colorValue.hashCode;
 }
