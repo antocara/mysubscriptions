@@ -48,12 +48,15 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
             hintText: "",
             labelStyle: kInputFormHint,
             hintStyle: kInputFormHint,
-            icon: Icon(widget.icons, color: kPrimaryColor),
+            icon: Icon(
+              widget.icons,
+              color: kPrimaryColor,
+              size: 20,
+            ),
           ),
           validator: (value) {
             if (value.isEmpty) {
-              return AppLocalizations.of(context)
-                  .translate("error_mandatory_field");
+              return AppLocalizations.of(context).translate("error_mandatory_field");
             }
             return null;
           },
@@ -71,8 +74,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
     );
   }
 
-  void _fieldFocusChange(
-      BuildContext context, FocusNode currentFocus, FocusNode nextFocus) {
+  void _fieldFocusChange(BuildContext context, FocusNode currentFocus, FocusNode nextFocus) {
     currentFocus.unfocus();
     FocusScope.of(context).requestFocus(nextFocus);
   }

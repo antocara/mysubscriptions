@@ -4,8 +4,8 @@ import 'package:subscriptions/data/entities/renewal.dart';
 import 'package:subscriptions/domain/di/bloc_inject.dart';
 import 'package:subscriptions/helpers/finances_helper.dart';
 import 'package:subscriptions/helpers/renewals_helper.dart';
-import 'package:subscriptions/presentations/components/card_row.dart';
 import 'package:subscriptions/presentations/components/app_bar_default.dart';
+import 'package:subscriptions/presentations/components/card_row.dart';
 import 'package:subscriptions/presentations/components/header_row.dart';
 import 'package:subscriptions/presentations/navigation_manager.dart';
 
@@ -16,8 +16,7 @@ class UpcomingRenewalsListScreen extends StatefulWidget {
   }
 }
 
-class _UpcomingRenewalsListScreenState
-    extends State<UpcomingRenewalsListScreen> {
+class _UpcomingRenewalsListScreenState extends State<UpcomingRenewalsListScreen> {
   final upcomingRenewalsBloc = BlocInject.buildUpcomingRenewalsBloc();
 
   @override
@@ -30,13 +29,13 @@ class _UpcomingRenewalsListScreenState
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        _buildAppBar(),
+        _buildAppBar(context),
         _buildBody(),
       ],
     );
   }
 
-  AppBarDefault _buildAppBar() {
+  AppBarDefault _buildAppBar(BuildContext context) {
     return AppBarDefault(
       title: AppLocalizations.of(context).translate("upcoming_renewal"),
       icon: Icon(Icons.add),
@@ -67,45 +66,40 @@ class _UpcomingRenewalsListScreenState
     return ListView.builder(
         itemCount: itemCount ?? 0,
         itemBuilder: (context, index) {
-          return _factoryRows(index, data);
+          return _factoryRows(context, index, data);
         });
   }
 
-  Widget _factoryRows(int index, List<Renewal> data) {
+  Widget _factoryRows(BuildContext context, int index, List<Renewal> data) {
     if (index == 0) {
-      return _buildHeaderRowCurrentMonth(data);
+      return _buildHeaderRowCurrentMonth(context, data);
     } else if (RenewalsHelper.isRenewalOfCurrentMonth(index, data)) {
       index -= 1;
-      return _bindCardRow(data[index]);
+      return _bindCardRow(context, data[index]);
     } else if (RenewalsHelper.isRenewalOfNextMonth(index, data)) {
-      return _buildHeaderRowNextMonth(data);
+      return _buildHeaderRowNextMonth(context, data);
     } else {
       index -= 2;
-      return _bindCardRow(data[index]);
+      return _bindCardRow(context, data[index]);
     }
   }
 
-  HeaderRow _buildHeaderRowCurrentMonth(List<Renewal> data) {
-    final amount =
-        FinancesHelper.calculateAmountByMonth(data, DateTime.now().month);
-    return _buildHeaderRow(
-        AppLocalizations.of(context).translate("current_month"), amount);
+  HeaderRow _buildHeaderRowCurrentMonth(BuildContext context, List<Renewal> data) {
+    final amount = FinancesHelper.calculateAmountByMonth(data, DateTime.now().month);
+    return _buildHeaderRow(AppLocalizations.of(context).translate("current_month"), amount);
   }
 
-  HeaderRow _buildHeaderRowNextMonth(List<Renewal> data) {
-    final amount =
-        FinancesHelper.calculateAmountByMonth(data, DateTime.now().month + 1);
-    return _buildHeaderRow(
-        AppLocalizations.of(context).translate("next_month"), amount);
+  HeaderRow _buildHeaderRowNextMonth(BuildContext context, List<Renewal> data) {
+    final amount = FinancesHelper.calculateAmountByMonth(data, DateTime.now().month + 1);
+    return _buildHeaderRow(AppLocalizations.of(context).translate("next_month"), amount);
   }
 
   HeaderRow _buildHeaderRow(String title, double amount) {
     return HeaderRow(title: title, amount: amount);
   }
 
-  CardRow _bindCardRow(Renewal renewal) {
-    return CardRow(
-        renewal: renewal, onTap: () => _navigateToDetail(context, renewal));
+  CardRow _bindCardRow(BuildContext context, Renewal renewal) {
+    return CardRow(renewal: renewal, onTap: () => _navigateToDetail(context, renewal));
   }
 
   void _createSubscriptionClicked(BuildContext context) async {
@@ -116,8 +110,7 @@ class _UpcomingRenewalsListScreenState
   }
 
   void _navigateToDetail(BuildContext context, Renewal renewal) async {
-    final result =
-        await NavigationManager.navigateToRenewalDetail(context, renewal);
+    final result = await NavigationManager.navigateToRenewalDetail(context, renewal);
     if (result != null && result) {
       upcomingRenewalsBloc.fetchUpcomingRenewals();
     }
