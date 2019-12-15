@@ -11,16 +11,15 @@ import 'package:subscriptions/presentations/components/WidgetsFormHelper/color_f
 import 'package:subscriptions/presentations/components/WidgetsFormHelper/date_field_widget.dart';
 import 'package:subscriptions/presentations/components/WidgetsFormHelper/dismiss_keyboard_on_scroll.dart';
 import 'package:subscriptions/presentations/components/WidgetsFormHelper/text_field_widget.dart';
-import 'package:subscriptions/presentations/components/card_row.dart';
 import 'package:subscriptions/presentations/components/app_bar_detail.dart';
+import 'package:subscriptions/presentations/components/card_row.dart';
 import 'package:subscriptions/presentations/navigation_manager.dart';
 import 'package:subscriptions/presentations/styles/colors.dart' as AppColors;
 import 'package:subscriptions/presentations/styles/text_styles.dart';
 
 class CreateSubscriptionScreen extends StatefulWidget {
   @override
-  _CreateSubscriptionScreenState createState() =>
-      _CreateSubscriptionScreenState();
+  _CreateSubscriptionScreenState createState() => _CreateSubscriptionScreenState();
 }
 
 class _CreateSubscriptionScreenState extends State<CreateSubscriptionScreen> {
@@ -28,8 +27,7 @@ class _CreateSubscriptionScreenState extends State<CreateSubscriptionScreen> {
   final _formKey = GlobalKey<FormState>();
   final _renewal = Renewal();
 
-  final GlobalKey<ScaffoldState> mScaffoldState =
-      new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> mScaffoldState = new GlobalKey<ScaffoldState>();
 
   final _addSubscriptionBloc = BlocInject.buildAddSubscriptionBloc();
 
@@ -50,8 +48,7 @@ class _CreateSubscriptionScreenState extends State<CreateSubscriptionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor:
-          AppColors.kDefaultBackground, //AppColors.kDefaultBackground,
+      backgroundColor: AppColors.kDefaultBackground, //AppColors.kDefaultBackground,
       key: mScaffoldState,
       appBar: _buildAppBar(),
       body: _buildBody(context),
@@ -109,7 +106,7 @@ class _CreateSubscriptionScreenState extends State<CreateSubscriptionScreen> {
     return Form(
       key: _formKey,
       child: Padding(
-        padding: const EdgeInsets.only(left: 30.0, right: 25.0),
+        padding: const EdgeInsets.only(left: 10.0, right: 10.0),
         child: Container(
           decoration: BoxDecoration(
               borderRadius: BorderRadius.only(
@@ -193,8 +190,7 @@ class _CreateSubscriptionScreenState extends State<CreateSubscriptionScreen> {
 
   Widget _buildDateTextField(BuildContext context) {
     return DateFieldWidget(
-      onSave: (val) =>
-          _subscription.firstBill = DatesHelper.toDateFromString(val),
+      onSave: (val) => _subscription.firstBill = DatesHelper.toDateFromString(val),
       onChange: (val) {
         _renewal.renewalAt = DatesHelper.toDateFromString(val);
         _refresh();
@@ -230,8 +226,7 @@ class _CreateSubscriptionScreenState extends State<CreateSubscriptionScreen> {
       child: Row(
         children: <Widget>[
           Padding(
-            padding:
-                const EdgeInsets.only(top: 0, left: 15, right: 15, bottom: 0),
+            padding: const EdgeInsets.only(top: 0, left: 15, right: 15, bottom: 0),
             child: Icon(
               Icons.next_week,
               color: AppColors.kPrimaryColor,
@@ -316,8 +311,7 @@ class _CreateSubscriptionScreenState extends State<CreateSubscriptionScreen> {
         NavigationManager.popView(context, result: true);
       } else {
         showSnackBar(
-          message: AppLocalizations.of(context)
-              .translate("error_saving_subscription"),
+          message: AppLocalizations.of(context).translate("error_saving_subscription"),
         );
       }
     });

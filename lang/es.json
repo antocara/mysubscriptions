@@ -40,5 +40,17 @@
   "attention": "Atención",
   "sure_delete": "¿Está seguro/a de eliminar esta subscripción de su cuenta?",
   "cancel": "Cancelar",
-  "error_deleting": "Ha ocurrido un error al eliminar la subscripción, inténtelo denuevo por favor."
+  "error_deleting": "Ha ocurrido un error al eliminar la subscripción, inténtelo denuevo por favor.",
+  "wizard_add": "Añade",
+  "wizard_add_legend": "Añade tus suscripciones a la aplicación mediante un sencillo formulario",
+  "wizard_renewal_list" : "Gastos cercanos",
+  "wizard_renewal_list_legend" :"Controla de un vistazo los gastos de este mes y del siguiente",
+  "wizard_finance": "Finanzas",
+  "wizard_finance_legend": "Fáciles y claras estadísticas de tus gastos en suscripciones",
+  "wizard_reminders" : "Recordatorios",
+  "wizard_reminders_legend" :"Unos días antes del vencimiento del pago de tus suscripciones, te avisaremos para que tengas presente el gasto que se acerca",
+  "next": "Siguiente",
+  "back": "Atrás",
+  "done": "Hecho",
+  "skip": "Saltar"
 }
