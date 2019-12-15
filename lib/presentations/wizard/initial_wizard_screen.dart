@@ -76,16 +76,16 @@ class InitialWizardScreen extends StatelessWidget {
         titleTextStyle: kTitleWizard,
         bodyTextStyle: kLegendWizard,
       ),
-      PageViewModel(
-        pageColor: const Color(0xFF27AE60),
-        body: Text(
-          AppLocalizations.of(context).translate("wizard_reminders_legend"),
-        ),
-        title: Text(AppLocalizations.of(context).translate("wizard_reminders")),
-        mainImage: _buildImage('images/taxi.png'),
-        titleTextStyle: kTitleWizard,
-        bodyTextStyle: kLegendWizard,
-      ),
+//      PageViewModel(
+//        pageColor: const Color(0xFF27AE60),
+//        body: Text(
+//          AppLocalizations.of(context).translate("wizard_reminders_legend"),
+//        ),
+//        title: Text(AppLocalizations.of(context).translate("wizard_reminders")),
+//        mainImage: _buildImage('images/taxi.png'),
+//        titleTextStyle: kTitleWizard,
+//        bodyTextStyle: kLegendWizard,
+//      ),
     ];
   }
 

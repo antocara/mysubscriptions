@@ -11,7 +11,7 @@
          FlutterApplication and put your custom class here. -->
     <application
         android:name=".App"
-        android:label="subscriptions"
+        android:label="Subscriptions"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
