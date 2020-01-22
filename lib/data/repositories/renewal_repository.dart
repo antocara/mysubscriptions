@@ -20,14 +20,12 @@ class RenewalRepository {
 
   Future<List<Renewal>> fetchNextRenewalsForTwoMonths() async {
     final DateTime now = DateTime.now();
-    final DateTime lastDayNextMonth =
-        DatesHelper.lastDayOfMonth(DateTime(now.year, now.month + 1));
-    final result = await _renewalDao.fetchRenewalBetween(
-        starDate: now, endDate: lastDayNextMonth);
+    final DateTime lastDayNextMonth = DatesHelper.lastDayOfMonth(DateTime(now.year, now.month + 1));
+    final result = await _renewalDao.fetchRenewalBetween(starDate: now, endDate: lastDayNextMonth);
 
     final renewalWithSubscriptions = result.map((renewal) async {
-      final subscription = await _subscriptionDao.fetchActiveSubscription(
-          subscription: renewal.subscription);
+      final subscription =
+          await _subscriptionDao.fetchActiveSubscription(subscription: renewal.subscription);
       renewal.subscription = subscription;
       return renewal;
     }).toList();
@@ -36,8 +34,7 @@ class RenewalRepository {
 
   Future<List<Renewal>> fetchAllRenewalsBySubscriptionUntil(
       Subscription subscription, DateTime until) async {
-    final result =
-        await _renewalDao.fetchAllRenewalBy(subscription: subscription);
+    final result = await _renewalDao.fetchAllRenewalBy(subscription: subscription);
 
     return result;
   }
@@ -47,12 +44,12 @@ class RenewalRepository {
 
     final DateTime afterTomorrow = DatesHelper.afterTomorrow();
 
-    final result = await _renewalDao.fetchRenewalBetweenNotEquals(
-        starDate: today, endDate: afterTomorrow);
+    final result =
+        await _renewalDao.fetchRenewalBetweenNotEquals(starDate: today, endDate: afterTomorrow);
 
     final renewalWithSubscriptions = result.map((renewal) async {
-      final subscription = await _subscriptionDao.fetchActiveSubscription(
-          subscription: renewal.subscription);
+      final subscription =
+          await _subscriptionDao.fetchActiveSubscription(subscription: renewal.subscription);
       renewal.subscription = subscription;
       return renewal;
     }).toList();
@@ -62,10 +59,8 @@ class RenewalRepository {
   ///
   /// Fetch a renewals list between two Dates
   ///
-  Future<List<Renewal>> fetchRenewalsBetween(
-      DateTime startDate, DateTime endDate) async {
-    final result = await _renewalDao.fetchRenewalBetween(
-        starDate: startDate, endDate: endDate);
+  Future<List<Renewal>> fetchRenewalsBetween(DateTime startDate, DateTime endDate) async {
+    final result = await _renewalDao.fetchRenewalBetween(starDate: startDate, endDate: endDate);
 
     final renewalWithSubscriptions = result.map((renewal) async {
       renewal.subscription = await _fetchSubcriptionData(renewal);
@@ -77,7 +72,6 @@ class RenewalRepository {
   ///Utils
 
   Future<Subscription> _fetchSubcriptionData(Renewal renewal) async {
-    return await _subscriptionDao.fetchActiveSubscription(
-        subscription: renewal.subscription);
+    return await _subscriptionDao.fetchActiveSubscription(subscription: renewal.subscription);
   }
 }
