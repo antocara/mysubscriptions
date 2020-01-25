@@ -7,6 +7,8 @@ My Subscriptions is an application that is designed to add our different subscri
 These expenses are reflected in the application through different graphs, both monthly, annual and total divided by dates and subscription types.
 
 
+## Flutter, my opinion
+
 Flutter is a framework, which Google launched a few years ago, and which is becoming increasingly important in the world of mobile development. The good part of this framework is that it allows us to reuse a common code base for the developments we make for Android and IOS. As programming language uses Dart, one of the many languages ​​that Google develops throughout its existence and that before the departure of Flutter was rather a stranger. After Flutter, its use has risen in parallel to the increase in developments made for Flutter.
 
 I come from development for Android and IOS, with languages ​​like Kotlin and Swift and always working in native with the different resources that facilitate both Google and Apple for this work. In my development background I have almost 9-10 years of experience and with applications made for both Android and IOS and in which I have touched almost all the fundamental aspects of both worlds and some something more concrete and in depth.
