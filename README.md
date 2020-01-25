@@ -1,3 +1,7 @@
+##My Subscriptions
+
+###An new Flutter application
+
 **My Subscriptions** is an application made entirely in **Flutter** and that has helped me to get into the development on this new Google platform. 
 My Subscriptions is an application that is designed to add our different subscriptions to different services, Spotify, Netflix, Apple. Music, Amazon, etc ... and that through the application we have a more effective and direct control over the dates of renewal of these services and the expense we make in the different services to which we are subscribed.
 These expenses are reflected in the application through different graphs, both monthly, annual and total divided by dates and subscription types.
@@ -7,9 +11,9 @@ Flutter is a framework, which Google launched a few years ago, and which is beco
 
 I come from development for Android and IOS, with languages ​​like Kotlin and Swift and always working in native with the different resources that facilitate both Google and Apple for this work. In my development background I have almost 9-10 years of experience and with applications made for both Android and IOS and in which I have touched almost all the fundamental aspects of both worlds and some something more concrete and in depth.
 
-From my point of view, Dart needs to implement many of the things that Kotlin or Swift, and more and more new languages, include such as null types, enumerators with much greater entity and possibility of use, more functions for the collections that bring them closer to functional programming, a Kotlin When vitamin switch or Swift switch itself, among what is most lacking.
+From my point of view, Dart needs to implement many of the things that **Kotlin** or **Swift**, and more and more new languages, include such as null types, enumerators with much greater entity and possibility of use, more functions for the collections that bring them closer to functional programming, a Kotlin When vitamin switch or Swift switch itself, among what is most lacking.
 
-As for Flutter as a development framework, I think that although it is true that the declarative paradigm for the creation of interfaces is ideal for this, just as Apple has implemented with Swift UI or Google itself on Android with Jetpack Compose, and It makes the creation of UI delightful. The problem, from my point of view, is the little support that Flutter gives natively to features that in mobile development are on the agenda, such as Background services when applications are not active, support for hardware access to the terminals in an easy and fast way, I know that it can be done from the Channels, but I think they should have created more plugins that already came by default to be used quickly.
+As for Flutter as a development framework, I think that although it is true that the declarative paradigm for the creation of interfaces is ideal for this, just as Apple has implemented with **Swift UI** or Google itself on Android with **Jetpack Compose**, and It makes the creation of UI delightful. The problem, from my point of view, is the little support that Flutter gives natively to features that in mobile development are on the agenda, such as Background services when applications are not active, support for hardware access to the terminals in an easy and fast way, I know that it can be done from the Channels, but I think they should have created more plugins that already came by default to be used quickly.
 
 
 
