@@ -20,7 +20,8 @@ As for Flutter as a development framework, I think that although it is true that
 
 ## Screen Shots.
 
-![alt tag](https://i.imgur.com/aYVfYz3.png "Subscriptions list")
+![alt tag](https://i.imgur.com/aYVfYz3.png "Subscriptions list" | width=100) 
+<img src="https://i.imgur.com/aYVfYz3.png" data-canonical-src="https://i.imgur.com/aYVfYz3.png" height="100" />
 
 ![alt tag](https://i.imgur.com/O4FjEh5.png "Create subscription")
 
