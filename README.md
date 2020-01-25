@@ -1,6 +1,6 @@
-##My Subscriptions
+## My Subscriptions
 
-###An new Flutter application
+### An new Flutter application
 
 **My Subscriptions** is an application made entirely in **Flutter** and that has helped me to get into the development on this new Google platform. 
 My Subscriptions is an application that is designed to add our different subscriptions to different services, Spotify, Netflix, Apple. Music, Amazon, etc ... and that through the application we have a more effective and direct control over the dates of renewal of these services and the expense we make in the different services to which we are subscribed.
