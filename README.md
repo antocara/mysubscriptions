@@ -16,7 +16,20 @@ From my point of view, Dart needs to implement many of the things that **Kotlin*
 As for Flutter as a development framework, I think that although it is true that the declarative paradigm for the creation of interfaces is ideal for this, just as Apple has implemented with **Swift UI** or Google itself on Android with **Jetpack Compose**, and It makes the creation of UI delightful. The problem, from my point of view, is the little support that Flutter gives natively to features that in mobile development are on the agenda, such as Background services when applications are not active, support for hardware access to the terminals in an easy and fast way, I know that it can be done from the Channels, but I think they should have created more plugins that already came by default to be used quickly.
 
 
+## Screen Shots.
 
+![alt tag](https://i.imgur.com/aYVfYz3.png "Subscriptions list")
+
+![alt tag](https://i.imgur.com/O4FjEh5.png "Create subscription")
+
+![alt tag](https://i.imgur.com/T0SqpGl.png "Subscription detail")
+
+![alt tag](https://i.imgur.com/a7513S5.png "Finances")
+
+![alt tag](https://i.imgur.com/eyp7WKM.png "Finances")
+
+
+## Flutter Features
 
 In this test application I used different functions that I wanted to find out how they behaved and how to do them in Flutter as:
 - Local persistence in databases.
