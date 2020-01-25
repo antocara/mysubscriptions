@@ -76,3 +76,4 @@ keystore
 android/key.properties
 keystore.jks
 releases
+android/app/google-services.json
