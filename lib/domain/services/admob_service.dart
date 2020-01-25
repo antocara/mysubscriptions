@@ -1,10 +1,10 @@
 import 'package:firebase_admob/firebase_admob.dart';
 
 class AdmobService {
-  static const APP_ID_ADMOB = "ca-app-pub-0318089046605103~8683853733";
+  static const APP_ID_ADMOB = "YOUR ID";
 
-  static const INTERSTITIAL_FINANCE_ID = "ca-app-pub-0318089046605103/1236608550";
-  static const INTERSTITIAL_LAUNCH_APP_ID = "ca-app-pub-0318089046605103/2455634532";
+  static const INTERSTITIAL_FINANCE_ID = "ca-app-pub-ID";
+  static const INTERSTITIAL_LAUNCH_APP_ID = "ca-app-pub-ID";
 
   static void initializeAdmob() {
     FirebaseAdMob.instance.initialize(appId: APP_ID_ADMOB);
