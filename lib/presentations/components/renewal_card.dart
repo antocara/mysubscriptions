@@ -7,11 +7,11 @@ import 'package:subscriptions/presentations/styles/dimens.dart' as AppDimens;
 import 'package:subscriptions/presentations/styles/text_styles.dart';
 
 class RenewalCard extends StatelessWidget {
-  RenewalCard({Key key, @required Renewal renewal})
+  RenewalCard({Key? key, @required Renewal? renewal})
       : _renewal = renewal,
         super(key: key);
 
-  final Renewal _renewal;
+  final Renewal? _renewal;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class RenewalCard extends StatelessWidget {
         horizontal: AppDimens.kDefaultHorizontalMargin,
       ),
       elevation: 10,
-      color: _renewal.subscription.color ?? AppColors.kPrimaryColor,
+      color: _renewal!.subscription.color ?? AppColors.kPrimaryColor,
       child: Padding(
         padding: const EdgeInsets.all(20.0),
         child: _buildCardContent(context),
@@ -60,20 +60,20 @@ class RenewalCard extends StatelessWidget {
         Align(
           alignment: Alignment.centerLeft,
           child: Text(
-            _renewal.subscription.name ?? "",
+            _renewal!.subscription.name ?? "",
             style: kCardTitle,
           ),
         ),
         Expanded(
           child: Container(),
         ),
-        Text(_renewal.subscription.priceAtStringFormat, style: kCardPrice),
+        Text(_renewal!.subscription.priceAtStringFormat, style: kCardPrice),
       ],
     );
   }
 
   Widget _buildDescriptionSection() {
-    return Text(_renewal.subscription.description ?? "",
+    return Text(_renewal!.subscription.description ?? "",
         style: kCardDescriptionTextStyle, maxLines: 2);
   }
 
@@ -88,7 +88,7 @@ class RenewalCard extends StatelessWidget {
             SizedBox(
               height: 5,
             ),
-            Text(_renewal.renewalAtPretty ?? "", style: kCardPaymentDay),
+            Text(_renewal!.renewalAtPretty ?? "", style: kCardPaymentDay),
           ],
         ),
         Expanded(
@@ -101,9 +101,9 @@ class RenewalCard extends StatelessWidget {
 
   Widget _buildCircleAvatar() {
     return CircleAvatar(
-      foregroundColor: _renewal.subscription.color ?? AppColors.kWhiteColor,
+      foregroundColor: _renewal!.subscription.color ?? AppColors.kWhiteColor,
       backgroundColor: AppColors.kWhiteColor,
-      child: Text(_renewal.subscription.nameChars),
+      child: Text(_renewal!.subscription.nameChars),
     );
   }
 }

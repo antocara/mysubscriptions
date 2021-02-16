@@ -10,8 +10,8 @@ class DisplayRenewNotificationsServices {
     _localNotifications = localNotifications;
   }
 
-  RenewalRepository _renewalRepository;
-  LocalNotificationsService _localNotifications;
+  late RenewalRepository _renewalRepository;
+  late LocalNotificationsService _localNotifications;
 
   void displayRenewsNotifications() {
     _fetchRenewalsAfterTomorrow();

@@ -10,9 +10,9 @@ import 'package:subscriptions/data/repositories/subscription_repository.dart';
 import 'package:subscriptions/domain/services/renewals_service.dart';
 
 class AddSubscriptionBloc {
-  SubscriptionRepository _subscriptionRepository;
-  RenewalsService _renewalsService;
-  RenewalRepository _renewalRepository;
+  late SubscriptionRepository _subscriptionRepository;
+  late RenewalsService _renewalsService;
+  late RenewalRepository _renewalRepository;
 
   AddSubscriptionBloc() {
     _subscriptionRepository = SubscriptionInject.buildSubscriptionRepository();
@@ -22,11 +22,11 @@ class AddSubscriptionBloc {
 
   StreamController _streamController = StreamController<Subscription>.broadcast();
 
-  Stream<Subscription> get addSubscriptionStream => _streamController.stream;
+  Stream<Subscription> get addSubscriptionStream => _streamController.stream as Stream<Subscription>;
 
-  void addSubscription({@required Subscription subscription}) async {
+  void addSubscription({@required Subscription? subscription}) async {
     final subscriptionSaved = await _subscriptionRepository.saveSubscription(
-        subscription: subscription);
+        subscription: subscription!);
 
     _createRenewalForSubscription(subscription: subscriptionSaved);
 
@@ -35,9 +35,9 @@ class AddSubscriptionBloc {
     _streamController.add(subscription);
   }
 
-  void _createRenewalForSubscription({@required Subscription subscription}) async {
+  void _createRenewalForSubscription({@required Subscription? subscription}) async {
     final renewalsList =
-        await _renewalsService.createRenewalsForSubscription(subscription);
+        await _renewalsService.createRenewalsForSubscription(subscription!);
 
     renewalsList.forEach((renewal) {
       _renewalRepository.saveRenewal(renewal: renewal);

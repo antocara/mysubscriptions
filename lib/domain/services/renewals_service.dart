@@ -29,17 +29,17 @@ class RenewalsService {
   }
 
   Future<List<Renewal>> createRenewalsForSubscriptionBetween(
-      {Subscription subscription, DateTime startDate, DateTime endDate}) async {
-    final renewal = subscription.renewal;
-    final renewalPeriod = subscription.renewalPeriod;
+      {Subscription? subscription, DateTime? startDate, DateTime? endDate}) async {
+    final renewal = subscription!.renewal;
+    final renewalPeriod = subscription!.renewalPeriod;
 
-    DateTime currentRenewal = startDate;
+    DateTime currentRenewal = startDate!;
 
     List<Renewal> renewals = [
       RenewalsService.createRenewal(subscription, startDate)
     ];
 
-    while (currentRenewal.isBefore(endDate)) {
+    while (currentRenewal.isBefore(endDate!)) {
       final nextRenewalDate = RenewalsService.getDurationInDaysFromRenewal(
           renewalPeriod, renewal, currentRenewal);
       renewals

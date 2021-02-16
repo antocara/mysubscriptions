@@ -50,7 +50,7 @@ class _CreateSubscriptionScreenState extends State<CreateSubscriptionScreen> {
     return Scaffold(
       backgroundColor: AppColors.kDefaultBackground, //AppColors.kDefaultBackground,
       key: mScaffoldState,
-      appBar: _buildAppBar(),
+      appBar: _buildAppBar() as PreferredSizeWidget,
       body: _buildBody(context),
     );
   }

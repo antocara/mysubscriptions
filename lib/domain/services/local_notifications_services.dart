@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class LocalNotificationsService {
-  FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin;
+  late FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin;
 
   LocalNotificationsService() {
     _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();

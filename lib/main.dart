@@ -41,10 +41,10 @@ class MyApp extends StatelessWidget {
             localizationsDelegates: _localesDelegates,
             // Returns a locale which will be used by the app
             localeResolutionCallback: (locale, supportedLocales) {
-              return _initializeLocations(locale, supportedLocales);
+              return _initializeLocations(locale!, supportedLocales);
             },
             navigatorObservers: [AnalyticsService.fetchObserver()],
-            home: snapData.data,
+            home: snapData.data as Widget,
             onGenerateTitle: (context) {
               return AppLocalizations.of(context).translate("app_title");
             },

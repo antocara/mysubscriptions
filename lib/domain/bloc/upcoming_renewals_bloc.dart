@@ -8,12 +8,12 @@ class UpcomingRenewalsBloc {
     _renewalRepository = RenewalInject.buildRenewalRepository();
   }
 
-  RenewalRepository _renewalRepository;
+  late RenewalRepository _renewalRepository;
 
   StreamController _streamController =
       StreamController<List<Renewal>>.broadcast();
 
-  Stream<List<Renewal>> get upcomingRenewalsList => _streamController.stream;
+  Stream<List<Renewal>> get upcomingRenewalsList => _streamController.stream as Stream<List<Renewal>>;
 
   void fetchUpcomingRenewals() async {
     final renewals = await _renewalRepository.fetchNextRenewalsForTwoMonths();

@@ -12,7 +12,7 @@ class FinanceBloc {
     _paymentRepository = PaymentInject.buildPaymentRepository();
   }
 
-  PaymentRepository _paymentRepository;
+  late PaymentRepository _paymentRepository;
 
   StreamController _paymentsThisMonthStream =
       StreamController<List<Payment>>.broadcast();
@@ -22,13 +22,13 @@ class FinanceBloc {
       StreamController<List<AmountPaymentsYear>>.broadcast();
 
   Stream<List<Payment>> get paymentsThisMonth =>
-      _paymentsThisMonthStream.stream;
+      _paymentsThisMonthStream.stream as Stream<List<Payment>>;
 
   Stream<List<Payment>> get paymentsUntilToday =>
-      _paymentsUntilTodayStream.stream;
+      _paymentsUntilTodayStream.stream as Stream<List<Payment>>;
 
   Stream<List<AmountPaymentsYear>> get paymentsTotal =>
-      _paymentsTotalStream.stream;
+      _paymentsTotalStream.stream as Stream<List<AmountPaymentsYear>>;
 
   void fetchRenewalsThisMonth() async {
     final DateTime now = DateTime.now();

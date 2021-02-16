@@ -13,23 +13,23 @@ class DetailRenewalBloc {
     _subscriptionRepository = SubscriptionInject.buildSubscriptionRepository();
   }
 
-  PaymentRepository _paymentRepository;
-  SubscriptionRepository _subscriptionRepository;
+  late PaymentRepository _paymentRepository;
+  late SubscriptionRepository _subscriptionRepository;
 
   StreamController _streamController =
       StreamController<List<Payment>>.broadcast();
 
-  Stream<List<Payment>> get paymentsBySubscriptions => _streamController.stream;
+  Stream<List<Payment>> get paymentsBySubscriptions => _streamController.stream as Stream<List<Payment>>;
 
-  void fetchUpcomingRenewals({Subscription subscription}) async {
+  void fetchUpcomingRenewals({Subscription? subscription}) async {
     final payments =
-        await _paymentRepository.fetchPaymentsBySubscription(subscription);
+        await _paymentRepository.fetchPaymentsBySubscription(subscription!);
     _streamController.add(payments);
   }
 
-  Future<bool> deleteSubscription({Subscription subscription}) async {
+  Future<bool> deleteSubscription({Subscription? subscription}) async {
     return await _subscriptionRepository.deleteSubscription(
-        subscription: subscription);
+        subscription: subscription!);
   }
 
   void disposed() {

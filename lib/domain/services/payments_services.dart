@@ -8,9 +8,9 @@ import 'package:subscriptions/data/repositories/subscription_repository.dart';
 import 'package:subscriptions/helpers/dates_helper.dart';
 
 class PaymentServices {
-  SubscriptionRepository _subscriptionRepository;
-  PaymentRepository _paymentRepository;
-  RenewalRepository _renewalRepository;
+  late SubscriptionRepository _subscriptionRepository;
+  late PaymentRepository _paymentRepository;
+  late RenewalRepository _renewalRepository;
 
   PaymentServices(SubscriptionRepository subscriptionRepository,
       PaymentRepository paymentRepository, RenewalRepository renewalRepository) {

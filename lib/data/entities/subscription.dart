@@ -15,15 +15,15 @@ class Subscription {
       this.isActive,
       this.renewalPeriod});
 
-  int id;
-  String name;
-  String description;
-  double price;
-  DateTime firstBill;
-  Color color;
-  int renewal;
-  bool isActive;
-  RenewalPeriodValues renewalPeriod;
+  late int? id;
+  late String? name;
+  late String? description;
+  late double? price;
+  late DateTime? firstBill;
+  late Color? color;
+  late int? renewal;
+  late bool? isActive;
+  late RenewalPeriodValues? renewalPeriod;
 
   //
   //Mapeo para guardar en base de datos
@@ -38,7 +38,7 @@ class Subscription {
       'color': colorValue,
       'renewal': renewal,
       'renewal_period': renewalPeriodStringValue,
-      'active': _activeToInt(isActive)
+      'active': _activeToInt(isActive!)
     };
   }
 
@@ -62,12 +62,12 @@ class Subscription {
   // sqlite según los tipos que maneja
 
   int get firstBillSince1970 {
-    return firstBill.millisecondsSinceEpoch ?? 0.00;
+    return firstBill!.millisecondsSinceEpoch ;
   }
 
   int get colorValue {
     if (color != null) {
-      return ColorHelper.toValueFromColor(color);
+      return ColorHelper.toValueFromColor(color!);
     } else {
       return 0000;
     }
@@ -75,7 +75,7 @@ class Subscription {
 
   String get renewalPeriodStringValue {
     if (renewalPeriod != null) {
-      return RenewalPeriod.stringValueFromEnum(renewalPeriod);
+      return RenewalPeriod.stringValueFromEnum(renewalPeriod!);
     } else {
       return "";
     }
@@ -83,29 +83,29 @@ class Subscription {
 
   String get priceAtStringFormat {
     if (price != null) {
-      return "€ ${price.toStringAsFixed(2)}";
+      return "€ ${price!.toStringAsFixed(2)}";
     } else {
       return "€ 0.00";
     }
   }
 
   String get nameChars {
-    if (name != null && name.length >= 2) {
-      return name.substring(0, 2).toUpperCase();
+    if (name != null && name!.length >= 2) {
+      return name!.substring(0, 2).toUpperCase();
     }
     return "";
   }
 
   String get upperName {
     if (name != null) {
-      return name[0].toUpperCase() + name.substring(1);
+      return name![0].toUpperCase() + name!.substring(1);
     } else {
       return "";
     }
   }
 
   String get firstPaymentAtPretty {
-    return DatesHelper.toStringFromDate(firstBill);
+    return DatesHelper.toStringFromDate(firstBill!);
   }
 
   static bool activeToBool(int isActive) {
