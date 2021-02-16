@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "328375964368",
+    "firebase_url": "https://my-subscriptions-ee19b.firebaseio.com",
+    "project_id": "my-subscriptions-ee19b",
+    "storage_bucket": "my-subscriptions-ee19b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:328375964368:android:59aa8c438da818687184d5",
+        "android_client_info": {
+          "package_name": "com.antocara.subscriptions"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "328375964368-a3j0cviddau64tl2guu8rsb9javhaurj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVD7SmNmqzsxVIAkGE2jrHVKa-pe8N7oo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "328375964368-a3j0cviddau64tl2guu8rsb9javhaurj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      },
+      "admob_app_id": "ca-app-pub-0318089046605103~8683853733"
+    }
+  ],
+  "configuration_version": "1",
+
+}
